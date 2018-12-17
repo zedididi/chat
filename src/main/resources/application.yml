@@ -1,0 +1,15 @@
+spring:
+   datasource:
+     driver-class-name: com.mysql.cj.jdbc.Driver
+     username: root
+     password: root
+     url: jdbc:mysql://localhost:3306/onlinechat?serverTimezone=UTC&characterEncoding=UTF-8&useSSL=false
+
+mybatis:
+  type-aliases-package: cn.edu.ncu.bootwebsocketmybatis.entity
+  mapper-locations: classpath:mapper/*.xml
+
+logging:
+  level:
+     cn.edu.ncu.bootwebsocketmybatis: debug
+
