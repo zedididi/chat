@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.edu.ncu.bootwebsocketmybatis.dao.FriendsDao">
+    <resultMap id="friendMap" type="Friend">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="userid" jdbcType="VARCHAR" property="userId"/>
+        <result column="friendid" jdbcType="VARCHAR" property="friendId"/>
+        <result column="groupid" jdbcType="SMALLINT" property="groupId"/>
+        <result column="group_name" jdbcType="VARCHAR" property="groupName"/>
+    </resultMap>
+    <select id="findAllByUserId" resultMap="friendMap">
+        select friends.*, `group`.name as group_name from friends
+        left join `group` on friends.groupid = `group`.id
+        where userid=#{userId,jdbcType=VARCHAR}
+    </select>
+
+    <select id="findByUserId" resultMap="friendMap">
+        select friends.*, `group`.name as group_name from friends
+            left join `group` on friends.groupid = `group`.id
+        where userid=#{userId,jdbcType=VARCHAR} and friendid=#{friendId,jdbcType=VARCHAR}
+    </select>
+
+    <insert id="addFriendByUserId" keyProperty="id" useGeneratedKeys="true" parameterType="Friend">
+        insert into friends(userid,friendid,groupid) values (#{userId,jdbcType=VARCHAR},#{friendId,jdbcType=VARCHAR},#{groupId,jdbcType=SMALLINT});
+    </insert>
+
+    <update id="updateFriendByUserId" parameterType="Friend" keyProperty="id">
+        update friends set groupid=#{groupId,jdbcType=SMALLINT}
+        where userid=#{userId,jdbcType=VARCHAR} and friendid=#{friendId,jdbcType=VARCHAR}
+    </update>
+
+    <delete id="deleteFriendByUserId" parameterType="Friend">
+        delete from friends where userid=#{userId,jdbcType=VARCHAR} and friendid=#{friendId,jdbcType=VARCHAR}
+    </delete>
+
+
+</mapper>
