@@ -376,6 +376,26 @@ body {
     right: 0;
 }
 
+.div-textarea{
+    font-size: 16px;
+    float: left;
+    width: 347px;
+    height: 40px;
+    max-height: 80px;
+    padding: 0 10px;
+    color: var(--dark);
+    border: 0;
+    outline: none;
+    background-color: #eceff1;
+    font-family: 'Source Sans Pro', sans-serif;
+    font-weight: 400;
+    user-modify: read-write-plaintext-only;
+    -webkit-user-modify: read-write-plaintext-only;
+    -moz-user-modify: read-write-plaintext-only;
+}
+.div-textarea:focus{
+    box-shadow: 0 0 15px rgba(82, 168, 236, 0.6);
+}
 @keyframes slideFromLeft {
     0% {
         margin-left: -200px;
@@ -415,4 +435,8 @@ body {
         margin-right: 0;
         opacity: 1;
     }
+}
+
+.hidden{
+    display: none;
 }

@@ -30,18 +30,4 @@ function setAciveChat(f) {
     chat.name.innerHTML = friends.name;
 }
 
-function putUserinfo(){
-    var btn = document.getElementById('hook');
-    var box = document.getElementById('msg-box');
-    var timer = null;
-    box.onmouseover = btn.onmouseover = function(){
-        if(timer) clearTimeout(timer)
-        box.style.display = 'block';
-    }
-    box.onmouseout = btn.onmouseout = function(){
-        timer = setTimeout(function(){
-            box.style.display = 'none';
-        },400);
 
-    }
-}

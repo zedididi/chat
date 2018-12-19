@@ -11,5 +11,10 @@ import java.util.List;
  * @project: boot-websocket-mybatis
  */
 public interface UserService {
-    List<User> findAll();
+
+     List<User> findAll();
+     User findById(String id);
+     String addUser(User user);
+     boolean updateUser(User user);
+
 }
