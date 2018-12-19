@@ -9,26 +9,34 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <link rel="stylesheet" href="../static/css/reset.min.css">
+    <link rel="stylesheet" href="/css/reset.min.css">
 
-    <link rel="stylesheet" href="../static/css/style.css">
+    <link rel="stylesheet" href="/css/style.css">
 
-    <script src="../static/jquery-3.2.1.min.js"></script>
+    <script src="/jquery-3.2.1.min.js"></script>
     <style type="text/css">
-        #msg-box { background:rgba(255,255,255,0.5);width: 300px; height: 400px; display: none; left: 250px;top:130px;position: absolute; padding: 10px }
+        #msg-box { background:rgba(255,255,255,0.5);width: 300px; height: 600px; display: none; left: 250px;top:130px;position: absolute; padding: 10px }
     </style>
 </head>
 
 <body>
+<!--个人资料卡区域-->
 <div id="msg-box">
-
+<div class="msg-box-head"><center><img src="/img/thomas.jpg"></center></div>
+    <div class="msg-box-body">
+        <center>
+        <div class="msg-box-body-name"><p class="p-name">刘泽迪</p></br>
+            <p class="p-description">就是蠢</p>
+        </div>
+        </center>
+    </div>
 </div>
 <div class="wrapper">
     <div class="container">
         <div class="left">
             <div class="top">
-                <!--个人资料卡区域-->
-                <div id="hook"><img width="40px" height="40px" style="float: left;border-radius: 50%;" src="../static/img/thomas.jpg"></div>
+
+                <div id="hook"><img width="40px" height="40px" style="float: left;border-radius: 50%;" src="/img/thomas.jpg"></div>
 
 
                 <input type="text" placeholder="Search" />
@@ -36,37 +44,37 @@
             </div>
             <ul class="people">
                 <li class="person" data-chat="person1">
-                    <img src="../static/img/thomas.jpg" alt="" />
+                    <img src="/img/thomas.jpg" alt="" />
                     <span class="name">Thomas Bangalter</span>
                     <!--<span class="time">2:09 PM</span>
                     <span class="preview">I was wondering...</span>-->
                 </li>
                 <li class="person" data-chat="person2">
-                    <img src="../static/img/dog.png" alt="" />
+                    <img src="/img/dog.png" alt="" />
                     <span class="name">Dog Woofson</span>
                     <!--<span class="time">1:44 PM</span>
                     <span class="preview">I've forgotten how it felt before</span>-->
                 </li>
                 <li class="person" data-chat="person3">
-                    <img src="../static/img/louis-ck.jpeg" alt="" />
+                    <img src="/img/louis-ck.jpeg" alt="" />
                     <span class="name">Louis CK</span>
                     <!--<span class="time">2:09 PM</span>
                     <span class="preview">But we’re probably gonna need a new carpet.</span>-->
                 </li>
                 <li class="person" data-chat="person4">
-                    <img src="../static/img/bo-jackson.jpg" alt="" />
+                    <img src="/img/bo-jackson.jpg" alt="" />
                     <span class="name">Bo Jackson</span>
                    <!-- <span class="time">2:09 PM</span>
                     <span class="preview">It’s not that bad...</span>-->
                 </li>
                 <li class="person" data-chat="person5">
-                    <img src="../static/img/michael-jordan.jpg" alt="" />
+                    <img src="/img/michael-jordan.jpg" alt="" />
                     <span class="name">Michael Jordan</span>
                     <!--<span class="time">2:09 PM</span>
                    <!- &lt;!&ndash;<span class="preview">Wasup for the third time like is&ndash;&gt;&ndash;&gt;you blind bitch</span>-->
                 </li>
                 <li class="person" data-chat="person6">
-                    <img src="../static/img/drake.jpg" alt="" />
+                    <img src="/img/drake.jpg" alt="" />
                     <span class="name">Drake</span>
                    <!-- <span class="time">2:09 PM</span>
                     <span class="preview">howdoyoudoaspace</span>-->
@@ -208,7 +216,7 @@
 
 
 
-<script  src="../static/js/index.js"></script>
+<script  src="/js/index.js"></script>
 <script type="text/javascript">
     //个人资料卡悬浮框
     var timer;
@@ -232,15 +240,15 @@
     $("#chat-fasong").click(function () {
         var textContent = $(".div-textarea").html().replace(/[\n\r]/g, '<br>')
         if (textContent != "") {
-            $(".chat").append("<div class=\"bubble me\">" +
+            $(".chat.active-chat").append("<div class=\"bubble me\">" +
                 /*"<div class=\"author-name\"><small class=\"chat-date\">2017-12-02 14:26:58</small> </div> " +*/
-                "<div class=\"right\"> " + textContent + " </div> "
+                 textContent
                 /*"<div class=\"chat-avatars\"><img src=\"img/icon01.png\" alt=\"头像\" /></div> </div> </div>"*/);
             //发送后清空输入框
             $(".div-textarea").html("");
             //聊天框默认最底部
             $(document).ready(function () {
-                $("#chat").scrollTop($("#chat")[0].scrollHeight);
+                $("#chat.active-chat").scrollTop($("#chat.active-chat")[0].scrollHeight);
             });
         }
     });
@@ -253,13 +261,13 @@
         var reader = new FileReader();
         reader.onload = function (evt) {
             var images = evt.target.result;
-            $(".chat").append("<div class=\"bubble me\">" +
+            $(".chat.active-chat").append("<div class=\"bubble me\">" +
                 /*"<div class=\"author-name\"><small class=\"chat-date\">2017-12-02 14:26:58</small> </div> " +*/
-                "<div class=\"right\"><img style='max-width: 100px;max-height: 100px' src=" + images + "></div> " /*+
+                "<img style='max-width: 100px;max-height: 100px' src=" + images +"> " /*+
                 "<div class=\"chat-avatars\"><img src=\"img/icon01.png\" alt=\"头像\" /></div> </div> </div>"*/);
             //聊天框默认最底部
             $(document).ready(function () {
-                $("#chat").scrollTop($("#chat")[0].scrollHeight);
+                $("#chat.active-chat").scrollTop($("#chat.active-chat")[0].scrollHeight);
             });
         };
         reader.readAsDataURL(pic.files[0]);

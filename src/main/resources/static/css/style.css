@@ -375,6 +375,36 @@ body {
 .container .right .conversation-start span:after {
     right: 0;
 }
+.msg-box-head {
+
+    height: 20%;
+}
+.msg-box-head img{
+
+    border-radius: 50%;
+    width: 54px;
+    height: 54px;
+}
+
+.msg-box-body{
+    height: 80%;
+    width: 100%;
+    background:rgba(236,239,241,1);
+}
+.msg-box-body-name {
+    top: 10px;
+    width: 100%;
+    height: auto;
+}
+
+.p-name{
+    font-size: 30px;
+}
+
+.p-description{
+    font-size: 15px;
+    color: #999999;
+}
 
 .div-textarea{
     font-size: 16px;
