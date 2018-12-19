@@ -52,7 +52,7 @@
                         </div>
                     </div>
                 </form>
-                <form>
+                <form onsubmit="success()">
                     <div class="sign-up-htm">
                         <div class="group">
                             <label for="users" class="label" required>用户名</label>
@@ -118,6 +118,12 @@
         }
     }
 
+    function success() {
+        /*把id读进来*/
+        var id;
+        /*id=*/
+        alert("欢迎来到SuperGod聊天室，您的ID为："+id)
+    }
 </script>
 </body>
 </html>
