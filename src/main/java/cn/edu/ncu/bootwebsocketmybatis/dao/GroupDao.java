@@ -1,21 +1,22 @@
 package cn.edu.ncu.bootwebsocketmybatis.dao;
 
-import cn.edu.ncu.bootwebsocketmybatis.entity.User;
+import cn.edu.ncu.bootwebsocketmybatis.entity.Group;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 /**
  * @auther: Liu Zedi.
- * @date: Create in 2018/12/17  14:35
+ * @date: Create in 2018/12/18  10:26
  * @package: cn.edu.ncu.bootwebsocketmybatis.dao
  * @project: boot-websocket-mybatis
  */
 @Repository
-public interface UserDao {
+public interface GroupDao {
 
-     List<User> findAll();
-     User findById(String id);
-     int addUser(User user);
-     int updateUser(User user);
+
+    List<Group> findAll();
+    Group findByContent(String name);
+    int addGroup(Group group);
+
 }
