@@ -29,3 +29,5 @@ function setAciveChat(f) {
     friends.name = f.querySelector('.name').innerText;
     chat.name.innerHTML = friends.name;
 }
+
+

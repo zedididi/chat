@@ -20,7 +20,9 @@
 </head>
 
 <body>
-<div id="msg-box"></div>
+<div id="msg-box">
+
+</div>
 <div class="wrapper">
     <div class="container">
         <div class="left">
@@ -195,10 +197,10 @@
                 </div>
             </div>
             <div class="write">
-                <a href="javascript:;" class="write-link attach"></a>
+                <label  id="chat-tuxiang" title="发送图片" for="inputImage" class="write-link attach"><input type="file" onchange="selectImg(this)" accept="image/jpg,image/jpeg,image/png" name="file" id="inputImage" class="hidden"></label>
                 <div class="div-textarea" contenteditable="true"></div>
-                <a href="javascript:;" class="write-link smiley"></a>
-                <a id="chat-fasong" class="write-link send"></a>
+                <a href="javascript:void(0)" id="chat-biaoqing" class="write-link smiley"><i class="iconfont icon-biaoqing"></i></a>
+                <a href="javascript:void(0)" id="chat-fasong" class="write-link send"></a>
             </div>
         </div>
     </div>
@@ -208,6 +210,7 @@
 
 <script  src="../static/js/index.js"></script>
 <script type="text/javascript">
+    //个人资料卡悬浮框
     var timer;
     $("#hook,#msg-box").bind("mouseover",showMsgBox);
     $("#hook").bind("mouseout",hideMsgBox);
@@ -225,22 +228,43 @@
         },500);
     }
 
+  //发送功能
     $("#chat-fasong").click(function () {
         var textContent = $(".div-textarea").html().replace(/[\n\r]/g, '<br>')
         if (textContent != "") {
-            $(".chatBox-content-demo").append("<div class=\"clearfloat\">" +
-                "<div class=\"author-name\"><small class=\"chat-date\">2017-12-02 14:26:58</small> </div> " +
-                "<div class=\"right\"> <div class=\"chat-message\"> " + textContent + " </div> " +
-                "<div class=\"chat-avatars\"><img src=\"img/icon01.png\" alt=\"头像\" /></div> </div> </div>");
+            $(".chat").append("<div class=\"bubble me\">" +
+                /*"<div class=\"author-name\"><small class=\"chat-date\">2017-12-02 14:26:58</small> </div> " +*/
+                "<div class=\"right\"> " + textContent + " </div> "
+                /*"<div class=\"chat-avatars\"><img src=\"img/icon01.png\" alt=\"头像\" /></div> </div> </div>"*/);
             //发送后清空输入框
             $(".div-textarea").html("");
             //聊天框默认最底部
             $(document).ready(function () {
-                $("#chatBox-content-demo").scrollTop($("#chatBox-content-demo")[0].scrollHeight);
+                $("#chat").scrollTop($("#chat")[0].scrollHeight);
             });
         }
     });
 
+    //图片发送
+    function selectImg(pic) {
+        if (!pic.files || !pic.files[0]) {
+            return;
+        }
+        var reader = new FileReader();
+        reader.onload = function (evt) {
+            var images = evt.target.result;
+            $(".chat").append("<div class=\"bubble me\">" +
+                /*"<div class=\"author-name\"><small class=\"chat-date\">2017-12-02 14:26:58</small> </div> " +*/
+                "<div class=\"right\"><img style='max-width: 100px;max-height: 100px' src=" + images + "></div> " /*+
+                "<div class=\"chat-avatars\"><img src=\"img/icon01.png\" alt=\"头像\" /></div> </div> </div>"*/);
+            //聊天框默认最底部
+            $(document).ready(function () {
+                $("#chat").scrollTop($("#chat")[0].scrollHeight);
+            });
+        };
+        reader.readAsDataURL(pic.files[0]);
+
+    }
 </script>
 
 
