@@ -96,7 +96,7 @@ input, button {
     -webkit-text-security:circle;
 }
 .login-form .group .label{
-    color:#aaa;
+    color: white;
     font-size:12px;
 }
 .login-form .group .button{
@@ -169,4 +169,5 @@ input, button {
 }
 .foot-lnk{
     text-align:center;
+    color: white;
 }
