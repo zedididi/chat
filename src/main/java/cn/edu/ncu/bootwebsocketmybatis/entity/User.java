@@ -20,6 +20,13 @@ public class User implements Serializable {
     public User() {
     }
 
+    public User(String id, String password) {
+        super();
+        this.id = id;
+        this.userName = null;
+        this.password = password;
+    }
+
     public User(String id, String userName, String password) {
         super();
         this.id = id;
