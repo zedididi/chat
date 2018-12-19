@@ -80,4 +80,33 @@ public class UserServiceImpl implements UserService {
             s+=random.nextInt(10);
         return s;
     }
+
+
+    /**
+     * 登陆 true登陆成功
+     * @param user
+     * @return
+     */
+    public boolean login(User user){
+
+        User user1=findById(user.getId());
+        if (user1!=null&&user.getPassword().equals(user1.getPassword()))
+            return true;
+        return false;
+    }
+
+    /**
+     * 注册 成功返回用户基本信息 userId，username，password
+     * @param user
+     * @return
+     */
+    public User register(User user){
+
+        String id=addUser(user);
+        if (id==null)
+            return null;
+        User user1=findById(id);
+        System.out.println(user1);
+        return findById(id);
+    }
 }
