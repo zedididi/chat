@@ -13,19 +13,23 @@
         <result column="phone" jdbcType="VARCHAR" property="phone"/>
         <result column="email" jdbcType="VARCHAR" property="email"/>
         <result column="country" jdbcType="VARCHAR" property="country"/>
+        <result column="username" jdbcType="VARCHAR" property="userName"/>
     </resultMap>
     <select id="findAll" resultMap="userInfoMap">
-        SELECT  id,userid,image,sex,birthday,phone,email,country
-        from userinfo
+        SELECT  userinfo.id,userid,image,sex,birthday,phone,email,country,`user`.username
+        from userinfo left join `user` on userinfo.userid = `user`.id
     </select>
     <select id="findByUserId" resultMap="userInfoMap" parameterType="String">
-         SELECT  id,userid,image,sex,birthday,phone,email,country
-        from userinfo
+        SELECT  userinfo.id,userid,image,sex,birthday,phone,email,country,`user`.username
+        from userinfo left join `user` on userinfo.userid = `user`.id
         where userid=#{userId,jdbcType=VARCHAR}
     </select>
 
-    <insert id="addUserInfo" keyProperty="id" useGeneratedKeys="true" parameterType="cn.edu.ncu.bootwebsocketmybatis.entity.UserInfo">
+   <!-- <insert id="addUserInfo" keyProperty="id" useGeneratedKeys="true" parameterType="cn.edu.ncu.bootwebsocketmybatis.entity.UserInfo">
         insert into userinfo(userid,image,sex,birthday,phone,email,country,city) values (#{userId,jdbcType=VARCHAR},#{image,jdbcType=VARCHAR},#{sex,jdbcType=VARCHAR},#{birthday,jdbcType=TIMESTAMP},#{phone,jdbcType=VARCHAR},#{email,jdbcType=VARCHAR},#{country,jdbcType=VARCHAR},#{city,jdbcType=VARCHAR});
+    </insert>-->
+    <insert id="addUserInfo" keyProperty="id" useGeneratedKeys="true" parameterType="cn.edu.ncu.bootwebsocketmybatis.entity.UserInfo">
+        insert into userinfo(userid) values (#{userId,jdbcType=VARCHAR});
     </insert>
 
     <update id="updateUserInfo"  parameterType="cn.edu.ncu.bootwebsocketmybatis.entity.UserInfo">

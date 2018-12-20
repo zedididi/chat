@@ -40,6 +40,6 @@ public class UserServiceImplTest {
     }
     @Test
     public void findById(){
-        logger.debug(userService.findById("164142").toString());
+        logger.debug(userService.findById("121411").toString());
     }
 }

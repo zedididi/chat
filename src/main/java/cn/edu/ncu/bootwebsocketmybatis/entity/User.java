@@ -16,6 +16,7 @@ public class User implements Serializable {
     private String userName;
     private String password;
     private Timestamp createTime;
+    private String image;
 
     public User() {
     }
@@ -73,6 +74,14 @@ public class User implements Serializable {
         this.createTime = createTime;
     }
 
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -80,6 +89,7 @@ public class User implements Serializable {
                 ", userName='" + userName + '\'' +
                 ", password='" + password + '\'' +
                 ", createTime=" + createTime +
+                ", image='" + image + '\'' +
                 '}';
     }
 }

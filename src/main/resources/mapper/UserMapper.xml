@@ -9,15 +9,16 @@
         <result column="username" jdbcType="VARCHAR" property="userName"/>
         <result column="password" jdbcType="VARCHAR" property="password"/>
         <result column="createtime" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="user_image" jdbcType="VARCHAR" property="image"/>
     </resultMap>
     <select id="findAll" resultMap="userMap">
-        SELECT  id,username,password,createtime
-        from user
+        SELECT  user.id,username,password,createtime,userinfo.image as user_image
+        from user left join userinfo on user.id = userinfo.userid
     </select>
     <select id="findById" resultMap="userMap">
-        select id,username,password,createtime
-        from user
-        where id=#{id,jdbcType=VARCHAR}
+        SELECT  user.id,username,password,createtime,userinfo.image as user_image
+        from user left join userinfo on user.id = userinfo.userid
+        where user.id=#{id,jdbcType=VARCHAR}
     </select>
 
     <insert id="addUser" keyProperty="id" parameterType="cn.edu.ncu.bootwebsocketmybatis.entity.User">
