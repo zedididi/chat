@@ -1,18 +1,18 @@
-document.querySelector('.chat[data-chat=person2]').classList.add('active-chat');//选择person2处于正在聊天状态
-document.querySelector('.person[data-chat=person2]').classList.add('active');//使person2处于选中状态
+document.querySelector('.chat[data-chat=person2]').classList.add('active-chat');
+document.querySelector('.person[data-chat=person2]').classList.add('active');
 
 var friends = {
-        list: document.querySelector('ul.people'),//获取好友列表
-        all: document.querySelectorAll('.left .person'),//获取所有好友
+        list: document.querySelector('ul.people'),
+        all: document.querySelectorAll('.left .person'),
         name: '' },
 
     chat = {
-        container: document.querySelector('.container .right'),//获取聊天栏
+        container: document.querySelector('.container .right'),
         current: null,
         person: null,
-        name: document.querySelector('.container .right .top .name') };//获取聊天对象名称
+        name: document.querySelector('.container .right .top .name') };
 
-//监听鼠标点击事件，使点击对象处于active状态
+
 friends.all.forEach(function (f) {
     f.addEventListener('mousedown', function () {
         f.classList.contains('active') || setAciveChat(f);
@@ -20,13 +20,14 @@ friends.all.forEach(function (f) {
 });
 
 function setAciveChat(f) {
-    friends.list.querySelector('.active').classList.remove('active');//选择处于active状态的person，并消除刚刚点击的person的active状态
+
+    friends.list.querySelector('.active').classList.remove('active');
     f.classList.add('active');
-    chat.current = chat.container.querySelector('.active-chat');//使显示的chat处于active-chat状态
-    chat.person = f.getAttribute('data-chat');//使person为选中的data-chat
-    chat.current.classList.remove('active-chat');//消除chat的active-chat状态
-    chat.container.querySelector('[data-chat="' + chat.person + '"]').classList.add('active-chat');//使聊天框中显示选中的person的active-chat
-    friends.name = f.querySelector('.name').innerText;//获得聊天对象的name
+    chat.current = chat.container.querySelector('.active-chat');
+    chat.person = f.getAttribute('data-chat');
+    chat.current.classList.remove('active-chat');
+    chat.container.querySelector('[data-chat="' + chat.person + '"]').classList.add('active-chat');
+    friends.name = f.querySelector('.name').innerText;
     chat.name.innerHTML = friends.name;
 }
 

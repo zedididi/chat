@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" >
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <meta charset="UTF-8">
@@ -64,14 +64,14 @@
         <div class="left">
             <div class="top">
                 <!--个人资料卡区域-->
-                <div id="hook"><img width="40px" height="40px" style="float: left;border-radius: 50%;" src="../static/img/thomas.jpg"></div>
+                <div id="hook"><img width="40px" height="40px" style="float: left;border-radius: 50%;" id="userIf" th:alt="${user.getId()}" th:src="${user.getImage()}"></div>
 
 
                 <input type="text" placeholder="Search" />
                 <a href="javascript:;" class="search"></a>
             </div>
 
-            <ul class="people">
+            <ul class="people" id="people">
 
 
                 <!--<li class="person" data-chat="person1">
@@ -251,7 +251,7 @@
 <script type="text/javascript">
     //个人资料卡悬浮框
     var timer;
-    $("#hook,#msg-box").bind("mouseover",showMsgBox);
+    $("#hook,#msg-box").bind("mouseover",showMsgBox).ajax();
     $("#hook").bind("mouseout",hideMsgBox);
     $("#msg-box").bind("mouseout",function(){
         if(timer){clearTimeout(timer);}
