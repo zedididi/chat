@@ -29,7 +29,7 @@
     <hr style=" float: bottom;width:80%;margin:0 auto;border: 0;height: 3px;background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));">
     <div class="msg-box-body">
         <center>
-        <div class="msg-box-body-name"><p class="p-name" th:value="${user.getUserName()}">刘泽迪</p></br>
+        <div class="msg-box-body-name"><p class="p-name" th:text="${user.getUserName()}">刘泽迪</p></br>
             <p class="p-description">就是蠢</p>
         </div>
         </center>
@@ -68,8 +68,6 @@
             <div class="top">
                 <!--个人资料卡区域-->
                 <div id="hook"><img width="40px" height="40px" style="float: left;border-radius: 50%;" id="userIf" th:alt="${user.getId()}" th:src="${user.getImage()}"></div>
-
-
                 <input type="text" placeholder="Search" />
                 <a href="javascript:;" class="search"></a>
             </div>
