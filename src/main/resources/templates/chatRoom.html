@@ -14,6 +14,9 @@
     <link rel="stylesheet" href="/css/style.css">
 
     <script src="/jquery-3.2.1.min.js"></script>
+    <link rel="stylesheet" href="/css/panel.css">
+
+    <script src="/jquery-3.2.1.min.js"></script>
     <style type="text/css">
         #msg-box { background:rgba(255,255,255,0.5);width: 400px; height: 600px; display: none; left: 150px;top:100px;position: absolute; }
     </style>
@@ -68,15 +71,28 @@
                 <input type="text" placeholder="Search" />
                 <a href="javascript:;" class="search"></a>
             </div>
-            <ul class="people" id="peopleUl">
 
-              <!-- <li class="person" th:data-chat="${user.getId()}">
-                    <img th:src="${user.getImage()}" alt="" />
-                    <span class="name" th:text="${user.}">Thomas Bangalter</span>
+            <main>
+                <ul class="people">
+                    <div class="panel" v-for="panel,index in panels" :class="{active:index===currentIndex}">
+                        <div class="panel-header" @click="panelSwitch(index)">{{panel.title}}</div>
+                        <div class="panel-body" v-show="index===currentIndex">
+                            <ul class="list">
+                                <li id="li" v-html="panel.list">{{panel.list}}</li>
+                            </ul>
+                            <!--<ul class="list">
+                                <li v-for="item in panel.list"><a href="#">{{item}}</a></li>
+                            </ul>-->
+                        </div>
+                    </div>
+                </ul>
+            </main>
+                <!--<li class="person" data-chat="person1">
+                    <img src="../static/img/thomas.jpg" alt="" />
+                    <span class="name">Thomas Bangalter</span>
                     &lt;!&ndash;<span class="time">2:09 PM</span>
                     <span class="preview">I was wondering...</span>&ndash;&gt;
-                </li>-->
-                <!--
+                </li>
                 <li class="person" data-chat="person2">
                     <img src="../static/img/dog.png" alt="" />
                     <span class="name">Dog Woofson</span>
@@ -104,14 +120,14 @@
                 <li class="person" data-chat="person6">
                     <img src="../static/img/drake.jpg" alt="" />
                     <span class="name">Drake</span>
-                    <span class="time">2:09 PM</span>
-                    <span class="preview">howdoyoudoaspace</span>
+                   &lt;!&ndash; <span class="time">2:09 PM</span>
+                    <span class="preview">howdoyoudoaspace</span>&ndash;&gt;
                 </li>-->
-            </ul>
+            <!--</ul>-->
         </div>
         <div class="right">
             <div class="top"><span>To: <span class="name">Dog Woofson</span></span></div>
-            <div class="chat" th:data-chat="${user.getId()}">
+            <div class="chat" data-chat="person1">
                 <div class="conversation-start">
                     <span>Today, 6:48 AM</span>
                 </div>
@@ -242,9 +258,44 @@
     </div>
 </div>
 
-
-
-
+<script src="https://cdn.jsdelivr.net/npm/vue"></script>
+<script>
+    /*第一分组*/
+    var group01='';
+    group01+='<li class="person" data-chat="person1">' +
+        '<img src="/img/thomas.jpg" alt="" />' +
+        ' <span class="name">Thomas Bangalter</span>'+
+        '<span class="time">2:09 PM</span>'+
+        '</li>'+'<li class="person" data-chat="person1">fff</li>';
+    var group02='';
+    var group03='';
+    var vm=new Vue({
+        el:'.left',
+        data:{
+            panels: [
+                {
+                    title: '我的好友',
+                    list: group01,
+                },
+                {
+                    title: '朋友',
+                    list: group02
+                },
+                {
+                    title: '家人',
+                    list: group03
+                }
+            ],
+            currentIndex: '' //存储当前索引值
+        },
+        methods:{
+            panelSwitch(index){
+                this.currentIndex = this.currentIndex === index ? '' : index; //当前索引值等于当前索引值，清空索引值；否则设置为当前索引值
+            }
+        }
+    });
+</script>
+<script  src="/js/index.js"></script>
 <script type="text/javascript">
 
     //获取登陆用户id
@@ -350,8 +401,6 @@
         };
         reader.readAsDataURL(pic.files[0]);
     }
-
-
         function initFriend(){
         var userId=document.getElementById("userIf").alt;
             xmlHttp.open("POST", "/friend/getAll", true);
@@ -371,7 +420,7 @@
                                 '<span class="name">'+friendName+'</span>'+
                             '</li>';
                         }
-                        document.getElementById("peopleUl").innerHTML = listFriend;
+                        document.getElementById("people").innerHTML = listFriend;
                     }
                 }
             };
