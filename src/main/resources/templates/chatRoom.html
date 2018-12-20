@@ -9,19 +9,55 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <link rel="stylesheet" href="../static/css/reset.min.css">
+    <link rel="stylesheet" href="/css/reset.min.css">
 
-    <link rel="stylesheet" href="../static/css/style.css">
+    <link rel="stylesheet" href="/css/style.css">
 
-    <script src="../static/jquery-3.2.1.min.js"></script>
+    <script src="/jquery-3.2.1.min.js"></script>
     <style type="text/css">
-        #msg-box { background:rgba(255,255,255,0.5);width: 300px; height: 400px; display: none; left: 250px;top:130px;position: absolute; padding: 10px }
+        #msg-box { background:rgba(255,255,255,0.5);width: 400px; height: 600px; display: none; left: 150px;top:100px;position: absolute; }
     </style>
 </head>
 
-<body>
+<body onload="initAJAX();initFriend();">
+<!--个人资料卡区域-->
 <div id="msg-box">
-
+<div class="msg-box-head"><center><img th:src="${user.getImage()}"></center></div>
+    <hr style=" float: bottom;width:80%;margin:0 auto;border: 0;height: 3px;background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));">
+    <div class="msg-box-body">
+        <center>
+        <div class="msg-box-body-name"><p class="p-name" th:value="${user.getUserName()}">刘泽迪</p></br>
+            <p class="p-description">就是蠢</p>
+        </div>
+        </center>
+        <div class="user-info">
+            <p class="info">帐号&nbsp;</p>
+            <p class="info">出生日期&nbsp;</p>
+            <p class="info">性别&nbsp;</p>
+            <p class="info">分组&nbsp;</p>
+            <p class="info">邮箱&nbsp;</p>
+            <p class="info">所在地&nbsp;</p>
+            <p class="info">联系电话&nbsp;</p>
+        </div>
+        <div class="user-info-more">
+            <p class="info-more">1053067224</p>
+            <p class="info-more">1998.6.26</p>
+            <p class="info-more">男</p>
+            <p class="info-more">朋友</p>
+            <p class="info-more">1053067224@qq.com</p>
+            <p class="info-more">江西</p>
+            <p class="info-more">15797895764</p>
+        </div>
+        <hr style=" float: bottom;width:80%;margin:0 auto;border: 0;height: 1px;background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));">
+        <div class="msg-box-bottom">
+            <div class="impression">
+            </div>
+            <div class="comment">
+            <input type="text" maxlength="4" id="input-txt" />
+            <input type="button" value="评价" id="input-btn" />
+            </div>
+        </div>
+    </div>
 </div>
 <div class="wrapper">
     <div class="container">
@@ -71,9 +107,9 @@
                 <li class="person" data-chat="person6">
                     <img src="../static/img/drake.jpg" alt="" />
                     <span class="name">Drake</span>
-                   &lt;!&ndash; <span class="time">2:09 PM</span>
-                    <span class="preview">howdoyoudoaspace</span>&ndash;&gt;
-                </li>-->
+                   <!-- <span class="time">2:09 PM</span>
+                    <span class="preview">howdoyoudoaspace</span>-->
+                </li>
             </ul>
         </div>
         <div class="right">
@@ -210,7 +246,8 @@
 </div>
 
 
-<script  src="../static/js/index.js"></script>
+
+
 <script type="text/javascript">
     //个人资料卡悬浮框
     var timer;
@@ -234,15 +271,15 @@
     $("#chat-fasong").click(function () {
         var textContent = $(".div-textarea").html().replace(/[\n\r]/g, '<br>')
         if (textContent != "") {
-            $(".chat").append("<div class=\"bubble me\">" +
+            $(".chat.active-chat").append("<div class=\"bubble me\">" +
                 /*"<div class=\"author-name\"><small class=\"chat-date\">2017-12-02 14:26:58</small> </div> " +*/
-                "<div class=\"right\"> " + textContent + " </div> "
+                 textContent
                 /*"<div class=\"chat-avatars\"><img src=\"img/icon01.png\" alt=\"头像\" /></div> </div> </div>"*/);
             //发送后清空输入框
             $(".div-textarea").html("");
             //聊天框默认最底部
             $(document).ready(function () {
-                $("#chat").scrollTop($("#chat")[0].scrollHeight);
+                $("#chat.active-chat").scrollTop($("#chat.active-chat")[0].scrollHeight);
             });
         }
     });
@@ -255,22 +292,54 @@
         var reader = new FileReader();
         reader.onload = function (evt) {
             var images = evt.target.result;
-            $(".chat").append("<div class=\"bubble me\">" +
+            $(".chat.active-chat").append("<div class=\"bubble me\">" +
                 /*"<div class=\"author-name\"><small class=\"chat-date\">2017-12-02 14:26:58</small> </div> " +*/
-                "<div class=\"right\"><img style='max-width: 100px;max-height: 100px' src=" + images + "></div> " /*+
+                "<img style='max-width: 100px;max-height: 100px' src=" + images + "> " /*+
                 "<div class=\"chat-avatars\"><img src=\"img/icon01.png\" alt=\"头像\" /></div> </div> </div>"*/);
             //聊天框默认最底部
             $(document).ready(function () {
-                $("#chat").scrollTop($("#chat")[0].scrollHeight);
+                $("#chat.active-chat").scrollTop($("#chat.active-chat")[0].scrollHeight);
             });
         };
         reader.readAsDataURL(pic.files[0]);
+    }
+        function initFriend(){
+        var userId=document.getElementById("userIf").alt;
+            xmlHttp.open("POST", "/friend/getAll", true);
+            xmlHttp.onreadystatechange = function () {
+                if (xmlHttp.readyState == 4) {
+                    if (xmlHttp.status == 200) {
+                        var data = xmlHttp.responseText;
+                        var obj = JSON.parse(data);
+                        var listFriend = '';
+                        for (var i in obj) {
+                            var friendId = obj[i].friendId;
+                            var userId=obj[i].userId;
+                            var image = obj[i].image;
+                            var friendName=obj[i].friendName;
+                            listFriend += '<li class="person" data-chat="'+friendId+'">'+
+                                '<img src="'+image+'" alt="'+userId+'" />'+
+                                '<span class="name">'+friendName+'</span>'+
+                            '</li>';
+                        }
+                        document.getElementById("people").innerHTML = listFriend;
+                    }
+                }
+            };
+            xmlHttp.setRequestHeader('Content-Type','application/x-www-form-urlencoded');
+            xmlHttp.send("userId="+userId);
+        }
+
+        function getUserinfo() {
+            var userId=document.getElementById("userIf").alt;
+
+
 
     }
 </script>
-
-
-
+<script src="/js/index.js"></script>
+<script src="/js/impression.js"></script>
+<script src="/js/commons.js"></script>
 </body>
 
 </html>

@@ -27,11 +27,11 @@
                     <div class="sign-in-htm">
                         <div class="group">
                             <label for="userId" class="label">账号</label>
-                            <input id="userId" name="userId"  type="search" th:value="${id}" class="input">
+                            <input id="userId" name="userId"  type="search" th:value="${id}" class="input" required>
                         </div>
                         <div class="group">
                             <label for="password" class="label">密码</label>
-                            <input id="password" type="password" class="input" data-type="password">
+                            <input id="password" type="password" class="input" data-type="password" required>
                         </div>
                         <div class="group">
                             <div class="container">
@@ -52,7 +52,7 @@
                         </div>
                     </div>
                 </form>
-                <form >
+                <form>
                     <div class="sign-up-htm">
                         <div class="group">
                             <label for="username" class="label" required>用户名</label>
@@ -68,7 +68,7 @@
                             <span id="mgs1"></span>
                         </div>
                         <div class="group">
-                                <input type="button" id="submit" value="注册" class="button" onclick="register()"/>
+                            <button  id="submit"  class="button" onclick="register()">注册</button>
                         </div>
                         <div class="hr"></div>
                         <div class="foot-lnk">
@@ -83,19 +83,47 @@
 <script src="js/verify.js"></script>
 <script>
     var flag=false;
-    function login(){
+
+    function httpPost(URL, PARAMS) {  //发送请求 POST
+        var temp = document.createElement("form");
+        temp.action = URL;
+        temp.method = "post";
+        temp.style.display = "none";
+
+        for (var x in PARAMS) {
+            var opt = document.createElement("textarea");
+            opt.name = x;
+            opt.value = PARAMS[x];
+            temp.appendChild(opt);
+        }
+
+        document.body.appendChild(temp);
+        temp.submit();
+
+        return temp;
+    }
+
+    function login(){         //登陆
         var id=document.getElementById('userId').value;
         var pass=document.getElementById('password').value;
             if(flag==false){
                 alert("验证失败!");
                 return;
             }
-        window.location.href = '/lo?userId='+id+'&password='+pass;
+
+            var params = {
+                "userId":id,
+                "password":pass
+            };
+            httpPost("lo",params);
+
+        //window.location.href = '/lo?userId='+id+'&password='+pass;
     }
     jigsaw.init(document.getElementById('captcha'), function () {
         flag=true;
         document.getElementById('msg').innerHTML = '登录成功！';
     });
+
 
     function textPwd(){
         var pwd02=document.getElementById("pass");
@@ -110,10 +138,10 @@
         }
     }
 
-    function register() {
+    function register() {    //注册
         var name=document.getElementById('username').value;
         var pass=document.getElementById('pass').value;
-        xmlHttp.open("GET", '/re?username='+name+'&password='+pass,false);
+        xmlHttp.open("POST", '/re',false);
         xmlHttp.onreadystatechange = function () {
             if (xmlHttp.readyState == 4) {
                 if (xmlHttp.status == 200) {      //服务端响应成功
@@ -128,7 +156,8 @@
                     window.alert("很抱歉，注册失败！")
             }
         };
-        xmlHttp.send();
+        xmlHttp.setRequestHeader('Content-Type','application/x-www-form-urlencoded');
+        xmlHttp.send('username='+name+'&password='+pass);
     }
 </script>
 <script src="/js/commons.js"></script>

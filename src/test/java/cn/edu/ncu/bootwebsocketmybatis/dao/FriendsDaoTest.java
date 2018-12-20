@@ -25,7 +25,7 @@ public class FriendsDaoTest {
 
     @Test
     public void findAllByUserId() {
-        List<Friend> allByUserId = dao.findAllByUserId("1");
+        List<Friend> allByUserId = dao.findAllByUserId("113618");
 
         System.out.println(allByUserId);
     }

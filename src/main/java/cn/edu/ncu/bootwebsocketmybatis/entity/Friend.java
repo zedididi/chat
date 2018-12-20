@@ -12,10 +12,12 @@ public class Friend {
 
 
     private BigInteger id;
-    private String userId;    //对应user表的id    用户
-    private String friendId;  //对应user表的id    用户好友
-    private int groupId;      //对应group表的id   用户好友分组 id
-    private String groupName;  //对应group表的name  用户还有分组名
+    private String userId;       //对应user表的id    用户
+    private String friendId;     //对应user表的id    用户好友
+    private int groupId;         //对应group表的id   用户好友分组 id
+    private String groupName;    //对应group表的name  用户还有分组名
+    private String image;        //对应userinfo表的image   好友的头像
+    private String friendName;   //对应user表的username   用户好友的名字
 
 
     public String getUserId() {
@@ -58,7 +60,21 @@ public class Friend {
         this.groupName = groupName;
     }
 
+    public String getImage() {
+        return image;
+    }
 
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public String getFriendName() {
+        return friendName;
+    }
+
+    public void setFriendName(String friendName) {
+        this.friendName = friendName;
+    }
 
     @Override
     public String toString() {
@@ -68,6 +84,8 @@ public class Friend {
                 ", friendId='" + friendId + '\'' +
                 ", groupId=" + groupId +
                 ", groupName='" + groupName + '\'' +
+                ", image='" + image + '\'' +
+                ", friendName='" + friendName + '\'' +
                 '}';
     }
 }

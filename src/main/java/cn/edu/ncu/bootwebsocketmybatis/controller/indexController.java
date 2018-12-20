@@ -1,6 +1,8 @@
 package cn.edu.ncu.bootwebsocketmybatis.controller;
 
 import cn.edu.ncu.bootwebsocketmybatis.entity.User;
+import cn.edu.ncu.bootwebsocketmybatis.entity.UserInfo;
+import cn.edu.ncu.bootwebsocketmybatis.service.UserInfoServiceImpl;
 import cn.edu.ncu.bootwebsocketmybatis.service.UserService;
 import cn.edu.ncu.bootwebsocketmybatis.service.UserServiceImpl;
 import org.slf4j.Logger;
@@ -8,10 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.thymeleaf.util.StringUtils;
 
@@ -33,6 +32,9 @@ public class indexController {
 
     @Autowired
     UserServiceImpl userService;
+
+    @Autowired
+    UserInfoServiceImpl userInfoService;
 
     /**
      * @description 登陆和注册界面
@@ -75,12 +77,12 @@ public class indexController {
      * @return
      * @throws UnknownHostException
      */
-    @RequestMapping("/lo")
+    @PostMapping("/lo")
     public String login(String userId, String password, HttpServletRequest request,Model model) throws UnknownHostException {
 
         if (userService.login(new User(userId,password))){
             User user=userService.findById(userId);
-            model.addAttribute(user);
+            model.addAttribute("user",user);
             return "chatRoom";
         }
         else {
@@ -95,21 +97,21 @@ public class indexController {
      * @param password
      * @return
      */
-    @RequestMapping("/re")
+    @PostMapping("/re")
     @ResponseBody
     public String register(String username,String password,Model model){
 
         User user=userService.register(new User("",username,password));
 
         if (user!=null){         //注册成功
+            UserInfo userInfo=new UserInfo();
+            userInfo.setUserId(user.getId());
+            userInfoService.addUserInfo(userInfo);
             return user.getId();
         }
         else {
             return "失败";
         }
-
     }
 
-    /*@RequestMapping("/test")
-    public*/
 }
