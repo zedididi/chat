@@ -31,7 +31,8 @@ public class UserInfoServiceImplTest {
 
     @Test
     public void findById() {
-        userInfoService.findByUserId("100546");
+
+        System.out.println(userInfoService.findByUserId("121411").toString());
     }
 
     @Test

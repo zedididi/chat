@@ -21,6 +21,7 @@ public class UserInfo {
     private String email;
     private String country;
     private String city;
+    private String userName;  //对应User表username
 
     /*public UserInfo() {
         this.image="";
@@ -96,10 +97,27 @@ public class UserInfo {
         this.city = city;
     }
 
+    public BigInteger getId() {
+        return id;
+    }
+
+    public void setId(BigInteger id) {
+        this.id = id;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
     @Override
     public String toString() {
         return "UserInfo{" +
-                "userId='" + userId + '\'' +
+                "id=" + id +
+                ", userId='" + userId + '\'' +
                 ", image='" + image + '\'' +
                 ", sex='" + sex + '\'' +
                 ", birthday=" + birthday +
@@ -107,6 +125,7 @@ public class UserInfo {
                 ", email='" + email + '\'' +
                 ", country='" + country + '\'' +
                 ", city='" + city + '\'' +
+                ", userName='" + userName + '\'' +
                 '}';
     }
 }

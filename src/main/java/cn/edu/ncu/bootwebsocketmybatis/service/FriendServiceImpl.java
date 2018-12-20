@@ -26,7 +26,7 @@ public class FriendServiceImpl implements FriendService {
      */
     @Override
     public List<Friend> findAllByUserId(String userId) {
-        return findAllByUserId(userId);
+        return friendsDao.findAllByUserId(userId);
     }
 
     /**
@@ -36,7 +36,7 @@ public class FriendServiceImpl implements FriendService {
      */
     @Override
     public Friend findByUserId(Friend friend) {
-        return findByUserId(friend);
+        return friendsDao.findByUserId(friend);
     }
 
     /**

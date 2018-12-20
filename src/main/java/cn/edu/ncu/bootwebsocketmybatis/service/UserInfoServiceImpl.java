@@ -39,7 +39,7 @@ public class UserInfoServiceImpl implements UserInfoService {
     }
 
     /**
-     * 添加用户信息
+     * 添加用户信息  默认image：static/img/dog.png sex：不详
      * @param userInfo
      * @return
      */

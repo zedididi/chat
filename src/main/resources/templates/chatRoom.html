@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en" >
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <meta charset="UTF-8">
-    <title>聊天室</title>
+    <title>Direct Messaging</title>
 
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600" rel="stylesheet">
 
@@ -19,14 +19,14 @@
     </style>
 </head>
 
-<body>
+<body onload="initAJAX();initFriend();">
 <!--个人资料卡区域-->
 <div id="msg-box">
-<div class="msg-box-head"><center><img src="/img/thomas.jpg"></center></div>
+<div class="msg-box-head"><center><img th:src="${user.getImage()}"></center></div>
     <hr style=" float: bottom;width:80%;margin:0 auto;border: 0;height: 3px;background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));">
     <div class="msg-box-body">
         <center>
-        <div class="msg-box-body-name"><p class="p-name">刘泽迪</p></br>
+        <div class="msg-box-body-name"><p class="p-name" th:value="${user.getUserName()}">刘泽迪</p></br>
             <p class="p-description">就是蠢</p>
         </div>
         </center>
@@ -63,16 +63,13 @@
     <div class="container">
         <div class="left">
             <div class="top">
-
-                <div id="hook"><img width="40px" height="40px" style="float: left;border-radius: 50%;" src="/img/thomas.jpg"></div>
-
+                <!--个人资料卡区域-->
+                <div id="hook"><img id="userIf" width="40px" height="40px" style="float: left;border-radius: 50%;" th:alt="${user.getId()}" th:src="${user.getImage()}"></div>
 
                 <input type="text" placeholder="Search" />
                 <a href="javascript:;" class="search"></a>
             </div>
-
-            <!--好友列表-->
-            <ul class="people" id="friend">
+            <ul class="people" id="people">
                 <li class="person" data-chat="person1">
                     <img src="/img/thomas.jpg" alt="" />
                     <span class="name">Thomas Bangalter</span>
@@ -245,8 +242,8 @@
 </div>
 
 
-<script src="/js/impression.js"></script>
-<script  src="/js/index.js"></script>
+
+
 <script type="text/javascript">
     //个人资料卡悬浮框
     var timer;
@@ -293,7 +290,7 @@
             var images = evt.target.result;
             $(".chat.active-chat").append("<div class=\"bubble me\">" +
                 /*"<div class=\"author-name\"><small class=\"chat-date\">2017-12-02 14:26:58</small> </div> " +*/
-                "<img style='max-width: 100px;max-height: 100px' src=" + images +"> " /*+
+                "<img style='max-width: 100px;max-height: 100px' src=" + images + "> " /*+
                 "<div class=\"chat-avatars\"><img src=\"img/icon01.png\" alt=\"头像\" /></div> </div> </div>"*/);
             //聊天框默认最底部
             $(document).ready(function () {
@@ -301,12 +298,44 @@
             });
         };
         reader.readAsDataURL(pic.files[0]);
-
     }
+        function initFriend(){
+        var userId=document.getElementById("userIf").alt;
+            xmlHttp.open("POST", "/friend/getAll", true);
+            xmlHttp.onreadystatechange = function () {
+                if (xmlHttp.readyState == 4) {
+                    if (xmlHttp.status == 200) {
+                        var data = xmlHttp.responseText;
+                        var obj = JSON.parse(data);
+                        var listFriend = '';
+                        for (var i in obj) {
+                            var friendId = obj[i].friendId;
+                            var userId=obj[i].userId;
+                            var image = obj[i].image;
+                            var friendName=obj[i].friendName;
+                            listFriend += '<li class="person" data-chat="'+friendId+'">'+
+                                '<img src="'+image+'" alt="'+userId+'" />'+
+                                '<span class="name">'+friendName+'</span>'+
+                            '</li>';
+                        }
+                        document.getElementById("people").innerHTML = listFriend;
+                    }
+                }
+            };
+            xmlHttp.setRequestHeader('Content-Type','application/x-www-form-urlencoded');
+            xmlHttp.send("userId="+userId);
+        }
+
+        function getUserinfo() {
+            var userId=document.getElementById("userIf").alt;
+
+
+
+        }
 </script>
-
-
-
+<script src="/js/index.js"></script>
+<script src="/js/impression.js"></script>
+<script src="/js/commons.js"></script>
 </body>
 
 </html>
