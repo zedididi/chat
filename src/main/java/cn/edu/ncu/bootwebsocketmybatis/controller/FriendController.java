@@ -1,7 +1,9 @@
 package cn.edu.ncu.bootwebsocketmybatis.controller;
 
 import cn.edu.ncu.bootwebsocketmybatis.entity.Friend;
+import cn.edu.ncu.bootwebsocketmybatis.entity.User;
 import cn.edu.ncu.bootwebsocketmybatis.service.FriendServiceImpl;
+import cn.edu.ncu.bootwebsocketmybatis.service.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,8 +24,25 @@ public class FriendController {
     @Autowired
     FriendServiceImpl friendService;
 
+    @Autowired
+    UserServiceImpl userService;
+
+    /**
+     * 返回用户的所有好友
+     * @param userId
+     * @return
+     */
     @PostMapping("/getAll")
     public List<Friend> getAllFriendByUserId(String userId){
-        return friendService.findAllByUserId(userId);
+
+        List<Friend> friendsAndUser=friendService.findAllByUserId(userId);
+        User user=userService.findById(userId);
+        Friend userf=new Friend();
+        userf.setFriendName(user.getUserName());
+        userf.setFriendId(userId);
+        userf.setImage(user.getImage());
+        userf.setUserId(userId);
+        friendsAndUser.add(userf);
+        return friendsAndUser;
     }
 }

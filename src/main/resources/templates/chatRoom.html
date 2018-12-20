@@ -68,15 +68,15 @@
                 <input type="text" placeholder="Search" />
                 <a href="javascript:;" class="search"></a>
             </div>
-            <ul class="people" id="people">
+            <ul class="people" id="peopleUl">
 
-
-                <!--<li class="person" data-chat="person1">
-                    <img src="../static/img/thomas.jpg" alt="" />
-                    <span class="name">Thomas Bangalter</span>
+              <!-- <li class="person" th:data-chat="${user.getId()}">
+                    <img th:src="${user.getImage()}" alt="" />
+                    <span class="name" th:text="${user.}">Thomas Bangalter</span>
                     &lt;!&ndash;<span class="time">2:09 PM</span>
                     <span class="preview">I was wondering...</span>&ndash;&gt;
-                </li>
+                </li>-->
+                <!--
                 <li class="person" data-chat="person2">
                     <img src="../static/img/dog.png" alt="" />
                     <span class="name">Dog Woofson</span>
@@ -104,14 +104,14 @@
                 <li class="person" data-chat="person6">
                     <img src="../static/img/drake.jpg" alt="" />
                     <span class="name">Drake</span>
-                   <!-- <span class="time">2:09 PM</span>
-                    <span class="preview">howdoyoudoaspace</span>-->
-                </li>
+                    <span class="time">2:09 PM</span>
+                    <span class="preview">howdoyoudoaspace</span>
+                </li>-->
             </ul>
         </div>
         <div class="right">
             <div class="top"><span>To: <span class="name">Dog Woofson</span></span></div>
-            <div class="chat" data-chat="person1">
+            <div class="chat" th:data-chat="${user.getId()}">
                 <div class="conversation-start">
                     <span>Today, 6:48 AM</span>
                 </div>
@@ -246,9 +246,59 @@
 
 
 <script type="text/javascript">
-    //个人资料卡悬浮框
+
+    //获取登陆用户id
+    var userId=document.getElementById("userIf").alt;
+
+    //资料卡悬浮框
     var timer;
-    $("#hook,#msg-box").bind("mouseover",showMsgBox).ajax();
+    $("#hook,#msg-box").bind("mouseover",showMsgBox);
+    /*$.ajax({
+        type:'POST',
+        url:'/userInfo/get',
+        dataType:'json',
+        data:{'id':chat.person},
+        success:function (data) {
+            var userInfo='<div class="msg-box-head"><center><img src="'+data.image+'"></center></div>\n' +
+                '    <hr style=" float: bottom;width:80%;margin:0 auto;border: 0;height: 3px;background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));">\n' +
+                '    <div class="msg-box-body">\n' +
+                '        <center>\n' +
+                '        <div class="msg-box-body-name"><p class="p-name" text="'+data.username+'"/></br>\n' +
+                '            <p class="p-description">就是蠢</p>\n' +
+                '        </div>\n' +
+                '        </center>\n' +
+                '        <div class="user-info">\n' +
+                '            <p class="info">帐号&nbsp;</p>\n' +
+                '            <p class="info">出生日期&nbsp;</p>\n' +
+                '            <p class="info">性别&nbsp;</p>\n' +
+                '            <p class="info">分组&nbsp;</p>\n' +
+                '            <p class="info">邮箱&nbsp;</p>\n' +
+                '            <p class="info">所在地&nbsp;</p>\n' +
+                '            <p class="info">联系电话&nbsp;</p>\n' +
+                '        </div>\n' +
+                '        <div class="user-info-more">\n' +
+                '            <p class="info-more">'+data.userid+'</p>\n' +
+                '            <p class="info-more">'+data.birthday+'</p>\n' +
+                '            <p class="info-more">'+data.sex+'</p>\n' +
+                '            <p class="info-more">未完成</p>\n' +
+                '            <p class="info-more">'+data.email+'</p>\n' +
+                '            <p class="info-more">'+data.country+' '+data.city+'</p>\n' +
+                '            <p class="info-more">'+data.phone+'</p>\n' +
+                '        </div>\n' +
+                '        <hr style=" float: bottom;width:80%;margin:0 auto;border: 0;height: 1px;background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));">\n' +
+                '        <div class="msg-box-bottom">\n' +
+                '            <div class="impression">\n' +
+                '            </div>\n' +
+                '            <div class="comment">\n' +
+                '            <input type="text" maxlength="4" id="input-txt" />\n' +
+                '            <input type="button" value="评价" id="input-btn" />\n' +
+                '            </div>\n' +
+                '        </div>\n' +
+                '    </div>';
+
+            document.getElementById("msg-box").innerHTML=userInfo;
+        }
+    });*/
     $("#hook").bind("mouseout",hideMsgBox);
     $("#msg-box").bind("mouseout",function(){
         if(timer){clearTimeout(timer);}
@@ -300,6 +350,8 @@
         };
         reader.readAsDataURL(pic.files[0]);
     }
+
+
         function initFriend(){
         var userId=document.getElementById("userIf").alt;
             xmlHttp.open("POST", "/friend/getAll", true);
@@ -319,7 +371,7 @@
                                 '<span class="name">'+friendName+'</span>'+
                             '</li>';
                         }
-                        document.getElementById("people").innerHTML = listFriend;
+                        document.getElementById("peopleUl").innerHTML = listFriend;
                     }
                 }
             };
@@ -328,7 +380,7 @@
         }
 
         function getUserinfo() {
-            var userId=document.getElementById("userIf").alt;
+           // var userId=document.getElementById("userIf").alt;
 
 
 

@@ -102,7 +102,6 @@ public class indexController {
     public String register(String username,String password,Model model){
 
         User user=userService.register(new User("",username,password));
-
         if (user!=null){         //注册成功
             UserInfo userInfo=new UserInfo();
             userInfo.setUserId(user.getId());
