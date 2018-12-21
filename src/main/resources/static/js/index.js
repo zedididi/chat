@@ -1,5 +1,5 @@
-document.querySelector('.chat[data-chat=person2]').classList.add('active-chat');
-document.querySelector('.person[data-chat=person2]').classList.add('active');
+document.querySelector('.chat').classList.add('active-chat');
+document.querySelector('.person').classList.add('active');
 
 var friends = {
         list: document.querySelector('ul.people'),
@@ -11,7 +11,6 @@ var friends = {
         current: null,
         person: null,
         name: document.querySelector('.container .right .top .name') };
-
 
 friends.all.forEach(function (f) {
     f.addEventListener('mousedown', function () {

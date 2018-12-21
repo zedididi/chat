@@ -441,7 +441,7 @@ body {
     float: left;
     width: 347px;
     height: 40px;
-    max-height: 80px;
+    max-lines: 2;
     padding: 0 10px;
     color: var(--dark);
     border: 0;

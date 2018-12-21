@@ -9,11 +9,13 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
     <link rel="stylesheet" href="/css/reset.min.css">
 
     <link rel="stylesheet" href="/css/style.css">
 
-    <script src="/jquery-3.2.1.min.js"></script>
+
     <style type="text/css">
         #msg-box { background:rgba(255,255,255,0.5);width: 400px; height: 600px; display: none; left: 150px;top:100px;position: absolute; }
     </style>
@@ -104,14 +106,13 @@
                 <li class="person" data-chat="person6">
                     <img src="../static/img/drake.jpg" alt="" />
                     <span class="name">Drake</span>
-                   <!-- <span class="time">2:09 PM</span>
+                   <!- <span class="time">2:09 PM</span>
                     <span class="preview">howdoyoudoaspace</span>-->
-                </li>
             </ul>
         </div>
         <div class="right">
-            <div class="top"><span>To: <span class="name">Dog Woofson</span></span></div>
-            <div class="chat" data-chat="person1">
+            <div class="top"><span>To: <span class="name"></span></span></div>
+            <div class="chat" th:data-chat="${user.getId()}">
                 <div class="conversation-start">
                     <span>Today, 6:48 AM</span>
                 </div>
@@ -234,7 +235,7 @@
             </div>
             <div class="write">
                 <label  id="chat-tuxiang" title="发送图片" for="inputImage" class="write-link attach"><input type="file" onchange="selectImg(this)" accept="image/jpg,image/jpeg,image/png" name="file" id="inputImage" class="hidden"></label>
-                <div class="div-textarea" contenteditable="true"></div>
+                <div class="div-textarea" th:maxlength="20" contenteditable="true"></div>
                 <a href="javascript:void(0)" id="chat-biaoqing" class="write-link smiley"><i class="iconfont icon-biaoqing"></i></a>
                 <a href="javascript:void(0)" id="chat-fasong" class="write-link send"></a>
             </div>
@@ -244,11 +245,13 @@
 
 
 
-
+<script src="/jquery-3.2.1.min.js"></script>
+<script src="/js/jquery.contextify.js"></script>
+<script src="/js/index.js"></script>
 <script type="text/javascript">
     //个人资料卡悬浮框
     var timer;
-    $("#hook,#msg-box").bind("mouseover",showMsgBox).ajax();
+    $("#hook,#msg-box").bind("mouseover",showMsgBox);
     $("#hook").bind("mouseout",hideMsgBox);
     $("#msg-box").bind("mouseout",function(){
         if(timer){clearTimeout(timer);}
@@ -261,7 +264,7 @@
     function hideMsgBox(){
         timer=setTimeout(function(){
             $("#msg-box").hide();
-        },500);
+        },1000);
     }
 
   //发送功能
