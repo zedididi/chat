@@ -98,7 +98,7 @@ public class indexController {
      */
     @PostMapping("/re")
     @ResponseBody
-    public String register(String username,String password,Model model){
+    public String register(String username,String password){
 
         User user=userService.register(new User("",username,password));
         if (user!=null){         //注册成功

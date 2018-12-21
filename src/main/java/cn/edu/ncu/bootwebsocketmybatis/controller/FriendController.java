@@ -35,17 +35,17 @@ public class FriendController {
      * @param userId
      * @return
      */
-    @GetMapping("/getAll")
+    @PostMapping("/getAll")
     public List<Friend> getAllFriendByUserId(String userId){
 
         List<Friend> friendsAndUser=friendService.findAllByUserId(userId);
-        User user=userService.findById(userId);
+        /*User user=userService.findById(userId);
         Friend userf=new Friend();
         userf.setFriendName(user.getUserName());
         userf.setFriendId(userId);
         userf.setImage(user.getImage());
         userf.setUserId(userId);
-        friendsAndUser.add(userf);
+        friendsAndUser.add(userf);*/
         return friendsAndUser;
     }
 

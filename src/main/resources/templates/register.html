@@ -17,9 +17,9 @@
     </style>
 </head>
 <body onload="initAJAX()">
-<div class="jq22-container" style="padding-top:100px">
+<div style="padding-top:100px">
     <div class="login-wrap">
-        <div class="login-html">
+        <div class="login-html" >
             <input id="tab-1" type="radio" name="tab" class="sign-in" checked><label for="tab-1" class="tab">登录</label>
             <input id="tab-2" type="radio" name="tab" class="sign-up"><label for="tab-2" class="tab">注册</label>
             <div class="login-form">
@@ -52,7 +52,7 @@
                         </div>
                     </div>
                 </form>
-                <form>
+                <form onsubmit="register()">
                     <div class="sign-up-htm">
                         <div class="group">
                             <label for="username" class="label" required>用户名</label>
@@ -68,7 +68,8 @@
                             <span id="mgs1"></span>
                         </div>
                         <div class="group">
-                            <button  id="submit"  class="button" onclick="register()">注册</button>
+                            <!--<a href="register.html">--><button id="submit" class="button">注册</button>
+                                <!--<input type="button" id="submit" value="注册" class="button"/>--><!--</a>-->
                         </div>
                         <div class="hr"></div>
                         <div class="foot-lnk">
@@ -150,7 +151,7 @@
                         window.alert("很抱歉，注册失败！请再次注册");
                     else {
                         window.alert("欢迎来到SuperGod聊天室，您的ID为：" + data);
-                        location.reload();
+                        window.location.href = "/register";
                     }
                 }else
                     window.alert("很抱歉，注册失败！")

@@ -1,6 +1,6 @@
 function initFriend() {
-    initAJAX();
-    var userId = document.getElementById("userIf").alt;
+   // initAJAX();
+   var userId = document.getElementById("userIf").alt;
     xmlHttp.open("POST", "/friend/getAll", true);
     xmlHttp.onreadystatechange = function () {
         if (xmlHttp.readyState == 4) {
@@ -11,7 +11,7 @@ function initFriend() {
                 var chatWindowDivs = "";
                 for (var i in obj) {
                     var friendId = obj[i].friendId;
-                    var userId = obj[i].userId;
+                 //   var userId = obj[i].userId;
                     var image = obj[i].image;
                     var friendName = obj[i].friendName;
                     listFriend += '<li class="person" data-chat="' + friendId + '">' +
