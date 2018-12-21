@@ -7,10 +7,7 @@ import cn.edu.ncu.bootwebsocketmybatis.service.FriendServiceImpl;
 import cn.edu.ncu.bootwebsocketmybatis.service.GroupServiceImpl;
 import cn.edu.ncu.bootwebsocketmybatis.service.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -38,7 +35,7 @@ public class FriendController {
      * @param userId
      * @return
      */
-    @PostMapping("/getAll")
+    @GetMapping("/getAll")
     public List<Friend> getAllFriendByUserId(String userId){
 
         List<Friend> friendsAndUser=friendService.findAllByUserId(userId);
@@ -73,9 +70,18 @@ public class FriendController {
      * 返回所有分组
      * @return
      */
-    @PostMapping("/group")
+    @GetMapping("/getGroup")
     public List<Group> getAllGroup(){
         return groupService.findAll();
+    }
+
+    @PostMapping("/updateGroup")
+    public String updateGroup(String userId,String friendId,int groupId){
+
+        Friend friend=new Friend(userId,friendId,groupId);
+        if (friendService.updateFriendByUserId(friend))
+            return "成功";
+        return "失败";
     }
 
 }

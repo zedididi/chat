@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <title>Direct Messaging</title>
 
-    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600" rel="stylesheet">
+    <!--<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600" rel="stylesheet">-->
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -13,10 +13,8 @@
 
     <link rel="stylesheet" href="/css/style.css">
 
-    <script src="/jquery-3.2.1.min.js"></script>
     <link rel="stylesheet" href="/css/panel.css">
 
-    <script src="/jquery-3.2.1.min.js"></script>
     <style type="text/css">
         #msg-box { background:rgba(255,255,255,0.5);width: 400px; height: 600px; display: none; left: 150px;top:100px;position: absolute; }
     </style>
@@ -69,30 +67,33 @@
                 <!--个人资料卡区域-->
                 <div id="hook"><img width="40px" height="40px" style="float: left;border-radius: 50%;" id="userIf" th:alt="${user.getId()}" th:src="${user.getImage()}"></div>
                 <input type="text" placeholder="Search" />
-                <a href="javascript:;" class="search"></a>
+                <a href="javascript:;" m class="search"></a>
             </div>
 
             <main>
-                <ul class="people">
-                    <div class="panel" v-for="panel,index in panels" :class="{active:index===currentIndex}">
+                <ul class="people" id="peopleUl">
+                    <!--<div class="panel" v-for="panel,index in panels" :class="{active:index===currentIndex}">
                         <div class="panel-header" @click="panelSwitch(index)">{{panel.title}}</div>
                         <div class="panel-body" v-show="index===currentIndex">
                             <ul class="list">
                                 <li id="li" v-html="panel.list">{{panel.list}}</li>
                             </ul>
-                            <!--<ul class="list">
+                            &lt;!&ndash;<ul class="list">
                                 <li v-for="item in panel.list"><a href="#">{{item}}</a></li>
-                            </ul>-->
+                            </ul>&ndash;&gt;
                         </div>
-                    </div>
+                    </div>-->
+
+                    <li class="person" th:data-chat="${user.getId()}">
+                        <img src="/img/thomas.jpg" alt="" />
+                        <span class="name">Thomas Bangalter</span>
+                        <!--<span class="time">2:09 PM</span>
+                        <span class="preview">I was wondering...</span>-->
+                    </li>
                 </ul>
             </main>
-                <!--<li class="person" data-chat="person1">
-                    <img src="../static/img/thomas.jpg" alt="" />
-                    <span class="name">Thomas Bangalter</span>
-                    &lt;!&ndash;<span class="time">2:09 PM</span>
-                    <span class="preview">I was wondering...</span>&ndash;&gt;
-                </li>
+
+                <!--
                 <li class="person" data-chat="person2">
                     <img src="../static/img/dog.png" alt="" />
                     <span class="name">Dog Woofson</span>
@@ -127,7 +128,7 @@
         </div>
         <div class="right">
             <div class="top"><span>To: <span class="name">Dog Woofson</span></span></div>
-            <div class="chat" data-chat="person1">
+            <div class="chat" th:data-chat="${user.getId()}">
                 <div class="conversation-start">
                     <span>Today, 6:48 AM</span>
                 </div>
@@ -164,7 +165,7 @@
                     I've forgotten how it felt before
                 </div>
             </div>
-            <div class="chat" data-chat="person3">
+            <div class="chat" data-chat="p11111">
                 <div class="conversation-start">
                     <span>Today, 3:38 AM</span>
                 </div>
@@ -259,7 +260,12 @@
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/vue"></script>
-<script>
+<script  src="/js/index.js"></script>
+<script src="/js/impression.js"></script>
+<script src="/js/commons.js"></script>
+<script src="/jquery-3.2.1.min.js"></script>
+<script type="text/javascript">
+
     /*第一分组*/
     var group01='';
     group01+='<li class="person" data-chat="person1">' +
@@ -294,12 +300,10 @@
             }
         }
     });
-</script>
-<script  src="/js/index.js"></script>
-<script type="text/javascript">
 
     //获取登陆用户id
     var userId=document.getElementById("userIf").alt;
+   //  userId=[[${userId}]];
 
     //资料卡悬浮框
     var timer;
@@ -401,7 +405,8 @@
         };
         reader.readAsDataURL(pic.files[0]);
     }
-        function initFriend(){
+    function initFriend (){
+
         var userId=document.getElementById("userIf").alt;
             xmlHttp.open("POST", "/friend/getAll", true);
             xmlHttp.onreadystatechange = function () {
@@ -411,8 +416,8 @@
                         var obj = JSON.parse(data);
                         var listFriend = '';
                         for (var i in obj) {
-                            var friendId = obj[i].friendId;
-                            var userId=obj[i].userId;
+                            var friendId =obj[i].friendId;
+                          //  var userId=obj[i].userId;
                             var image = obj[i].image;
                             var friendName=obj[i].friendName;
                             listFriend += '<li class="person" data-chat="'+friendId+'">'+
@@ -420,24 +425,72 @@
                                 '<span class="name">'+friendName+'</span>'+
                             '</li>';
                         }
-                        document.getElementById("people").innerHTML = listFriend;
+                        document.getElementById("peopleUl").innerHTML = listFriend;
+
+                        //document.querySelector('.chat[data-chat='+userId+']').classList.add('active-chat');//选择person2处于正在聊天状态//
+                        //document.querySelector('.person[data-chat='+userId+']').classList.add('active');//使person2处于选中状态//
+
+                       // document.querySelector('.chat[data-chat=p11111]').classList.add('active-chat');//选择person2处于正在聊天状态//
+                       // document.querySelector('.person[data-chat=p11111]').classList.add('active');//使person2处于选中状态//
+                      /*  friends = {
+                            list: document.querySelector('ul.people'),//获取好友列表
+                            all: document.querySelectorAll('.left .person'),//获取所有好友
+                            name: '' };
+                            chat = {
+                                container: document.querySelector('.container .right'),//获取聊天栏
+                                current: null,
+                                person: null,
+                                name: document.querySelector('.container .right .top .name') };//获取聊天对象名称
+
+
+                        friends.all.forEach(function (f) {
+                            f.addEventListener('mousedown', function () {
+                                f.classList.contains('active') || setAciveChat(f);
+                            });
+                        });*/
                     }
                 }
             };
             xmlHttp.setRequestHeader('Content-Type','application/x-www-form-urlencoded');
             xmlHttp.send("userId="+userId);
+
         }
 
+
+/*
+     friends = {
+            list: document.querySelector('ul.people'),//获取好友列表
+            all: document.querySelectorAll('.left .person'),//获取所有好友
+            name: '' },
+
+        chat = {
+            container: document.querySelector('.container .right'),//获取聊天栏
+            current: null,
+            person: null,
+            name: document.querySelector('.container .right .top .name') };//获取聊天对象名称*/
+   /* for (var i in friends)
+        console.log(friends[i].all);*/
+
+    //监听鼠标点击事件
+    /*friends.all.forEach(function (f) {
+        f.addEventListener('mousedown', function () {
+            f.classList.contains('active') || setAciveChat(f);
+        });
+    });*/
+
+    function setAciveChat(f) {
+        friends.list.querySelector('.active').classList.remove('active');//选择处于active状态的person，并消除刚刚点击的person的active状态
+        f.classList.add('active');
+        chat.current = chat.container.querySelector('.active-chat');//使显示的chat处于active-chat状态
+        chat.person = f.getAttribute('data-chat');//使person为选中的data-chat
+        chat.current.classList.remove('active-chat');//消除chat的active-chat状态
+        chat.container.querySelector('[data-chat="' + chat.person + '"]').classList.add('active-chat');//使聊天框中显示选中的person的active-chat
+        friends.name = f.querySelector('.name').innerText;//获得聊天对象的name
+        chat.name.innerHTML = friends.name;
+    }
         function getUserinfo() {
            // var userId=document.getElementById("userIf").alt;
-
-
-
     }
 </script>
-<script src="/js/index.js"></script>
-<script src="/js/impression.js"></script>
-<script src="/js/commons.js"></script>
 </body>
-
 </html>

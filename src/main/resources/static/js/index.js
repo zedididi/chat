@@ -1,8 +1,8 @@
 
 
 //var tset='.chat[data-chat='+userId+']';
-//document.querySelector(tset).classList.add('active-chat');//选择person2处于正在聊天状态//
-//document.querySelector('.person[data-chat='+userId+']').classList.add('active');//使person2处于选中状态//
+document.querySelector('.chat').classList.add('active-chat');//选择person2处于正在聊天状态//
+document.querySelector('.person').classList.add('active');//使person2处于选中状态//
 
 var friends = {
         list: document.querySelector('ul.people'),//获取好友列表
@@ -17,7 +17,7 @@ var friends = {
 for (var i in friends)
     console.log(friends[i].all);
 
-//监听鼠标点击事件，使点击对象处于active状态
+//监听鼠标点击事件
 friends.all.forEach(function (f) {
     f.addEventListener('mousedown', function () {
         f.classList.contains('active') || setAciveChat(f);
