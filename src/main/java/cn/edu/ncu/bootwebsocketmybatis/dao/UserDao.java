@@ -15,6 +15,7 @@ import java.util.List;
 public interface UserDao {
 
      List<User> findAll();
+     List<User> findByName(String userName);
      User findById(String id);
      int addUser(User user);
      int updateUser(User user);

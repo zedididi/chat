@@ -15,6 +15,10 @@
         select evaluate.id,userid,evaluateinfoid,createtime,evaluateinfo.content as evaluate_content from evaluate left join evaluateinfo on evaluate.evaluateinfoid = evaluateinfo.id
         where userid=#{userId,jdbcType=VARCHAR}
     </select>
+    <select id="findByUserIdAndEvaId" resultMap="evaluateMap" parameterType="Evaluate">
+        select evaluate.id,userid,evaluateinfoid,createtime,evaluateinfo.content as evaluate_content from evaluate left join evaluateinfo on evaluate.evaluateinfoid = evaluateinfo.id
+        where userid=#{userId,jdbcType=VARCHAR} and evaluateinfoid=#{evaluateInfoId,jdbcType=INTEGER}
+    </select>
     <insert id="addByUserId" useGeneratedKeys="true" keyProperty="id" parameterType="Evaluate">
         insert into evaluate(userid,evaluateinfoid)
         value (#{userId,jdbcType=VARCHAR},#{evaluateInfoId,jdbcType=INTEGER})

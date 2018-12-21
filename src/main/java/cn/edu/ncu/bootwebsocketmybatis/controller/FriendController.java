@@ -1,12 +1,15 @@
 package cn.edu.ncu.bootwebsocketmybatis.controller;
 
 import cn.edu.ncu.bootwebsocketmybatis.entity.Friend;
+import cn.edu.ncu.bootwebsocketmybatis.entity.Group;
 import cn.edu.ncu.bootwebsocketmybatis.entity.User;
 import cn.edu.ncu.bootwebsocketmybatis.service.FriendServiceImpl;
+import cn.edu.ncu.bootwebsocketmybatis.service.GroupServiceImpl;
 import cn.edu.ncu.bootwebsocketmybatis.service.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -27,6 +30,9 @@ public class FriendController {
     @Autowired
     UserServiceImpl userService;
 
+    @Autowired
+    GroupServiceImpl groupService;
+
     /**
      * 返回用户的所有好友
      * @param userId
@@ -45,4 +51,31 @@ public class FriendController {
         friendsAndUser.add(userf);
         return friendsAndUser;
     }
+
+    /**
+     * 添加好友
+     * @param userId
+     * @param friendId
+     * @param groupId
+     * @return
+     */
+    @PostMapping("/add")
+    public String addFriend(String userId, String friendId, @RequestParam(value = "groupId",required = false) int groupId){
+
+        if (groupId==0)
+            groupId=1;
+        if (friendService.addFriendByUserId(new Friend(userId,friendId,groupId)))
+            return "成功";
+        return "失败";
+    }
+
+    /**
+     * 返回所有分组
+     * @return
+     */
+    @PostMapping("/group")
+    public List<Group> getAllGroup(){
+        return groupService.findAll();
+    }
+
 }
