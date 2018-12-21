@@ -87,7 +87,10 @@ function init() {
         webSocket.onmessage = function (ev) {
             var obj = jQuery.parseJSON(ev.data);
             var sendId = obj.sendId;
-            alert(sendId)
+            var receiveId = obj.receiveId;
+            var createTime = obj.createTime;
+            var content = obj.content;
+            alert(sendId+" " + receiveId+" " + createTime+" " + content);
         }
         return webSocket;
     }
