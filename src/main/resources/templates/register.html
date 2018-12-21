@@ -125,6 +125,7 @@
         document.getElementById('msg').innerHTML = '登录成功！';
     });
 
+
     function textPwd(){
         var pwd02=document.getElementById("pass");
         var pwd01=document.getElementById("pass2");
@@ -150,7 +151,7 @@
                         window.alert("很抱歉，注册失败！请再次注册");
                     else {
                         window.alert("欢迎来到SuperGod聊天室，您的ID为：" + data);
-                        location.reload();
+                        window.location.href = "/register";
                     }
                 }else
                     window.alert("很抱歉，注册失败！")

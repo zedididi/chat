@@ -19,6 +19,14 @@ public class Friend {
     private String image;        //对应userinfo表的image   好友的头像
     private String friendName;   //对应user表的username   用户好友的名字
 
+    public Friend() {
+    }
+
+    public Friend(String userId, String friendId, int groupId) {
+        this.userId = userId;
+        this.friendId = friendId;
+        this.groupId = groupId;
+    }
 
     public String getUserId() {
         return userId;

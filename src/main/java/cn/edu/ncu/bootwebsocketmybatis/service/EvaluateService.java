@@ -14,4 +14,5 @@ public interface EvaluateService {
 
     List<Evaluate> findAllByUserId(String userid);
     boolean addByUserId(Evaluate evaluate);
+    Evaluate findByUserIdAndEvaId(Evaluate evaluate);
 }

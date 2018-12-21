@@ -15,5 +15,6 @@ import java.util.List;
 public interface EvaluateDao {
 
     List<Evaluate> findAllByUserId(String userId);
+    Evaluate findByUserIdAndEvaId(Evaluate evaluate);
     int addByUserId(Evaluate evaluate);
 }
