@@ -4,9 +4,9 @@ spring:
      cache: false
    datasource:
      driver-class-name: com.mysql.cj.jdbc.Driver
-     username: root
-     password: 1605103328
-     url: jdbc:mysql://localhost:3306/onlinechat?serverTimezone=UTC&characterEncoding=UTF-8&useSSL=false
+     username: fuqian
+     password: 123456
+     url: jdbc:mysql://localhost:3306/onlinechat?serverTimezone=UTC&characterEncoding=UTF-8&useSSL=false&allowPublicKeyRetrieval=true
 
 mybatis:
   type-aliases-package: cn.edu.ncu.bootwebsocketmybatis.entity

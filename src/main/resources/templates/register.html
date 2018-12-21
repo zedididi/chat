@@ -17,9 +17,9 @@
     </style>
 </head>
 <body onload="initAJAX()">
-<div style="padding-top:100px">
+<div class="jq22-container" style="padding-top:100px">
     <div class="login-wrap">
-        <div class="login-html" >
+        <div class="login-html">
             <input id="tab-1" type="radio" name="tab" class="sign-in" checked><label for="tab-1" class="tab">登录</label>
             <input id="tab-2" type="radio" name="tab" class="sign-up"><label for="tab-2" class="tab">注册</label>
             <div class="login-form">
@@ -52,7 +52,7 @@
                         </div>
                     </div>
                 </form>
-                <form onsubmit="register()">
+                <form>
                     <div class="sign-up-htm">
                         <div class="group">
                             <label for="username" class="label" required>用户名</label>
@@ -68,8 +68,7 @@
                             <span id="mgs1"></span>
                         </div>
                         <div class="group">
-                            <!--<a href="register.html">--><button id="submit" class="button">注册</button>
-                                <!--<input type="button" id="submit" value="注册" class="button"/>--><!--</a>-->
+                            <button  id="submit"  class="button" onclick="register()">注册</button>
                         </div>
                         <div class="hr"></div>
                         <div class="foot-lnk">
@@ -124,6 +123,7 @@
         flag=true;
         document.getElementById('msg').innerHTML = '登录成功！';
     });
+
 
     function textPwd(){
         var pwd02=document.getElementById("pass");

@@ -79,7 +79,6 @@ public class indexController {
      */
     @PostMapping("/lo")
     public String login(String userId, String password, HttpServletRequest request,Model model) throws UnknownHostException {
-
         if (userService.login(new User(userId,password))){
             User user=userService.findById(userId);
             model.addAttribute("user",user);
