@@ -85,15 +85,10 @@ function init() {
         }
 
         webSocket.onmessage = function (ev) {
-            var obj = JSON.parse(ev.data);
-            for (var i in obj) {
-                var sendId = obj[i].sendId;
-                var receiveId = obj[i].receiveId;
-                var createTime = obj[i].createTime;
-                var msg = obj[i].content;
-            }
+            var obj = jQuery.parseJSON(ev.data);
+            var sendId = obj.sendId;
+            alert(sendId)
         }
-
         return webSocket;
     }
 
@@ -109,6 +104,7 @@ function init() {
                 "receiveId":$(".active").attr("data-chat"),
                 "content":$(".div-textarea").text()
             }
+            alert(JSON.stringify(content));
             webSocket.send(JSON.stringify(content));
             $.ajax({
                 url:"/chatRoom/send",

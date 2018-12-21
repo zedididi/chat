@@ -3,10 +3,13 @@ package cn.edu.ncu.bootwebsocketmybatis.controller;
 import cn.edu.ncu.bootwebsocketmybatis.entity.Content;
 import cn.edu.ncu.bootwebsocketmybatis.service.ContentService;
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import org.apache.ibatis.annotations.Param;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.websocket.*;
@@ -54,25 +57,36 @@ public class ChatController {
         Content content = JSON.parseObject(msg, Content.class);
         String from = content.getSendId();
         String to = content.getReceiveId();
+        logger.info(sendId+"用户发来了消息,发送给： "+to);
         String message = content.getContent();
         Timestamp createTime = new Timestamp(new Date().getTime());
         content.setCreateTime(createTime.toString());
         if (onlineUsers.containsKey(to)) {
+            logger.info("接收者目前在线");
             Session session_receive = onlineUsers.get(to);
             session_receive.getAsyncRemote().sendText(Content.jsonStr(sendId,to,message,createTime.toString()));
         }
-
+        else logger.info("接收者目前不在线");
+        logger.info("这是即将插入的信息"+content.getSendId() +" " + content.getReceiveId() +" " +content.getContent() +" "+content.getCreateTime());
+        logger.info(Content.jsonStr(from,to,message,createTime.toString()));
     }
 
     @RequestMapping("/{sendId}/{receiveId}")
     public String getContentRecords(@PathVariable("sendId") String sendId, @PathVariable("receiveId") String receiveId){
+        logger.info("请求消息记录");
+        logger.info(sendId +" " + receiveId);
         List<Content> list = contentService.getContentRecords(sendId,receiveId);
         String jsonStr = JSON.toJSONString(list);
+        for (Content content:list){
+            logger.info("sendId: " + content.getSendId() +"receiveId: " +content.getReceiveId() +"content:" + content.getContent() +"time: " + content.getCreateTime());
+        }
+        logger.info(jsonStr);
         return jsonStr;
     }
 
     @PostMapping(value = "/send")
     public String send(@RequestBody String json){
+        logger.info("执行了");
         Content content = JSON.parseObject(json,Content.class);
         content.setCreateTime(new Timestamp(new Date().getTime()).toString());
         contentService.insertContentRecord(content);
