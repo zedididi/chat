@@ -13,14 +13,16 @@
         <result column="phone" jdbcType="VARCHAR" property="phone"/>
         <result column="email" jdbcType="VARCHAR" property="email"/>
         <result column="country" jdbcType="VARCHAR" property="country"/>
+        <result column="city" jdbcType="VARCHAR" property="city"/>
         <result column="username" jdbcType="VARCHAR" property="userName"/>
+        <result column="groupName" jdbcType="VARCHAR" property="groupName"/>
     </resultMap>
     <select id="findAll" resultMap="userInfoMap">
-        SELECT  userinfo.id,userid,image,sex,birthday,phone,email,country,`user`.username
+        SELECT  userinfo.id,userid,image,sex,birthday,phone,email,country,city,`user`.username
         from userinfo left join `user` on userinfo.userid = `user`.id
     </select>
     <select id="findByUserId" resultMap="userInfoMap" parameterType="String">
-        SELECT  userinfo.id,userid,image,sex,birthday,phone,email,country,`user`.username
+        SELECT  userinfo.id,userid,image,sex,birthday,phone,email,country,city,`user`.username
         from userinfo left join `user` on userinfo.userid = `user`.id
         where userid=#{userId,jdbcType=VARCHAR}
     </select>

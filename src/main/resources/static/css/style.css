@@ -21,7 +21,6 @@ body {
     font-family: 'Source Sans Pro', sans-serif;
     font-weight: 400;
     background-image: url("../img/login.jpg");
-  /*  background-color: rgba(219, 150, 255, 0);*/
     background-size: cover;
     background-repeat: none;
 }
@@ -455,7 +454,7 @@ body {
     float: left;
     width: 347px;
     height: 40px;
-    max-height: 80px;
+    max-lines: 2;
     padding: 0 10px;
     color: var(--dark);
     border: 0;

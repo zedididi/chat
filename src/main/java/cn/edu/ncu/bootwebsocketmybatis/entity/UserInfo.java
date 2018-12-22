@@ -22,6 +22,7 @@ public class UserInfo {
     private String country;
     private String city;
     private String userName;  //对应User表username
+    private String groupName;  //对应friends表的group  用于显示好友分组
 
     /*public UserInfo() {
         this.image="";
@@ -113,6 +114,14 @@ public class UserInfo {
         this.userName = userName;
     }
 
+    public String getGroupName() {
+        return groupName;
+    }
+
+    public void setGroupName(String groupName) {
+        this.groupName = groupName;
+    }
+
     @Override
     public String toString() {
         return "UserInfo{" +
@@ -126,6 +135,7 @@ public class UserInfo {
                 ", country='" + country + '\'' +
                 ", city='" + city + '\'' +
                 ", userName='" + userName + '\'' +
+                ", groupName='" + groupName + '\'' +
                 '}';
     }
 }

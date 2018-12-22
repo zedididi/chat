@@ -28,7 +28,7 @@
 <body onload="initAJAX();initFriend();">
 <!--个人资料卡区域-->
 <div id="msg-box">
-<div class="msg-box-head"><center><img th:src="${user.getImage()}"></center></div>
+<!--<div class="msg-box-head"><center><img th:src="${user.getImage()}"></center></div>
     <hr style=" float: bottom;width:80%;margin:0 auto;border: 0;height: 3px;background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));">
     <div class="msg-box-body">
         <center>
@@ -63,196 +63,34 @@
             <input type="button" value="评价" id="input-btn" />
             </div>
         </div>
-    </div>
+    </div>-->
 </div>
 <div class="wrapper">
     <div class="container">
         <div class="left">
             <div class="top">
                 <!--个人资料卡区域-->
-                <div id="hook"><img width="40px" height="40px" style="float: left;border-radius: 50%;" id="userIf" th:alt="${user.getId()}" th:src="${user.getImage()}"></div>
+                <div id="hook" th:alt="${user.getId()}" class="show-info"><img width="40px" height="40px" style="float: left;border-radius: 50%;" id="userIf" th:alt="${user.getId()}" th:src="${user.getImage()}"></div>
                 <input type="text" placeholder="Search" />
                 <a href="javascript:;" class="search"></a>
                 <a href="javascript:;" class="add" id="dialog" onclick="dialog()"></a>
             </div>
+            <div class="left_body" style="height: 85%;overflow-y: auto;overflow-x: hidden">
 
-            <main>
-                <ul class="people">
-                    <div class="panel" v-for="panel,index in panels" :class="{active:index===currentIndex}">
-                        <div class="panel-header" @click="panelSwitch(index)">{{panel.title}}</div>
-                        <div class="panel-body" v-show="index===currentIndex">
-                            <ul class="list">
-                                <li id="li" v-html="panel.list">{{panel.list}}</li>
-                            </ul>
-                            <!--<ul class="list">
-                                <li v-for="item in panel.list"><a href="#">{{item}}</a></li>
-                            </ul>-->
-                        </div>
-                    </div>
-                </ul>
-            </main>
-                <!--<li class="person" data-chat="person1">
-                    <img src="../static/img/thomas.jpg" alt="" />
-                    <span class="name">Thomas Bangalter</span>
-                    &lt;!&ndash;<span class="time">2:09 PM</span>
-                    <span class="preview">I was wondering...</span>&ndash;&gt;
-                </li>
-                <li class="person" data-chat="person2">
-                    <img src="../static/img/dog.png" alt="" />
-                    <span class="name">Dog Woofson</span>
-                    &lt;!&ndash;<span class="time">1:44 PM</span>
-                    <span class="preview">I've forgotten how it felt before</span>&ndash;&gt;
-                </li>
-                <li class="person" data-chat="person3">
-                    <img src="../static/img/louis-ck.jpeg" alt="" />
-                    <span class="name">Louis CK</span>
-                    &lt;!&ndash;<span class="time">2:09 PM</span>
-                    <span class="preview">But we’re probably gonna need a new carpet.</span>&ndash;&gt;
-                </li>
-                <li class="person" data-chat="person4">
-                    <img src="../static/img/bo-jackson.jpg" alt="" />
-                    <span class="name">Bo Jackson</span>
-                   &lt;!&ndash; <span class="time">2:09 PM</span>
-                    <span class="preview">It’s not that bad...</span>&ndash;&gt;
-                </li>
-                <li class="person" data-chat="person5">
-                    <img src="../static/img/michael-jordan.jpg" alt="" />
-                    <span class="name">Michael Jordan</span>
-                    &lt;!&ndash;<span class="time">2:09 PM</span>
-                   <!- &lt;!&ndash;<span class="preview">Wasup for the third time like is&ndash;&gt;&ndash;&gt;you blind bitch</span>&ndash;&gt;
-                </li>
-                <li class="person" data-chat="person6">
-                    <img src="../static/img/drake.jpg" alt="" />
-                    <span class="name">Drake</span>
-                   &lt;!&ndash; <span class="time">2:09 PM</span>
-                    <span class="preview">howdoyoudoaspace</span>&ndash;&gt;
-                </li>-->
-            <!--</ul>-->
+            <ul class="people" id="people">
+
+            </ul>
+            </div>
         </div>
         <div class="right">
-            <div class="top"><span>To: <span class="name">Dog Woofson</span></span></div>
-            <div class="chat" data-chat="person1">
-                <div class="conversation-start">
-                    <span>Today, 6:48 AM</span>
-                </div>
-                <div class="bubble you">
-                    Hello,
-                </div>
-                <div class="bubble you">
-                    it's me.
-                </div>
-                <div class="bubble you">
-                    I was wondering...
-                </div>
-            </div>
-            <div class="chat" data-chat="person2">
-                <div class="conversation-start">
-                    <span>Today, 5:38 PM</span>
-                </div>
-                <div class="bubble you">
-                    Hello, can you hear me?
-                </div>
-                <div class="bubble you">
-                    I'm in California dreaming
-                </div>
-                <div class="bubble me">
-                    ... about who we used to be.
-                </div>
-                <div class="bubble me">
-                    Are you serious?
-                </div>
-                <div class="bubble you">
-                    When we were younger and free...
-                </div>
-                <div class="bubble you">
-                    I've forgotten how it felt before
-                </div>
-            </div>
-            <div class="chat" data-chat="person3">
-                <div class="conversation-start">
-                    <span>Today, 3:38 AM</span>
-                </div>
-                <div class="bubble you">
-                    Hey human!
-                </div>
-                <div class="bubble you">
-                    Umm... Someone took a shit in the hallway.
-                </div>
-                <div class="bubble me">
-                    ... what.
-                </div>
-                <div class="bubble me">
-                    Are you serious?
-                </div>
-                <div class="bubble you">
-                    I mean...
-                </div>
-                <div class="bubble you">
-                    It’s not that bad...
-                </div>
-                <div class="bubble you">
-                    But we’re probably gonna need a new carpet.
-                </div>
-            </div>
-            <div class="chat" data-chat="person4">
-                <div class="conversation-start">
-                    <span>Yesterday, 4:20 PM</span>
-                </div>
-                <div class="bubble me">
-                    Hey human!
-                </div>
-                <div class="bubble me">
-                    Umm... Someone took a shit in the hallway.
-                </div>
-                <div class="bubble you">
-                    ... what.
-                </div>
-                <div class="bubble you">
-                    Are you serious?
-                </div>
-                <div class="bubble me">
-                    I mean...
-                </div>
-                <div class="bubble me">
-                    It’s not that bad...
-                </div>
-            </div>
-            <div class="chat" data-chat="person5">
-                <div class="conversation-start">
-                    <span>Today, 6:28 AM</span>
-                </div>
-                <div class="bubble you">
-                    Wasup
-                </div>
-                <div class="bubble you">
-                    Wasup
-                </div>
+            <div class="top" ><span>To: <span class="name"></span></span></div>
+
+            <!--<div class="chat" data-chat="163501">
                 <div class="bubble you">
                     Wasup for the third time like is <br />you blind bitch
-                </div>
+                </div>-->
 
-            </div>
-            <div class="chat" data-chat="person6">
-                <div class="conversation-start">
-                    <span>Monday, 1:27 PM</span>
-                </div>
-                <div class="bubble you">
-                    So, how's your new phone?
-                </div>
-                <div class="bubble you">
-                    You finally have a smartphone :D
-                </div>
-                <div class="bubble me">
-                    Drake?
-                </div>
-                <div class="bubble me">
-                    Why aren't you answering?
-                </div>
-                <div class="bubble you">
-                    howdoyoudoaspace
-                </div>
-            </div>
-            <div class="write">
+            <div class="write" id="write">
                 <label  id="chat-tuxiang" title="发送图片" for="inputImage" class="write-link attach"><input type="file" onchange="selectImg(this)" accept="image/jpg,image/jpeg,image/png" name="file" id="inputImage" class="hidden"></label>
                 <div class="div-textarea" contenteditable="true"></div>
                 <a href="javascript:void(0)" id="chat-biaoqing" class="write-link smiley"><i class="iconfont icon-biaoqing"></i></a>
@@ -261,34 +99,42 @@
         </div>
     </div>
 </div>
-
 <script src="https://cdn.jsdelivr.net/npm/vue"></script>
-<script>
-    function dialog() {
-        Dialog.init('<input type="text" placeholder="请输入用户ID"  style="margin:8px 0;width:100%;padding:11px 8px;font-size:15px; border:1px solid #999;"/>',{
-            title : '请输入用户ID',
-            button : {
-                确定 : function(){
-                    if(this.querySelector('input').value.length==6){
-                        /*发送验证请求给对方*/
-                        Dialog.close(this);
-                    }else{
-                        Dialog.init('请输入有效的ID！',1100);
-                    };
-                },
-                点击关闭 : function(){
-                    /*Dialog.init('你点击了关闭',1000);*/
-                    Dialog.close(this);
-                }
-            }
-        });
-    }
+<script  src="/js/index.js"></script>
+<script src="/js/impression.js"></script>
+<script src="/js/commons.js"></script>
+<script src="/jquery-3.2.1.min.js"></script>
+<script type="text/javascript">
+document.body.parentNode.style.overflow = "hidden";//隐藏且禁用横向纵向两个滚动条
 
-    /*第一分组*/
+
+
+function dialog() {
+    Dialog.init('<input type="text" placeholder="请输入用户ID"  style="margin:8px 0;width:100%;padding:11px 8px;font-size:15px; border:1px solid #999;"/>',{
+        title : '请输入用户ID',
+        button : {
+            确定 : function(){
+                if(this.querySelector('input').value.length==6){
+                    /*发送验证请求给对方*/
+                    Dialog.close(this);
+                }else{
+                    Dialog.init('请输入有效的ID！',1100);
+                };
+            },
+            点击关闭 : function(){
+                /*Dialog.init('你点击了关闭',1000);*/
+                Dialog.close(this);
+            }
+        }
+    });
+}
+
+/*第一分组*/
     var group01='';
     group01+='<li class="person" data-chat="person1">' +
         '<img src="/img/thomas.jpg" alt="" />' +
-        ' <span class="name">Thomas</span>'+
+        ' <span class="name">Thomas Bangalter</span>'+
+        '<span class="time">2:09 PM</span>'+
         '</li>'+'<li class="person" data-chat="person1">fff</li>';
     var group02='';
     var group03='';
@@ -317,20 +163,161 @@
             }
         }
     });
-</script>
-<script  src="/js/index.js"></script>
-<script type="text/javascript">
-    //个人资料卡悬浮框
-    var timer;
-    $("#hook,#msg-box").bind("mouseover",showMsgBox);
-    $("#hook").bind("mouseout",hideMsgBox);
-    $("#msg-box").bind("mouseout",function(){
-        if(timer){clearTimeout(timer);}
+
+
+
+
+    /*$.ajax({
+        type:'POST',
+        url:'/userInfo/get',
+        dataType:'json',
+        data:{'id':chat.person},
+        success:function (data) {
+            var userInfo='<div class="msg-box-head"><center><img src="'+data.image+'"></center></div>\n' +
+                '    <hr style=" float: bottom;width:80%;margin:0 auto;border: 0;height: 3px;background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));">\n' +
+                '    <div class="msg-box-body">\n' +
+                '        <center>\n' +
+                '        <div class="msg-box-body-name"><p class="p-name" text="'+data.username+'"/></br>\n' +
+                '            <p class="p-description">就是蠢</p>\n' +
+                '        </div>\n' +
+                '        </center>\n' +
+                '        <div class="user-info">\n' +
+                '            <p class="info">帐号&nbsp;</p>\n' +
+                '            <p class="info">出生日期&nbsp;</p>\n' +
+                '            <p class="info">性别&nbsp;</p>\n' +
+                '            <p class="info">分组&nbsp;</p>\n' +
+                '            <p class="info">邮箱&nbsp;</p>\n' +
+                '            <p class="info">所在地&nbsp;</p>\n' +
+                '            <p class="info">联系电话&nbsp;</p>\n' +
+                '        </div>\n' +
+                '        <div class="user-info-more">\n' +
+                '            <p class="info-more">'+data.userid+'</p>\n' +
+                '            <p class="info-more">'+data.birthday+'</p>\n' +
+                '            <p class="info-more">'+data.sex+'</p>\n' +
+                '            <p class="info-more">未完成</p>\n' +
+                '            <p class="info-more">'+data.email+'</p>\n' +
+                '            <p class="info-more">'+data.country+' '+data.city+'</p>\n' +
+                '            <p class="info-more">'+data.phone+'</p>\n' +
+                '        </div>\n' +
+                '        <hr style=" float: bottom;width:80%;margin:0 auto;border: 0;height: 1px;background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));">\n' +
+                '        <div class="msg-box-bottom">\n' +
+                '            <div class="impression">\n' +
+                '            </div>\n' +
+                '            <div class="comment">\n' +
+                '            <input type="text" maxlength="4" id="input-txt" />\n' +
+                '            <input type="button" value="评价" id="input-btn" />\n' +
+                '            </div>\n' +
+                '        </div>\n' +
+                '    </div>';
+
+            document.getElementById("msg-box").innerHTML=userInfo;
+        }
+    });*/
+
+    //获取登陆用户id
+    var userId=document.getElementById("userIf").alt;
+    //var userId=$("img#userIf").attr("alt");
+
+    //资料卡悬浮框
+
+    $("#hook").bind("mouseover",showMsgBox);
+
+
+    $(".container").mousedown(function () {
         $("#msg-box").hide();
     });
+
+
+   /* var timer;
+     $("#hook").bind("mouseout",hideMsgBox);
+     $("#msg-box").bind("mouseout",function(){
+         if(timer){clearTimeout(timer);}
+         $("#msg-box").hide("slow");
+     });*/
+
     function showMsgBox(){
-        if(timer){clearTimeout(timer);}
-        $("#msg-box").show();
+
+      //  if(timer){clearTimeout(timer);}
+        var friendId=$(this).attr("alt");
+        window.console.info("id:"+friendId);
+
+        if (friendId!=undefined) {         //鼠标不是放在个人资料卡上
+            $.ajax({
+                type: 'POST',
+                url: '/userInfo/get',
+                dataType: 'json',
+                data: {
+                    'friendId': friendId,
+                    'userId': userId
+                },
+                success: function (data) {
+
+                    var birthday = data.birthday == null ? "无" : data.birthday;
+                    var email = data.email == null ? "无" : data.email;
+                    var country = data.country;
+                    var city = data.city;
+                    if (country == null && city == null)
+                        country = "无";
+                    else if (country == null)
+                        country = city;
+                    else if (city != null && country != null)
+                        country = country + "-" + city;
+                    var phone = data.phone == null ? "无" : data.phone;
+
+                    var group1, group2, input;
+                    if (friendId === userId) {        //当为本人
+                        group1 = "";
+                        group2 = "";
+                        input = "";
+                    }
+                    else {
+                        group1 = '<p class="info">分组&nbsp;</p>\n';
+                        group2 = '<p class="info-more">' + data.groupName + '</p>\n';
+                        input = '<input type="text" maxlength="4" id="input-txt" /><input type="button" value="评价" id="input-btn" />';
+                    }
+
+
+                    var userInfo = '<div class="msg-box-head"><center><img src="' + data.image + '"></center></div>\n' +
+                        '    <hr style=" float: bottom;width:80%;margin:0 auto;border: 0;height: 3px;background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));">\n' +
+                        '    <div class="msg-box-body">\n' +
+                        '        <center>\n' +
+                        '        <div class="msg-box-body-name"><p class="p-name"/>' + data.userName + '</br>\n' +
+                        // '            <p class="p-description">就是蠢</p>\n' +
+                        '        </div>\n' +
+                        '        </center>\n' +
+                        '        <div class="user-info">\n' +
+                        '            <p class="info">帐号&nbsp;</p>\n' +
+                        '            <p class="info">出生日期&nbsp;</p>\n' +
+                        '            <p class="info">性别&nbsp;</p>\n' +
+                        group1 +
+                        '            <p class="info">邮箱&nbsp;</p>\n' +
+                        '            <p class="info">所在地&nbsp;</p>\n' +
+                        '            <p class="info">联系电话&nbsp;</p>\n' +
+                        '        </div>\n' +
+                        '        <div class="user-info-more">\n' +
+                        '            <p class="info-more">' + data.userId + '</p>\n' +
+                        '            <p class="info-more">' + birthday + '</p>\n' +
+                        '            <p class="info-more">' + data.sex + '</p>\n' +
+                        group2 +
+                        '            <p class="info-more">' + email + '</p>\n' +
+                        '            <p class="info-more">' + country + '</p>\n' +
+                        '            <p class="info-more">' + phone + '</p>\n' +
+                        '        </div>\n' +
+                        '        <hr style=" float: bottom;width:80%;margin:0 auto;border: 0;height: 1px;background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));">\n' +
+                        '        <div class="msg-box-bottom">\n' +
+                        '            <div class="impression">\n' +
+                        '            </div>\n' +
+                        '            <div class="comment">\n' +
+                        input +
+                        '            </div>\n' +
+                        '        </div>\n' +
+                        '    </div>';
+
+                    document.getElementById("msg-box").innerHTML = userInfo;
+                }
+            });
+        }
+        $("#msg-box").show("slow")
     }
     function hideMsgBox(){
         timer=setTimeout(function(){
@@ -338,22 +325,6 @@
         },500);
     }
 
-  //发送功能
-    $("#chat-fasong").click(function () {
-        var textContent = $(".div-textarea").html().replace(/[\n\r]/g, '<br>')
-        if (textContent != "") {
-            $(".chat.active-chat").append("<div class=\"bubble me\">" +
-                /*"<div class=\"author-name\"><small class=\"chat-date\">2017-12-02 14:26:58</small> </div> " +*/
-                 textContent
-                /*"<div class=\"chat-avatars\"><img src=\"img/icon01.png\" alt=\"头像\" /></div> </div> </div>"*/);
-            //发送后清空输入框
-            $(".div-textarea").html("");
-            //聊天框默认最底部
-            $(document).ready(function () {
-                $("#chat.active-chat").scrollTop($("#chat.active-chat")[0].scrollHeight);
-            });
-        }
-    });
 
     //图片发送
     function selectImg(pic) {
@@ -374,39 +345,10 @@
         };
         reader.readAsDataURL(pic.files[0]);
     }
-        function initFriend(){
-        var userId=document.getElementById("userIf").alt;
-            xmlHttp.open("POST", "/friend/getAll", true);
-            xmlHttp.onreadystatechange = function () {
-                if (xmlHttp.readyState == 4) {
-                    if (xmlHttp.status == 200) {
-                        var data = xmlHttp.responseText;
-                        var obj = JSON.parse(data);
-                        var listFriend = '';
-                        for (var i in obj) {
-                            var friendId = obj[i].friendId;
-                            var userId=obj[i].userId;
-                            var image = obj[i].image;
-                            var friendName=obj[i].friendName;
-                            listFriend += '<li class="person" data-chat="'+friendId+'">'+
-                                '<img src="'+image+'" alt="'+userId+'" />'+
-                                '<span class="name">'+friendName+'</span>'+
-                            '</li>';
-                        }
-                        document.getElementById("people").innerHTML = listFriend;
-                    }
-                }
-            };
-            xmlHttp.setRequestHeader('Content-Type','application/x-www-form-urlencoded');
-            xmlHttp.send("userId="+userId);
-        }
 
         function getUserinfo() {
             var userId=document.getElementById("userIf").alt;
-
-
-
-    }
+        }
 </script>
 <script src="/js/index.js"></script>
 <script src="/js/impression.js"></script>

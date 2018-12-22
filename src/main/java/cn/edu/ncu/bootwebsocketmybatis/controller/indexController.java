@@ -79,7 +79,6 @@ public class indexController {
      */
     @PostMapping("/lo")
     public String login(String userId, String password, HttpServletRequest request,Model model) throws UnknownHostException {
-
         if (userService.login(new User(userId,password))){
             User user=userService.findById(userId);
             model.addAttribute("user",user);
@@ -99,10 +98,9 @@ public class indexController {
      */
     @PostMapping("/re")
     @ResponseBody
-    public String register(String username,String password,Model model){
+    public String register(String username,String password){
 
         User user=userService.register(new User("",username,password));
-
         if (user!=null){         //注册成功
             UserInfo userInfo=new UserInfo();
             userInfo.setUserId(user.getId());

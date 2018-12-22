@@ -12,11 +12,11 @@
         select * from `group`
     </select>
     <select id="findByContent" resultMap="groupMap">
-        select * from `group` where name=#{name,jdbcType=VARCHAR}
+        select * from `group` where `name`=#{name,jdbcType=VARCHAR}
     </select>
 
     <insert id="addGroup" useGeneratedKeys="true" keyProperty="id"  parameterType="Group">
-        insert into `group`(name) values (#{name,jdbcType=VARCHAR})
+        insert into `group`(`name`) values (#{name,jdbcType=VARCHAR})
     </insert>
 
 
