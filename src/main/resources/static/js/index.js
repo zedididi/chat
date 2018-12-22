@@ -1,5 +1,6 @@
 function initFriend() {
    var userId = document.getElementById("userIf").alt;
+   // var userId=$("img#userIf").attr("alt");
     xmlHttp.open("POST", "/friend/getAll", true);
     xmlHttp.onreadystatechange = function () {
         if (xmlHttp.readyState == 4) {
@@ -13,7 +14,7 @@ function initFriend() {
                     var image = obj[i].image;
                     var friendName = obj[i].friendName;
                     listFriend += '<li class="person" data-chat="' + friendId + '">' +
-                        '<img id="hook" src="' + image + '" alt="' + friendId + '" />' +
+                        '<img id="hook"  src="' + image + '" alt="' + friendId + '" />' +
                         '<span class="name">' + friendName + '</span>' +
                         '</li>';
                     chatWindowDivs = '<div class="chat" id="' +friendId +'" data-chat="' +friendId +'"></div>';
@@ -24,18 +25,23 @@ function initFriend() {
                 init();
                 initChatRecord()
             }
+
         }
-        var timer;
+
         $("#hook,#msg-box").bind("mouseover",showMsgBox);
-        $("#hook").bind("mouseout",hideMsgBox);
-        $("#msg-box").bind("mouseout",function(){
+
+        //var timer;
+        //$("#hook").bind("mouseout",hideMsgBox);
+        //$("#msg-box").mouseover($("#hook").stop());
+       /* $("#msg-box").bind("mouseout",function(){
             if(timer){clearTimeout(timer);}
             $("#msg-box").hide();
-        });
+        });*/
 
     };
     xmlHttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
     xmlHttp.send("userId=" + userId);
+
 }
 
 function init() {
@@ -81,15 +87,15 @@ function init() {
 
         webSocket.onopen = function (ev) {
             alert("发出连接请求")
-        }
+        };
 
         webSocket.onclose = function (ev) {
             alert("发生了关闭请求")
-        }
+        };
 
         webSocket.onerror = function (ev) {
             alert("发生了错误")
-        }
+        };
 
         webSocket.onmessage = function (ev) {
             alert(ev.data);
@@ -118,7 +124,7 @@ function init() {
                 "sendId": $("#userIf").attr("alt"),
                 "receiveId":$(".active").attr("data-chat"),
                 "content":$(".div-textarea").text()
-            }
+            };
             alert(JSON.stringify(content));
             webSocket.send(JSON.stringify(content));
             $.ajax({
@@ -152,7 +158,7 @@ function initChatRecord(contactId) {
         var obj = jQuery.parseJSON(data);
         var show = true;
         var openedChatWindow = document.getElementById(contactId);
-        openedChatWindow.innerHTML = "";
+        openedChatWindow.innerHTML = " ";
         for (var i in obj){
             var content = obj[i].content;
             var sendTime = obj[i].createTime;
