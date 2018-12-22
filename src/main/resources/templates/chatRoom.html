@@ -16,6 +16,9 @@
     <script src="/jquery-3.2.1.min.js"></script>
     <link rel="stylesheet" href="/css/panel.css">
 
+    <script src="/js/mDialogMin.js"></script>
+    <link href="/css/dialog.css" rel="stylesheet">
+
     <script src="/jquery-3.2.1.min.js"></script>
     <style type="text/css">
         #msg-box { background:rgba(255,255,255,0.5);width: 400px; height: 600px; display: none; left: 150px;top:100px;position: absolute; }
@@ -70,6 +73,7 @@
                 <div id="hook"><img width="40px" height="40px" style="float: left;border-radius: 50%;" id="userIf" th:alt="${user.getId()}" th:src="${user.getImage()}"></div>
                 <input type="text" placeholder="Search" />
                 <a href="javascript:;" class="search"></a>
+                <a href="javascript:;" class="add" id="dialog" onclick="dialog()"></a>
             </div>
 
             <main>
@@ -260,12 +264,31 @@
 
 <script src="https://cdn.jsdelivr.net/npm/vue"></script>
 <script>
+    function dialog() {
+        Dialog.init('<input type="text" placeholder="请输入用户ID"  style="margin:8px 0;width:100%;padding:11px 8px;font-size:15px; border:1px solid #999;"/>',{
+            title : '请输入用户ID',
+            button : {
+                确定 : function(){
+                    if(this.querySelector('input').value.length==6){
+                        /*发送验证请求给对方*/
+                        Dialog.close(this);
+                    }else{
+                        Dialog.init('请输入有效的ID！',1100);
+                    };
+                },
+                点击关闭 : function(){
+                    /*Dialog.init('你点击了关闭',1000);*/
+                    Dialog.close(this);
+                }
+            }
+        });
+    }
+
     /*第一分组*/
     var group01='';
     group01+='<li class="person" data-chat="person1">' +
         '<img src="/img/thomas.jpg" alt="" />' +
-        ' <span class="name">Thomas Bangalter</span>'+
-        '<span class="time">2:09 PM</span>'+
+        ' <span class="name">Thomas</span>'+
         '</li>'+'<li class="person" data-chat="person1">fff</li>';
     var group02='';
     var group03='';
