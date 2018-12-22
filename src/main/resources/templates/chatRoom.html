@@ -5,13 +5,19 @@
     <meta charset="UTF-8">
     <title>Direct Messaging</title>
 
-   <!-- <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600" rel="stylesheet">-->
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600" rel="stylesheet">
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <link rel="stylesheet" href="/css/reset.min.css">
 
     <link rel="stylesheet" href="/css/style.css">
+
+    <script src="/jquery-3.2.1.min.js"></script>
+    <link rel="stylesheet" href="/css/panel.css">
+
+    <script src="/js/mDialogMin.js"></script>
+    <link href="/css/dialog.css" rel="stylesheet">
 
     <script src="/jquery-3.2.1.min.js"></script>
     <style type="text/css">
@@ -26,7 +32,7 @@
     <hr style=" float: bottom;width:80%;margin:0 auto;border: 0;height: 3px;background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));">
     <div class="msg-box-body">
         <center>
-        <div class="msg-box-body-name"><p class="p-name" th:text="${user.getUserName()}"></p></br>
+        <div class="msg-box-body-name"><p class="p-name" th:text="${user.getUserName()}">刘泽迪</p></br>
             <p class="p-description">就是蠢</p>
         </div>
         </center>
@@ -67,6 +73,7 @@
                 <div id="hook" th:alt="${user.getId()}" class="show-info"><img width="40px" height="40px" style="float: left;border-radius: 50%;" id="userIf" th:alt="${user.getId()}" th:src="${user.getImage()}"></div>
                 <input type="text" placeholder="Search" />
                 <a href="javascript:;" class="search"></a>
+                <a href="javascript:;" class="add" id="dialog" onclick="dialog()"></a>
             </div>
             <div class="left_body" style="height: 85%;overflow-y: auto;overflow-x: hidden">
 
@@ -99,7 +106,30 @@
 <script src="/jquery-3.2.1.min.js"></script>
 <script type="text/javascript">
 document.body.parentNode.style.overflow = "hidden";//隐藏且禁用横向纵向两个滚动条
-    /*第一分组*/
+
+
+
+function dialog() {
+    Dialog.init('<input type="text" placeholder="请输入用户ID"  style="margin:8px 0;width:100%;padding:11px 8px;font-size:15px; border:1px solid #999;"/>',{
+        title : '请输入用户ID',
+        button : {
+            确定 : function(){
+                if(this.querySelector('input').value.length==6){
+                    /*发送验证请求给对方*/
+                    Dialog.close(this);
+                }else{
+                    Dialog.init('请输入有效的ID！',1100);
+                };
+            },
+            点击关闭 : function(){
+                /*Dialog.init('你点击了关闭',1000);*/
+                Dialog.close(this);
+            }
+        }
+    });
+}
+
+/*第一分组*/
     var group01='';
     group01+='<li class="person" data-chat="person1">' +
         '<img src="/img/thomas.jpg" alt="" />' +
@@ -290,8 +320,6 @@ document.body.parentNode.style.overflow = "hidden";//隐藏且禁用横向纵向
         addEvaluation();
         $("#msg-box").show("slow")
     }
-
-
     function hideMsgBox(){
         timer=setTimeout(function(){
             $("#msg-box").hide();
@@ -323,6 +351,9 @@ document.body.parentNode.style.overflow = "hidden";//隐藏且禁用横向纵向
             var userId=document.getElementById("userIf").alt;
         }
 </script>
+<script src="/js/index.js"></script>
+<script src="/js/impression.js"></script>
+<script src="/js/commons.js"></script>
 </body>
 
 </html>

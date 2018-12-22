@@ -91,9 +91,22 @@ body {
     margin-left: 10px;
     border: 1px solid var(--light);
     background-color: var(--blue);
-    background-image: url("../img/name-type.png");
+    background-image: url("../img/searc.png");
     background-repeat: no-repeat;
-    background-position: top 6px left 8px;
+    background-position: 15px 8px 6px 6px;
+    border-radius: 50%;
+}
+.container .left a.add {
+    display: block;
+    float: right;
+    width: 30px;
+    height: 30px;
+    margin-left: 0px;
+    border: 1px solid var(--light);
+    background-color: var(--blue);
+    background-image: url("../img/add.png");
+    background-repeat: no-repeat;
+    background-position: 15px 8px 6px 6px;
     border-radius: 50%;
 }
 .container .left .people {

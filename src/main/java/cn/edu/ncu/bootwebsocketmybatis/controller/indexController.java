@@ -49,7 +49,7 @@ public class indexController {
      * @description 注册界面
      * @return
      */
-    @GetMapping("/register")
+    @RequestMapping("/register")
     public ModelAndView register(){
         return new ModelAndView("/register");
     }
