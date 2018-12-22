@@ -54,7 +54,7 @@ body {
 .container .left .top {
     position: relative;
     width: 100%;
-    height: 96px;
+    height: 15%;
     padding: 10px;
 }
 .container .left .top:after {
@@ -109,8 +109,13 @@ body {
     background-position: 15px 8px 6px 6px;
     border-radius: 50%;
 }
+
+
 .container .left .people {
     margin-left: -1px;
+    height: 85%;
+    overflow-y: auto;
+    overflow-x: hidden;
     border-right: 1px solid var(--light);
     border-left: 1px solid var(--light);
     width: calc(100% + 2px);
@@ -188,6 +193,7 @@ body {
     float: left;
     width: 62.4%;
     height: 100%;
+    overflow: auto;
 }
 .container .right .top {
     width: 100%;
@@ -207,12 +213,13 @@ body {
 .container .right .chat {
     position: relative;
     display: none;
-    overflow: hidden;
+    overflow-y: auto;
+    overflow-x: hidden;
     padding: 0 35px 92px;
     border-width: 1px 1px 1px 0;
     border-style: solid;
     border-color: var(--light);
-    height: calc(100% - 48px);
+    height: 553px;
     justify-content: flex-end;
     flex-direction: column;
 }
@@ -511,16 +518,20 @@ body {
 }
 
 .msg-box-bottom{
+    text-align: center;
     width: 100%;
-    height:100%;
+    height:50%;
 }
 /*好友印象*/
 .impression
 {
-    width: 350px;
+    position: relative;
+    left: 60px;
+    width: 300px;
     padding: 10px;
-    height: 30%;
-    overflow: hidden;
+    height: 150px;
+    overflow-y: auto;
+    overflow-x: hidden;
     font-family: tahoma,arial,simsun;
 }
 .impression span
@@ -544,9 +555,19 @@ body {
 
 .comment{
     position: relative;
-    bottom: 0px;
-    height: 5%;
-    text-align: center;
+    top: 15%;
+
+}
+
+.comment input.input-txt{
+    width: 200px;
+    height: 30px;
+    padding: 0 15px;
+    border: 1px solid var(--light);
+    background-color: #eceff1;
+    border-radius: 21px;
+    font-family: 'Source Sans Pro', sans-serif;
+    font-weight: 400;
 }
 
 .hidden{

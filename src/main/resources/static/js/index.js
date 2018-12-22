@@ -45,8 +45,8 @@ function initFriend() {
 }
 
 function init() {
-    document.querySelector('.person').classList.add('active');//使person2处于选中状态
-    document.querySelector('.chat').classList.add('active-chat');//选择person2处于正在聊天状态
+    document.querySelector('.person').classList.add('active');//使person处于选中状态
+    document.querySelector('.chat').classList.add('active-chat');//选择person处于正在聊天状态
     var friends = {
             list: document.querySelector('ul.people'),//获取好友列表
             all: document.querySelectorAll('.left .person'),//获取所有好友
