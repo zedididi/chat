@@ -1,5 +1,4 @@
 function initFriend() {
-   // initAJAX();
    var userId = document.getElementById("userIf").alt;
     xmlHttp.open("POST", "/friend/getAll", true);
     xmlHttp.onreadystatechange = function () {
@@ -8,24 +7,32 @@ function initFriend() {
                 var data = xmlHttp.responseText;
                 var obj = JSON.parse(data);
                 var listFriend = '';
-                var chatWindowDivs = "";
+                var chatWindowDivs = '';
                 for (var i in obj) {
                     var friendId = obj[i].friendId;
-                 //   var userId = obj[i].userId;
                     var image = obj[i].image;
                     var friendName = obj[i].friendName;
                     listFriend += '<li class="person" data-chat="' + friendId + '">' +
-                        '<img src="' + image + '" alt="' + userId + '" />' +
+                        '<img id="hook" src="' + image + '" alt="' + friendId + '" />' +
                         '<span class="name">' + friendName + '</span>' +
                         '</li>';
-                    chatWindowDivs = '<div class="chat" id=' +friendId +' data-chat="' +friendId +'"></div>';
+                    chatWindowDivs = '<div class="chat" id="' +friendId +'" data-chat="' +friendId +'"></div>';
                     $("#write").before(chatWindowDivs);
                 }
                 document.getElementById("people").innerHTML += listFriend;
+
                 init();
                 initChatRecord()
             }
         }
+        var timer;
+        $("#hook,#msg-box").bind("mouseover",showMsgBox);
+        $("#hook").bind("mouseout",hideMsgBox);
+        $("#msg-box").bind("mouseout",function(){
+            if(timer){clearTimeout(timer);}
+            $("#msg-box").hide();
+        });
+
     };
     xmlHttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
     xmlHttp.send("userId=" + userId);
@@ -85,9 +92,9 @@ function init() {
         }
 
         webSocket.onmessage = function (ev) {
-            alert(ev.data)
+            alert(ev.data);
             var obj = JSON.parse(ev.data);
-            alert(obj)
+            alert(obj);
             for (var i in obj){
                var sendId = obj[i].sendId;
                var receiveId = obj[i].receiveId;
@@ -95,7 +102,7 @@ function init() {
                var msg = obj[i].content;
                alert(sendId +" " + receiveId +" " + createTime+" " + msg)
            }
-        }
+        };
 
         return webSocket;
     }
@@ -128,7 +135,7 @@ function init() {
                             $(".active-chat").append('<div class=\"conversation-start\"><span>'+currentTime.split(" ")[1]+'</span></div>');
                         }
                         else $(".active-chat").append('<div class=\"conversation-start\"><span>'+currentTime+'</span></div>');
-                    $(".active-chat").append("<div class='bubble me'>"+msg+"</div>")
+                    $(".active-chat").append("<div class='bubble me'>"+msg+"</div>");
                     //发送后清空输入框
                     $(".div-textarea").html("");
                 }
