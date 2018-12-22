@@ -5,21 +5,15 @@
     <meta charset="UTF-8">
     <title>Direct Messaging</title>
 
-    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600" rel="stylesheet">
+   <!-- <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600" rel="stylesheet">-->
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <link rel="stylesheet" href="/css/reset.min.css">
-
     <link rel="stylesheet" href="/css/style.css">
-
-    <script src="/jquery-3.2.1.min.js"></script>
     <link rel="stylesheet" href="/css/panel.css">
-
-    <script src="/js/mDialogMin.js"></script>
     <link href="/css/dialog.css" rel="stylesheet">
 
-    <script src="/jquery-3.2.1.min.js"></script>
     <style type="text/css">
         #msg-box { background:rgba(255,255,255,0.5);width: 400px; height: 600px; display: none; left: 150px;top:100px;position: absolute; }
     </style>
@@ -32,7 +26,7 @@
     <hr style=" float: bottom;width:80%;margin:0 auto;border: 0;height: 3px;background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));">
     <div class="msg-box-body">
         <center>
-        <div class="msg-box-body-name"><p class="p-name" th:text="${user.getUserName()}">刘泽迪</p></br>
+        <div class="msg-box-body-name"><p class="p-name" th:text="${user.getUserName()}"></p></br>
             <p class="p-description">就是蠢</p>
         </div>
         </center>
@@ -99,15 +93,18 @@
         </div>
     </div>
 </div>
+
 <script src="https://cdn.jsdelivr.net/npm/vue"></script>
-<script  src="/js/index.js"></script>
+<script src="/js/index.js"></script>
 <script src="/js/impression.js"></script>
 <script src="/js/commons.js"></script>
 <script src="/jquery-3.2.1.min.js"></script>
+<script src="/js/mDialogMin.js"></script>
+
+
 <script type="text/javascript">
+
 document.body.parentNode.style.overflow = "hidden";//隐藏且禁用横向纵向两个滚动条
-
-
 
 function dialog() {
     Dialog.init('<input type="text" placeholder="请输入用户ID"  style="margin:8px 0;width:100%;padding:11px 8px;font-size:15px; border:1px solid #999;"/>',{
@@ -306,6 +303,7 @@ function dialog() {
                         '        <hr style=" float: bottom;width:80%;margin:0 auto;border: 0;height: 1px;background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));">\n' +
                         '        <div class="msg-box-bottom">\n' +
                         '            <div class="impression">\n' +
+                        '' +
                         '            </div>\n' +
                         '            <div class="comment">\n' +
                         input +
@@ -320,6 +318,8 @@ function dialog() {
         addEvaluation();
         $("#msg-box").show("slow")
     }
+
+
     function hideMsgBox(){
         timer=setTimeout(function(){
             $("#msg-box").hide();
@@ -351,9 +351,5 @@ function dialog() {
             var userId=document.getElementById("userIf").alt;
         }
 </script>
-<script src="/js/index.js"></script>
-<script src="/js/impression.js"></script>
-<script src="/js/commons.js"></script>
 </body>
-
 </html>
