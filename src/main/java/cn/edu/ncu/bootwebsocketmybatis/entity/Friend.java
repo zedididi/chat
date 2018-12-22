@@ -22,6 +22,11 @@ public class Friend {
     public Friend() {
     }
 
+    public Friend(String userId, String friendId) {
+        this.userId = userId;
+        this.friendId = friendId;
+    }
+
     public Friend(String userId, String friendId, int groupId) {
         this.userId = userId;
         this.friendId = friendId;
