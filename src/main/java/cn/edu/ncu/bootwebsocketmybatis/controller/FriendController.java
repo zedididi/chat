@@ -46,6 +46,7 @@ public class FriendController {
         userf.setImage(user.getImage());
         userf.setUserId(userId);
         friendsAndUser.add(userf);*/
+
         return friendsAndUser;
     }
 

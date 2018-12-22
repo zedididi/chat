@@ -26,7 +26,7 @@
     <hr style=" float: bottom;width:80%;margin:0 auto;border: 0;height: 3px;background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));">
     <div class="msg-box-body">
         <center>
-        <div class="msg-box-body-name"><p class="p-name" th:text="${user.getUserName()}">刘泽迪</p></br>
+        <div class="msg-box-body-name"><p class="p-name" th:text="${user.getUserName()}"></p></br>
             <p class="p-description">就是蠢</p>
         </div>
         </center>
@@ -64,12 +64,15 @@
         <div class="left">
             <div class="top">
                 <!--个人资料卡区域-->
-                <div id="hook" th:alt="${user.getId()}"><img width="40px" height="40px" style="float: left;border-radius: 50%;" id="userIf" th:alt="${user.getId()}" th:src="${user.getImage()}"></div>
+                <div id="hook" th:alt="${user.getId()}" class="show-info"><img width="40px" height="40px" style="float: left;border-radius: 50%;" id="userIf" th:alt="${user.getId()}" th:src="${user.getImage()}"></div>
                 <input type="text" placeholder="Search" />
                 <a href="javascript:;" class="search"></a>
             </div>
-            <div class="left_body" style="height: 500px; overflow-y: auto;overflow-x: hidden">
-            <ul class="people" id="people"></ul>
+            <div class="left_body" style="height: 85%;overflow-y: auto;overflow-x: hidden">
+
+            <ul class="people" id="people">
+
+            </ul>
             </div>
         </div>
         <div class="right">
@@ -95,7 +98,7 @@
 <script src="/js/commons.js"></script>
 <script src="/jquery-3.2.1.min.js"></script>
 <script type="text/javascript">
-    document.body.parentNode.style.overflow = "hidden";//隐藏且禁用横向纵向两个滚动条
+document.body.parentNode.style.overflow = "hidden";//隐藏且禁用横向纵向两个滚动条
     /*第一分组*/
     var group01='';
     group01+='<li class="person" data-chat="person1">' +
@@ -180,31 +183,35 @@
             document.getElementById("msg-box").innerHTML=userInfo;
         }
     });*/
-   /* $("#hook").mouseover(function () {
-        $("#msg-box").show("slow");
-    })
-    $(".container").mousedown(function () {
-        $("#msg-box").hide("slow");
-    })*/
+
     //获取登陆用户id
     var userId=document.getElementById("userIf").alt;
+    //var userId=$("img#userIf").attr("alt");
 
     //资料卡悬浮框
-    var timer;
-    $("#hook,#msg-box").bind("mouseover",showMsgBox);
-    $("#hook").bind("mouseout",hideMsgBox);
-    $("#msg-box").bind("mouseout",function(){
-        if(timer){clearTimeout(timer);}
+
+    $("#hook").bind("mouseover",showMsgBox);
+
+
+    $(".container").mousedown(function () {
         $("#msg-box").hide();
     });
+
+
+   /* var timer;
+     $("#hook").bind("mouseout",hideMsgBox);
+     $("#msg-box").bind("mouseout",function(){
+         if(timer){clearTimeout(timer);}
+         $("#msg-box").hide("slow");
+     });*/
 
     function showMsgBox(){
 
         if(timer){clearTimeout(timer);}
-
         var friendId=$(this).attr("alt");
         window.console.info("id:"+friendId);
-        if (friendId!=undefined) {
+
+        if (friendId!=undefined) {         //鼠标不是放在个人资料卡上
             $.ajax({
                 type: 'POST',
                 url: '/userInfo/get',
@@ -217,8 +224,8 @@
 
                     var birthday = data.birthday == null ? "无" : data.birthday;
                     var email = data.email == null ? "无" : data.email;
-                    var country = data.country;//
-                    var city = data.city;//
+                    var country = data.country;
+                    var city = data.city;
                     if (country == null && city == null)
                         country = "无";
                     else if (country == null)
@@ -228,7 +235,7 @@
                     var phone = data.phone == null ? "无" : data.phone;
 
                     var group1, group2, input;
-                    if (friendId === userId) {
+                    if (friendId === userId) {        //当为本人
                         group1 = "";
                         group2 = "";
                         input = "";
@@ -280,12 +287,14 @@
                 }
             });
         }
-        $("#msg-box").show();
+        $("#msg-box").show("slow")
     }
+
+
     function hideMsgBox(){
         timer=setTimeout(function(){
             $("#msg-box").hide();
-        },2000);
+        },500);
     }
 
 
