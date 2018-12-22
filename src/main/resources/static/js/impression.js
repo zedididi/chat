@@ -25,7 +25,7 @@ function sayHi() {
             this.style.color = scolor;
             this.style.borderColor = scolor;
             this.style.backgroundColor = "white";
-        }
+        };
         links[i].onmouseout = function () {
             this.style.color = "white";
             this.style.backgroundColor = this.style.borderColor = scolor;
@@ -41,10 +41,10 @@ function addEvaluation() {
     var texts, links, spans;
     txt.onfocus = function () {
         btn.className = "cur";
-    }
+    };
     txt.onblur = function () {
         btn.className = "";
-    }
+    };
     btn.onclick = function () {
         if (txt.value == "") {
             alert("请输入一个印象词");
