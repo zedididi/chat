@@ -68,9 +68,9 @@
                 <input type="text" placeholder="Search" />
                 <a href="javascript:;" class="search"></a>
             </div>
-            <ul class="people" id="people">
-
-            </ul>
+            <div class="left_body" style="height: 500px; overflow-y: auto;overflow-x: hidden">
+            <ul class="people" id="people"></ul>
+            </div>
         </div>
         <div class="right">
             <div class="top" ><span>To: <span class="name"></span></span></div>
@@ -90,14 +90,13 @@
     </div>
 </div>
 
-    //个人资料卡悬浮框
 <script src="https://cdn.jsdelivr.net/npm/vue"></script>
 <script  src="/js/index.js"></script>
 <script src="/js/impression.js"></script>
 <script src="/js/commons.js"></script>
 <script src="/jquery-3.2.1.min.js"></script>
 <script type="text/javascript">
-
+    document.body.parentNode.style.overflow = "hidden";//隐藏且禁用横向纵向两个滚动条
     /*第一分组*/
     var group01='';
     group01+='<li class="person" data-chat="person1">' +
@@ -138,8 +137,8 @@
    //  userId=[[${userId}]];
 
     //资料卡悬浮框
-    var timer;
-    $("#hook,#msg-box").bind("mouseover",showMsgBox);
+
+
     /*$.ajax({
         type:'POST',
         url:'/userInfo/get',
@@ -186,20 +185,12 @@
             document.getElementById("msg-box").innerHTML=userInfo;
         }
     });*/
-    $("#hook").bind("mouseout",hideMsgBox);
-    $("#msg-box").bind("mouseout",function(){
-        if(timer){clearTimeout(timer);}
-        $("#msg-box").hide();
-    });
-    function showMsgBox(){
-        if(timer){clearTimeout(timer);}
-        $("#msg-box").show();
-    }
-    function hideMsgBox(){
-        timer=setTimeout(function(){
-            $("#msg-box").hide();
-        },500);
-    }
+    $("#hook").mouseover(function () {
+        $("#msg-box").show("slow");
+    })
+    $(".container").mousedown(function () {
+        $("#msg-box").hide("slow");
+    })
 
 
     //图片发送
