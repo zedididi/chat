@@ -14,8 +14,24 @@
     <link rel="stylesheet" href="/css/style.css">
 
     <script src="/jquery-3.2.1.min.js"></script>
+
+    <script src="/js/scroll.js"></script>
+
     <style type="text/css">
-        #msg-box { background:rgba(255,255,255,0.5);width: 400px; height: 600px; display: none; left: 150px;top:100px;position: absolute; }
+        #msg-box {
+            background: rgba(255, 255, 255, 0.5);
+            width: 400px;
+            height: 600px;
+            display: none;
+            left: 150px;
+            top: 100px;
+            position: absolute;
+        }
+
+        /* 滚动条样式 */
+        #Yscrollouter{width: 10px; height: 340px; background: #dedede; position: absolute;top:0; right: 0; display: none;}
+        #Yscrollinner{width: 10px; height: 100px; background: #bbb; border-radius:10px; position: absolute; top: 0; left: 0; }
+        /* 滚动条样式 */
     </style>
 </head>
 
@@ -68,16 +84,12 @@
                 <input type="text" placeholder="Search" />
                 <a href="javascript:;" class="search"></a>
             </div>
-            <div class="left_body" style="height: 85%;overflow-y: auto;overflow-x: hidden">
-
             <ul class="people" id="people">
 
             </ul>
-            </div>
         </div>
         <div class="right">
             <div class="top" ><span>To: <span class="name"></span></span></div>
-
             <!--<div class="chat" data-chat="163501">
                 <div class="bubble you">
                     Wasup for the third time like is <br />you blind bitch
@@ -207,7 +219,7 @@ document.body.parentNode.style.overflow = "hidden";//隐藏且禁用横向纵向
 
     function showMsgBox(){
 
-        if(timer){clearTimeout(timer);}
+     //   if(timer){clearTimeout(timer);}
         var friendId=$(this).attr("alt");
         window.console.info("id:"+friendId);
 
@@ -243,7 +255,7 @@ document.body.parentNode.style.overflow = "hidden";//隐藏且禁用横向纵向
                     else {
                         group1 = '<p class="info">分组&nbsp;</p>\n';
                         group2 = '<p class="info-more">' + data.groupName + '</p>\n';
-                        input = '<input type="text" maxlength="4" id="input-txt" /><input type="button" value="评价" id="input-btn" />';
+                        input = '<input class="input-txt" type="text" maxlength="4" id="input-txt" /></br><input type="button" value="评价" id="input-btn" />';
                     }
 
 
@@ -287,15 +299,16 @@ document.body.parentNode.style.overflow = "hidden";//隐藏且禁用横向纵向
                 }
             });
         }
+        addEvaluation();
         $("#msg-box").show("slow")
     }
 
 
-    function hideMsgBox(){
+    /*function hideMsgBox(){
         timer=setTimeout(function(){
             $("#msg-box").hide();
         },500);
-    }
+    }*/
 
 
     //图片发送
