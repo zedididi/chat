@@ -13,7 +13,6 @@
 
     <link rel="stylesheet" href="/css/style.css">
 
-    <script src="/jquery-3.2.1.min.js"></script>
     <link rel="stylesheet" href="/css/panel.css">
 
     <script src="/js/mDialogMin.js"></script>
@@ -26,15 +25,17 @@
 </head>
 
 <body onload="initAJAX();initFriend();">
-
 <div id="msg-box">
 
     <!--个人资料卡区域-->
 
 </div>
+<div class="controller">
+
+</div>
 <div class="wrapper">
-    <div class="container">
-        <div class="left">
+        <div class="container">
+            <div class="left">
             <div class="top">
                 <!--个人资料卡区域-->
                 <div id="hook" th:alt="${user.getId()}" class="show-info"><img width="40px" height="40px" style="float: left;border-radius: 50%;" id="userIf" th:alt="${user.getId()}" th:src="${user.getImage()}"></div>
@@ -49,7 +50,7 @@
             </ul>
             </div>
         </div>
-        <div class="right">
+            <div class="right">
             <div class="top" ><span>To: <span class="name"></span></span></div>
 
             <!--<div class="chat" data-chat="163501">
@@ -63,10 +64,12 @@
                 <a href="javascript:void(0)" id="chat-biaoqing" class="write-link smiley"><i class="iconfont icon-biaoqing"></i></a>
                 <a href="javascript:void(0)" id="chat-fasong" class="write-link send"></a>
             </div>
+                <input type="button" value="聊天记录" onclick="" style="position: relative;top: 8%;float: right">
         </div>
-    </div>
+        </div>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+<script src="/js/verify.js"></script>
 <script  src="/js/index.js"></script>
 <script src="/js/impression.js"></script>
 <script src="/js/commons.js"></script>
