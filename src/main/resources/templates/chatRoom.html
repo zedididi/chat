@@ -18,6 +18,11 @@
     <script src="/js/mDialogMin.js"></script>
     <link href="/css/dialog.css" rel="stylesheet">
 
+    <!--好友添加-->
+    <link rel="stylesheet" href="/css/tan.css">
+ <!--   <script  src="/js/jquery-2.2.4.js"></script>-->
+    <script src="/js/tan.js"></script>
+
     <script src="/jquery-3.2.1.min.js"></script>
     <style type="text/css">
         #msg-box { background:rgba(255,255,255,0.5);width: 400px; height: 600px; display: none; left: 150px;top:100px;position: absolute; }
@@ -42,7 +47,7 @@
                 <div id="hook" th:alt="${user.getId()}" class="show-info"><img width="40px" height="40px" style="float: left;border-radius: 50%;" id="userIf" th:alt="${user.getId()}" th:src="${user.getImage()}"></div>
                 <input type="text" placeholder="Search" />
                 <a href="javascript:;" class="search"></a>
-                <a href="javascript:;" class="add" id="dialog" onclick="dialog()"></a>
+                <a href="javascript:;" class="add" id="topen_btn" onmouseup="tan()"></a>
             </div>
             <div class="left_body" style="height: 85%;overflow-y: auto;overflow-x: hidden">
 
@@ -81,6 +86,65 @@
         </div>
     </div>
 </div>
+<div id="tan_background" class="back">
+    <div id="div_1" class="content">
+        <div id="tclose">
+            <span id="tclose-button">×</span>
+            <span id="addFriend">添加好友</span><span id="mes">好友验证</span>
+        </div>
+        <div class="div_2">
+            <div id="div_4">
+                <hr>
+                <input id="search_input" type="text" placeholder="请输入用户ID" style="height: 30px;width: 250px" required>
+                <button onclick="sear()">查找</button>
+                <hr>
+                <div style="overflow: auto;">
+                    <ul id="fri" class="people">
+
+                    </ul>
+                </div>
+            </div>
+            <div id="div_3">
+                <hr>
+                <div style="height: 190px;overflow: auto;">
+                    <h4>收到的验证</h4>
+                    <br>
+                    <ul id="reValidte" class="people">
+                        <li class="person" data-chat="person1">
+                            <img src="/img/thomas.jpg" alt="" style="width: 45px;height: 45px"/>
+                            <span class="name">Thomas Bangalter</span>
+                        </li>
+                        <li class="person" data-chat="person1">
+                            <img src="/img/thomas.jpg" alt="" style="width: 45px;height: 45px"/>
+                            <span class="name">Thomas Bangalter</span>
+                        </li>
+                        <li class="person" data-chat="person1">
+                            <img src="/img/thomas.jpg" alt="" style="width: 45px;height: 45px"/>
+                            <span class="name">Thomas Bangalter</span>
+                        </li>
+                        <li class="person" data-chat="person1">
+                            <img src="/img/thomas.jpg" alt="" style="width: 45px;height: 45px"/>
+                            <span class="name">Thomas Bangalter</span>
+                        </li>
+                        <li class="person" data-chat="person1">
+                            <img src="/img/thomas.jpg" alt="" style="width: 45px;height: 45px"/>
+                            <span class="name">Thomas Bangalter</span>
+                        </li>
+                        <li class="person" data-chat="person1">
+                            <img src="/img/thomas.jpg" alt="" style="width: 45px;height: 45px"/>
+                            <span class="name">Thomas Bangalter</span>
+                        </li>
+                    </ul>
+                </div>
+                <hr>
+                <div style="overflow: auto;">
+                    <h4>已发的验证</h4>
+                    <ul id="sendValidate" class="people"></ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 <script src="https://cdn.jsdelivr.net/npm/vue"></script>
 <script src="/js/verify.js"></script>
 <script  src="/js/index.js"></script>
@@ -89,28 +153,47 @@
 <script src="/jquery-3.2.1.min.js"></script>
 <script type="text/javascript">
 document.body.parentNode.style.overflow = "hidden";//隐藏且禁用横向纵向两个滚动条
-
-
-
-function dialog() {
-    Dialog.init('<input type="text" placeholder="请输入用户ID"  style="margin:8px 0;width:100%;padding:11px 8px;font-size:15px; border:1px solid #999;"/>',{
-        title : '请输入用户ID',
-        button : {
-            确定 : function(){
-                if(this.querySelector('input').value.length==6){
-                    /*发送验证请求给对方*/
-                    Dialog.close(this);
-                }else{
-                    Dialog.init('请输入有效的ID！',1100);
-                };
-            },
-            点击关闭 : function(){
-                /*Dialog.init('你点击了关闭',1000);*/
-                Dialog.close(this);
-            }
-        }
-    });
+/*好友添加弹窗部分*/
+$("#div_4").hide();
+$("#div_3").hide();
+$("#addFriend").click (function () {
+    $("#div_4").show(500);
+    $("#div_3").hide();
+});
+$("#mes").click(function () {
+    $("#div_4").hide();
+    $("#div_3").show(500);
+});
+/* 查找好友*/
+function sear() {
+    var s='';
+    var input=document.getElementById("search_input").value;
+    if(input=="")
+        alert("请输入用户id");
+    else if(input.length!=6)
+        alert("请输入有效id号");
+    else {
+        /*   查询数据库（id为input)*/
+        s = '<li class="person" data-chat="person1">' +
+            '<img src="/img/thomas.jpg" alt="" style="width: 45px;height: 45px"/>' +
+            ' <span class="name">Thomas Bangalter</span>' + '<span style="color: green" onclick="accept()">√</span>' + '<span style="color: red" onclick="can()">×</span>'
+        '</li>';
+        $("#fri").show();
+    }
+    document.getElementById("fri").innerHTML=s;
 }
+
+function accept() {
+    alert("发送请求");
+}
+
+function can() {
+    alert("取消");
+    $("#fri").hide();
+}
+
+
+
 
 /*第一分组*/
     var group01='';
