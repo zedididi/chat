@@ -22,7 +22,7 @@ body {
     font-weight: 400;
     background-image: url("../img/login.jpg");
     background-size: cover;
-    background-repeat: none;
+    background-repeat: no-repeat;
 }
 
 .wrapper {
@@ -193,7 +193,7 @@ body {
     float: left;
     width: 62.4%;
     height: 100%;
-    overflow: auto;
+    overflow: hidden;
 }
 .container .right .top {
     width: 100%;
@@ -219,8 +219,8 @@ body {
     border-width: 1px 1px 1px 0;
     border-style: solid;
     border-color: var(--light);
-    height: 553px;
-    justify-content: flex-end;
+    height: 480px;
+    /*justify-content: flex-end;*/
     flex-direction: column;
 }
 .container .right .chat.active-chat {

@@ -17,7 +17,7 @@ function initFriend() {
                         '<img id="hook"  src="' + image + '" alt="' + friendId + '" />' +
                         '<span class="name">' + friendName + '</span>' +
                         '</li>';
-                    chatWindowDivs = '<div class="chat" id="' +friendId +'" data-chat="' +friendId +'"></div>';
+                    chatWindowDivs = '<div style="" class="chat" id="' +friendId +'" data-chat="' +friendId +'"></div>';
                     $("#write").before(chatWindowDivs);
                 }
                 document.getElementById("people").innerHTML += listFriend;
