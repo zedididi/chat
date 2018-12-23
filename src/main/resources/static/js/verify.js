@@ -1,10 +1,11 @@
 (function (window) {
+    // noinspection JSAnnotator
     const l = 42, // 婊戝潡杈归暱
         r = 10, // 婊戝潡鍗婂緞
         w = 350, // canvas瀹藉害
         h = 50, // canvas楂樺害
-        PI = Math.PI
-    const L = l + r * 2 // 婊戝潡瀹為檯杈归暱
+        PI = Math.PI;
+    const L = l + r * 2; // 婊戝潡瀹為檯杈归暱
 
     function getRandomNumberByRange(start, end) {
         return Math.round(Math.random() * (end - start) + start)

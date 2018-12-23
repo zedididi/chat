@@ -45,12 +45,23 @@ function addEvaluation() {
     txt.onblur = function () {
         btn.className = "";
     };
+
     btn.onclick = function () {
+        window.console.info("btn:"+btn.alt);
+
         if (txt.value == "") {
             alert("请输入一个印象词");
             return false;
         }
+
         texts = document.createTextNode(txt.value);
+        var friendId=btn.alt;
+        var eva=txt.value;
+        initAJAX();
+        xmlHttp.open("POST", "/eva/add", true);
+        xmlHttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        xmlHttp.send("id=" + friendId+"&eva="+eva);
+
         links = document.createElement("a");
         spans = document.createElement("span");
         links.appendChild(texts);
@@ -59,6 +70,7 @@ function addEvaluation() {
         divs.appendChild(spans);
         sayHi();
         n = true;
+        txt.value="";
     }
 }
 changeColor();

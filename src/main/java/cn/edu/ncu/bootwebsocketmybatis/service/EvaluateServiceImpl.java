@@ -48,6 +48,6 @@ public class EvaluateServiceImpl implements EvaluateService {
      */
     @Override
     public Evaluate findByUserIdAndEvaId(Evaluate evaluate) {
-        return null;
+        return evaluateDao.findByUserIdAndEvaId(evaluate);
     }
 }

@@ -3,6 +3,8 @@ package cn.edu.ncu.bootwebsocketmybatis.service;
 import cn.edu.ncu.bootwebsocketmybatis.entity.Evaluate;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -16,8 +18,12 @@ import static org.junit.Assert.*;
  * @project: boot-websocket-mybatis
  */
 @RunWith(SpringRunner.class)
-@SpringBootTest
+
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class EvaluateServiceImplTest {
+
+    private final Logger logger =
+            LoggerFactory.getLogger(this.getClass());
 
     @Autowired
     EvaluateServiceImpl evaluateService;
@@ -32,5 +38,13 @@ public class EvaluateServiceImplTest {
         evaluate.setUserId("164142");
         evaluate.setEvaluateInfoId(2);
         evaluateService.addByUserId(evaluate);
+    }
+    @Test
+    public void find(){
+        Evaluate evaluate=new Evaluate();
+        evaluate.setUserId("113618");
+        evaluate.setEvaluateInfoId(6);
+        logger.debug("as",evaluateService.findByUserIdAndEvaId(evaluate));
+        System.out.println(evaluateService.findByUserIdAndEvaId(evaluate));
     }
 }
