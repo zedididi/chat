@@ -1,0 +1,85 @@
+/*body{
+    font-family: Arial,Helvetica,sans-serif;
+    font-size: 17px;
+    text-align: 1.5;
+}*/
+
+button{
+    width: 43px;
+    height: 35px;
+    background-color: #00b0ff;
+}
+/*#topen_btn {
+    background: rgba(62, 255, 102, 0);
+}*/
+
+#tan_background {
+    display: none;
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);
+}
+#mes:hover{
+     background-color: white;
+ }
+
+#addFriend:hover{
+    background-color: white;
+}
+#div_1 {
+    background:#eeeeee;
+    width: 40%;
+    z-index: 1;
+    margin: 12% auto;
+    overflow: auto;
+}
+
+span {
+    font-size: 20px;
+    text-align: center;
+    color: black;
+    padding-top: 0px;
+    cursor: pointer;
+    padding-right: 15px;
+}
+
+.div_2 {
+    background:#eeeeee;
+    margin: auto;
+    height: 400px;
+    padding: 0 20px;
+}
+
+#tclose{
+    padding: 15px;
+    background: #00b0ff;
+}
+
+#tclose-button {
+    float: right;
+    font-size: 30px;
+}
+
+#foot {
+    padding: 5px 0;
+    text-align: center;
+    background: #00b0ff;
+    color: white;
+}
+
+h2 {
+    margin: 10px 0;
+    color: white;
+    padding-left: 15px;
+}
+.addFriend :hover{
+    background-color: var(--white);
+}
+
+h3 {
+    margin: 0 0px;
+    padding-top: 15px;
+}
