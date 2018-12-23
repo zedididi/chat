@@ -40,11 +40,16 @@
 
             <ul class="people" id="people">
 
+             <!--  好友列表-->
+
             </ul>
             </div>
         </div>
         <div class="right">
             <div class="top" ><span>To: <span class="name"></span></span></div>
+
+             <!--  聊天窗口-->
+
 
             <!--<div class="chat" data-chat="163501">
                 <div class="bubble you">
@@ -63,7 +68,6 @@
 
 <script src="https://cdn.jsdelivr.net/npm/vue"></script>
 <script src="/js/index.js"></script>
-
 <script src="/js/commons.js"></script>
 <script src="/jquery-3.2.1.min.js"></script>
 <script src="/js/mDialogMin.js"></script>
@@ -72,7 +76,13 @@
 
 <script type="text/javascript">
 
+    //同意特殊标识
+    var agreeTAG="LCcIX/nI6sUfwWSy同意";
+    //请求特殊标识
+    var requestTAG="HupsfSX79aIMZ73nn请求";
 document.body.parentNode.style.overflow = "hidden";//隐藏且禁用横向纵向两个滚动条
+
+var webSocket=getWebSocket();
 
 function dialog() {
     Dialog.init('<input type="text" placeholder="请输入用户ID"  style="margin:8px 0;width:100%;padding:11px 8px;font-size:15px; border:1px solid #999;"/>',{
@@ -81,10 +91,40 @@ function dialog() {
             确定 : function(){
                 if(this.querySelector('input').value.length==6){
                     /*发送验证请求给对方*/
+                  //  var userId=document.getElementById("userIf").alt;
+                    var userId=$("img#userIf").attr("alt");
+                    var friendId=this.querySelector('input').value;
+
+                    $.ajax({
+                        type: 'POST',
+                        url: '/friend/add',
+                        dataType: 'text',
+                        data: {
+                            'friendId': friendId,
+                            'userId': userId,
+                            'groupId': 1
+                        },
+                        success: function(data){
+                            //window.alert(data);
+                            if (data=="请求发送成功") {
+                                var content = {
+                                    "sendId": userId,
+                                    "receiveId": friendId,
+                                    "content": requestTAG
+                                };
+                                window.alert(data + JSON.stringify(content));
+                                webSocket.send(JSON.stringify(content));
+                            }
+                            else
+                                window.alert(data);
+                        }
+                    });
+
                     Dialog.close(this);
+
                 }else{
                     Dialog.init('请输入有效的ID！',1100);
-                };
+                }
             },
             点击关闭 : function(){
                 /*Dialog.init('你点击了关闭',1000);*/
@@ -136,12 +176,9 @@ function dialog() {
     //资料卡悬浮框
 
     $("#hook").bind("mouseover",showMsgBox);
-
-
     $(".container").mousedown(function () {
         $("#msg-box").hide();
     });
-
 
 
     function showMsgBox(){
