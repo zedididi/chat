@@ -47,6 +47,7 @@ public class EvaluateController {
                 evaluateService.addByUserId(evaluate);
             }
         }else {                              //evaluateinfo中不存在此评价内容
+            evaluateInfo=new EvaluateInfo();
             evaluateInfo.setContent(eva);
             evaluateInfoService.addEvaluateInfo(evaluateInfo); //evaluateinfo中插入此评价内容
             evaluateInfo=evaluateInfoService.findByContent(eva);

@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <title>Direct Messaging</title>
 
-    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600" rel="stylesheet">
+   <!-- <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600" rel="stylesheet">-->
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -13,7 +13,6 @@
 
     <link rel="stylesheet" href="/css/style.css">
 
-    <script src="/jquery-3.2.1.min.js"></script>
     <link rel="stylesheet" href="/css/panel.css">
 
     <script src="/js/mDialogMin.js"></script>
@@ -31,48 +30,17 @@
 </head>
 
 <body onload="initAJAX();initFriend();">
-<!--个人资料卡区域-->
 <div id="msg-box">
-<!--<div class="msg-box-head"><center><img th:src="${user.getImage()}"></center></div>
-    <hr style=" float: bottom;width:80%;margin:0 auto;border: 0;height: 3px;background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));">
-    <div class="msg-box-body">
-        <center>
-        <div class="msg-box-body-name"><p class="p-name" th:text="${user.getUserName()}">刘泽迪</p></br>
-            <p class="p-description">就是蠢</p>
-        </div>
-        </center>
-        <div class="user-info">
-            <p class="info">帐号&nbsp;</p>
-            <p class="info">出生日期&nbsp;</p>
-            <p class="info">性别&nbsp;</p>
-            <p class="info">分组&nbsp;</p>
-            <p class="info">邮箱&nbsp;</p>
-            <p class="info">所在地&nbsp;</p>
-            <p class="info">联系电话&nbsp;</p>
-        </div>
-        <div class="user-info-more">
-            <p class="info-more">1053067224</p>
-            <p class="info-more">1998.6.26</p>
-            <p class="info-more">男</p>
-            <p class="info-more">朋友</p>
-            <p class="info-more">1053067224@qq.com</p>
-            <p class="info-more">江西</p>
-            <p class="info-more">15797895764</p>
-        </div>
-        <hr style=" float: bottom;width:80%;margin:0 auto;border: 0;height: 1px;background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));">
-        <div class="msg-box-bottom">
-            <div class="impression">
-            </div>
-            <div class="comment">
-            <input type="text" maxlength="4" id="input-txt" />
-            <input type="button" value="评价" id="input-btn" />
-            </div>
-        </div>
-    </div>-->
+
+    <!--个人资料卡区域-->
+
+</div>
+<div class="controller">
+
 </div>
 <div class="wrapper">
-    <div class="container">
-        <div class="left">
+        <div class="container">
+            <div class="left">
             <div class="top">
                 <!--个人资料卡区域-->
                 <div id="hook" th:alt="${user.getId()}" class="show-info"><img width="40px" height="40px" style="float: left;border-radius: 50%;" id="userIf" th:alt="${user.getId()}" th:src="${user.getImage()}"></div>
@@ -87,7 +55,7 @@
             </ul>
             </div>
         </div>
-        <div class="right">
+            <div class="right">
             <div class="top" ><span>To: <span class="name"></span></span></div>
 
             <!--<div class="chat" data-chat="163501">
@@ -101,8 +69,9 @@
                 <a href="javascript:void(0)" id="chat-biaoqing" class="write-link smiley"><i class="iconfont icon-biaoqing"></i></a>
                 <a href="javascript:void(0)" id="chat-fasong" class="write-link send"></a>
             </div>
+                <input type="button" value="聊天记录" onclick="" style="position: relative;top: 8%;float: right">
         </div>
-    </div>
+        </div>
 </div>
 <div id="tan_background" class="back">
     <div id="div_1" class="content">
@@ -164,6 +133,7 @@
     </div>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+<script src="/js/verify.js"></script>
 <script  src="/js/index.js"></script>
 <script src="/js/impression.js"></script>
 <script src="/js/commons.js"></script>
@@ -247,56 +217,6 @@ function can() {
         }
     });
 
-
-
-
-    /*$.ajax({
-        type:'POST',
-        url:'/userInfo/get',
-        dataType:'json',
-        data:{'id':chat.person},
-        success:function (data) {
-            var userInfo='<div class="msg-box-head"><center><img src="'+data.image+'"></center></div>\n' +
-                '    <hr style=" float: bottom;width:80%;margin:0 auto;border: 0;height: 3px;background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));">\n' +
-                '    <div class="msg-box-body">\n' +
-                '        <center>\n' +
-                '        <div class="msg-box-body-name"><p class="p-name" text="'+data.username+'"/></br>\n' +
-                '            <p class="p-description">就是蠢</p>\n' +
-                '        </div>\n' +
-                '        </center>\n' +
-                '        <div class="user-info">\n' +
-                '            <p class="info">帐号&nbsp;</p>\n' +
-                '            <p class="info">出生日期&nbsp;</p>\n' +
-                '            <p class="info">性别&nbsp;</p>\n' +
-                '            <p class="info">分组&nbsp;</p>\n' +
-                '            <p class="info">邮箱&nbsp;</p>\n' +
-                '            <p class="info">所在地&nbsp;</p>\n' +
-                '            <p class="info">联系电话&nbsp;</p>\n' +
-                '        </div>\n' +
-                '        <div class="user-info-more">\n' +
-                '            <p class="info-more">'+data.userid+'</p>\n' +
-                '            <p class="info-more">'+data.birthday+'</p>\n' +
-                '            <p class="info-more">'+data.sex+'</p>\n' +
-                '            <p class="info-more">未完成</p>\n' +
-                '            <p class="info-more">'+data.email+'</p>\n' +
-                '            <p class="info-more">'+data.country+' '+data.city+'</p>\n' +
-                '            <p class="info-more">'+data.phone+'</p>\n' +
-                '        </div>\n' +
-                '        <hr style=" float: bottom;width:80%;margin:0 auto;border: 0;height: 1px;background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));">\n' +
-                '        <div class="msg-box-bottom">\n' +
-                '            <div class="impression">\n' +
-                '            </div>\n' +
-                '            <div class="comment">\n' +
-                '            <input type="text" maxlength="4" id="input-txt" />\n' +
-                '            <input type="button" value="评价" id="input-btn" />\n' +
-                '            </div>\n' +
-                '        </div>\n' +
-                '    </div>';
-
-            document.getElementById("msg-box").innerHTML=userInfo;
-        }
-    });*/
-
     //获取登陆用户id
     var userId=document.getElementById("userIf").alt;
     //var userId=$("img#userIf").attr("alt");
@@ -311,12 +231,6 @@ function can() {
     });
 
 
-   /* var timer;
-     $("#hook").bind("mouseout",hideMsgBox);
-     $("#msg-box").bind("mouseout",function(){
-         if(timer){clearTimeout(timer);}
-         $("#msg-box").hide("slow");
-     });*/
 
     function showMsgBox(){
 
@@ -346,6 +260,11 @@ function can() {
                     else if (city != null && country != null)
                         country = country + "-" + city;
                     var phone = data.phone == null ? "无" : data.phone;
+                    var eva=data.evaluates;
+                    var evaS="";
+                    for (var i in eva){
+                        evaS+='<span><a>'+eva[i].content+'</a></span>';
+                    }
 
                     var group1, group2, input;
                     if (friendId === userId) {        //当为本人
@@ -356,7 +275,7 @@ function can() {
                     else {
                         group1 = '<p class="info">分组&nbsp;</p>\n';
                         group2 = '<p class="info-more">' + data.groupName + '</p>\n';
-                        input = '<input type="text" maxlength="4" id="input-txt" /><input type="button" value="评价" id="input-btn" />';
+                        input = '<input class="input-txt" type="text" maxlength="4" id="input-txt" /></br><input type="button" alt="'+friendId+'" value="评价" id="input-btn" />';
                     }
 
 
@@ -389,6 +308,7 @@ function can() {
                         '        <hr style=" float: bottom;width:80%;margin:0 auto;border: 0;height: 1px;background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));">\n' +
                         '        <div class="msg-box-bottom">\n' +
                         '            <div class="impression">\n' +
+                        evaS +
                         '            </div>\n' +
                         '            <div class="comment">\n' +
                         input +
@@ -400,13 +320,16 @@ function can() {
                 }
             });
         }
+        addEvaluation();
         $("#msg-box").show("slow")
     }
-    function hideMsgBox(){
+
+
+    /*function hideMsgBox(){
         timer=setTimeout(function(){
             $("#msg-box").hide();
         },500);
-    }
+    }*/
 
 
     //图片发送
@@ -433,9 +356,6 @@ function can() {
             var userId=document.getElementById("userIf").alt;
         }
 </script>
-<script src="/js/index.js"></script>
-<script src="/js/impression.js"></script>
-<script src="/js/commons.js"></script>
 </body>
 
 </html>

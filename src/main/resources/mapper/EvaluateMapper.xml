@@ -7,7 +7,7 @@
     <resultMap id="evaluateMap" type="Evaluate">
         <id column="id" jdbcType="BIGINT" property="id"/>
         <result column="userid" jdbcType="VARCHAR" property="userId"/>
-        <result column="evaluateinifoid" jdbcType="INTEGER" property="evaluateInfoId"/>
+        <result column="evaluateinfoid" jdbcType="INTEGER" property="evaluateInfoId"/>
         <result column="createtime" jdbcType="TIMESTAMP" property="createTime"/>
         <result column="evaluate_content" jdbcType="VARCHAR" property="content"/>
     </resultMap>
@@ -15,7 +15,7 @@
         select evaluate.id,userid,evaluateinfoid,createtime,evaluateinfo.content as evaluate_content from evaluate left join evaluateinfo on evaluate.evaluateinfoid = evaluateinfo.id
         where userid=#{userId,jdbcType=VARCHAR}
     </select>
-    <select id="findByUserIdAndEvaId" resultMap="evaluateMap" parameterType="Evaluate">
+    <select id="findByUserIdAndEvaId" resultMap="evaluateMap">
         select evaluate.id,userid,evaluateinfoid,createtime,evaluateinfo.content as evaluate_content from evaluate left join evaluateinfo on evaluate.evaluateinfoid = evaluateinfo.id
         where userid=#{userId,jdbcType=VARCHAR} and evaluateinfoid=#{evaluateInfoId,jdbcType=INTEGER}
     </select>
