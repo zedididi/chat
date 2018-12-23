@@ -99,7 +99,9 @@
     left: 13px;
     width: 14px;
     height: 10px;
-    background: url(../img/icon_light.f13cff3.png) 0 -26px;
+    /*
+    background: url(/img/refre.png) 0 -26px;
+    */
     background-size: 34px 471px;
 }
 
@@ -108,8 +110,10 @@
     right: 0;
     top: 0;
     width: 34px;
-    height: 34px;
+    height: 50px;
     cursor: pointer;
-    background: url(../img/icon_light.f13cff3.png) 0 -437px;
-    background-size: 34px 471px;
+    background:no-repeat;
+   background-image: url("/img/refre.png");
+    /*background-size: 34px 471px;*/
+    padding: 10px 5px 8px 9px;
 }

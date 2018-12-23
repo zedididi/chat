@@ -44,12 +44,13 @@
                             <label for="check"><span class="icon"></span> 保持登录</label>
                         </div>
                         <div class="group">
-                            <input type="button" class="button" value="登录" onClick="login()">
+                            <!--<input type="button" class="button" value="登录" onClick="login()">-->
+                            <button id="submit" class="button" onclick="login()">登录</button>
                         </div>
-                        <div class="hr"></div>
-                        <div class="foot-lnk">
+                        <!--<div class="hr"></div>-->
+<!--                        <div class="foot-lnk">
                             <a href="#forgot">忘记密码?</a>
-                        </div>
+                        </div>-->
                     </div>
                 </form>
                 <form onsubmit="register()">
@@ -81,7 +82,7 @@
         </div>
     </div>
 </div>
-<script src="js/verify.js"></script>
+<script src="/js/verify.js"></script>
 <script>
     var flag=false;
 
@@ -122,7 +123,9 @@
     }
     jigsaw.init(document.getElementById('captcha'), function () {
         flag=true;
-        document.getElementById('msg').innerHTML = '登录成功！';
+        //document.getElementById('msg').innerHTML = '登录成功！';
+        document.getElementById('msg').innerHTML="<font color='black'>验证成功！</font>"
+
     });
 
 
