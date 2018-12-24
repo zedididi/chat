@@ -1,29 +1,19 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <meta charset="UTF-8">
     <title>Direct Messaging</title>
-
-   <!-- <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600" rel="stylesheet">-->
-
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600" rel="stylesheet">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
     <link rel="stylesheet" href="/css/reset.min.css">
-
     <link rel="stylesheet" href="/css/style.css">
-
     <link rel="stylesheet" href="/css/panel.css">
-
     <script src="/js/mDialogMin.js"></script>
     <link href="/css/dialog.css" rel="stylesheet">
-
     <!--好友添加-->
     <link rel="stylesheet" href="/css/tan.css">
  <!--   <script  src="/js/jquery-2.2.4.js"></script>-->
-    <script src="/js/tan.js"></script>
-
-    <script src="/jquery-3.2.1.min.js"></script>
     <style type="text/css">
         #msg-box { background:rgba(255,255,255,0.5);width: 400px; height: 600px; display: none; left: 150px;top:100px;position: absolute; }
         .tip {min-width: 28px;height: 18px;background: red;box-sizing: border-box;color: white;font-size: 13px;
@@ -36,10 +26,16 @@
         .userImg{max-width: 100px;max-height: 100px;margin: 5px}
         .chatPicture{margin: 5px}
         .soundImg{width: 20px;height: 15px}
+        .name{font-size: larger;font-weight: bolder}
+        .status{font-size: smaller;}
     </style>
-    <script src="/js/index.js"></script>
+    <script src="/js/tan.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+    <script src="/js/verify.js"></script>
+    <script  src="/js/index.js"></script>
     <script src="/js/impression.js"></script>
     <script src="/js/commons.js"></script>
+    <script src="/jquery-3.2.1.min.js"></script>
 </head>
 
 <body onload="initAJAX();initFriend();initExpressionGif();initExpressionPackage()">
@@ -48,11 +44,10 @@
 <!--个人资料卡区域-->
 <div id="msg-box">
 
-    <!--个人资料卡区域-->
-
 </div>
 
 <div class="wrapper">
+    <!--聊天记录div-->
     <div id="msg-history" style="display: none;position: absolute;left: 90%;top: 100px;width: 400px;height: 600px;border: 1px solid var(--light);background-color: white">
         <div class="msg-history-top" style="width: 100%;height: 10%;text-align: center">
             <input value="关闭" type="button" id="msg-history-close" style="float: right;clear: both;">
@@ -71,7 +66,9 @@
         </ul>
         </div>
     </div>
-    <input type="button" class="change_chat" value="聊天"  style="border-radius: 21px;width: 80px;height: 50px;position:absolute;top: 5%;left: 45%"><input type="button" class="change_friend" value="好友" style="border-radius: 21px;width: 80px;height: 50px;position:absolute;top: 5%;left: 55%">
+    <input type="button" class="change_chat" value="聊天"  style="border-radius: 21px;width: 80px;height: 50px;position:absolute;top: 5%;left: 45%">
+    <input type="button" class="change_friend" value="好友" style="border-radius: 21px;width: 80px;height: 50px;position:absolute;top: 5%;left: 55%">
+        <!--聊天界面 container -->
         <div class="container">
             <div class="left">
             <div class="top">
@@ -81,6 +78,7 @@
                 <a href="javascript:;" class="search"></a>
                 <a href="javascript:;" class="add" id="topen_btn" onmouseup="tan()"></a>
             </div>
+                <!--聊天界面左边好友的列表 -->
             <div class="left_body" style="height: 85%;overflow-y: auto;overflow-x: hidden">
 
             <ul class="people" id="people">
@@ -90,8 +88,8 @@
         </div>
         <div class="right">
             <div class="top" style="height: 60px">
-                <p class="name" style="margin-left: 190px;font-size: larger;font-weight: bolder"></p>
-                <p class="status" style="position: absolute;top: 45px;left: 230px;font-size: smaller;"></p>
+                <p class="name" style="margin-left: 190px;"></p>
+                <p class="status" style="position: absolute;top: 45px;left: 230px;"></p>
             </div>
 
             <div class="write" id="write" style="width: 480px;margin-left: -15px">
@@ -112,6 +110,7 @@
                 <input type="button" value="聊天记录" id="history" style="position: relative;top: 8%;float: right">
         </div>
         </div>
+
     <div class="container_friend" style="position: absolute;top: 50%;left: 100%;width: 80%;height: 75%;/*background-color: white;*/-webkit-transform: translate(-50%, -50%);transform: translate(-50%, -50%);display: none">
         <div class="container_friend_left" style="float: left;width: 30%;height: 100%;border: 1px solid var(--light);background-color: var(--white)">
             <div class="container_friend_left_top" style="text-align: center;position: relative;width: 100%;height: 15%;padding: 10px">
@@ -188,12 +187,7 @@
         </div>
     </div>
 </div>
-<script src="https://cdn.jsdelivr.net/npm/vue"></script>
-<script src="/js/verify.js"></script>
-<script  src="/js/index.js"></script>
-<script src="/js/impression.js"></script>
-<script src="/js/commons.js"></script>
-<script src="/jquery-3.2.1.min.js"></script>
+
 <script type="text/javascript">
 document.body.parentNode.style.overflow = "hidden";//隐藏且禁用横向纵向两个滚动条
 /*好友添加弹窗部分*/
@@ -235,9 +229,6 @@ function can() {
     $("#fri").hide();
 }
 
-
-
-
 /*第一分组*/
     var group01='';
     group01+='<li class="person" data-chat="person1">' +
@@ -277,8 +268,6 @@ function can() {
     var userId=document.getElementById("userIf").alt;
     //var userId=$("img#userIf").attr("alt");
 
-
-
     //资料卡悬浮框
 
     $("#hook").bind("mouseover",showMsgBox);
@@ -298,7 +287,6 @@ function can() {
 
 
     function showMsgBox(){
-
       //  if(timer){clearTimeout(timer);}
         var friendId=$(this).attr("alt");
         window.console.info("id:"+friendId);
@@ -415,10 +403,10 @@ function can() {
                     else if (city != null && country != null)
                         country = country + "-" + city;
                     var phone = data.phone == null ? "无" : data.phone;
-                    var eva=data.evaluates;
-                    var evaS="";
-                    for (var i in eva){
-                        evaS+='<span><a>'+eva[i].content+'</a></span>';
+                    var eva = data.evaluates;
+                    var evaS = "";
+                    for (var i in eva) {
+                        evaS += '<span><a>' + eva[i].content + '</a></span>';
                     }
 
                     var group1, group2, input;
@@ -478,61 +466,63 @@ function can() {
 
 
     /*function hideMsgBox(){
-        timer=setTimeout(function(){
-            $("#msg-box").hide();
-        },500);
+                        timer = setTimeout(function () {
+                            $("#msg-box").hide();
+                        }, 500);
     }*/
 
-                    $(function () {
-                        $("#chat-biaoqing").click(function () {
-                            $("#expression").css("visibility", "visible")
-                        })
-                    });
+$(function () {
+    $("#chat-biaoqing").click(function () {
+        $("#expression").css("visibility", "visible")
+    })
+});
 
-                    $(function () {
-                        $("#chat-picture").click(function () {
-                            $("#expressionPackage").css("visibility", "visible");
-                        })
-                    });
+$(function () {
+    $("#chat-picture").click(function () {
+        $("#expressionPackage").css("visibility", "visible");
+    })
+});
 
+/**
+ * 进行表情的初始化加载
+ */
+function initExpressionGif() {
+    for (var i = 1; i <= 56; i++)
+        $("#expression").append('<img src="/img/expression/' + i + '.gif">');
+    $("#expression img").click(function () {
+        $(this).clone().appendTo(".div-textarea");
+        $("#expression").css("visibility", "hidden");
+    })
+}
 
+/**
+ * 进行表情包的初始化加载
+ */
+function initExpressionPackage() {
+    for (var i = 1; i <= 12; i++)
+        $("#expressionPackage").append('<img class="chatPicture" src="/img/picture/picture_' + i + '.jpg">');
+    $("#expressionPackage img").click(function () {
+        $(this).clone().appendTo(".div-textarea");
+        $("#chat-fasong").click();
+        $("#expressionPackage").css("visibility", "hidden");
+    })
 
+    $("#expressionPackage img").mouseover(function () {
+        $(this).css({
+            "width": "115px",
+            "height": "115px",
+            "margin": '0px'
+        })
+    })
 
-
-
-                    function initExpressionGif() {
-                        for (var i = 1; i <= 56; i++)
-                            $("#expression").append('<img src="/img/expression/' + i + '.gif">');
-                        $("#expression img").click(function () {
-                            $(this).clone().appendTo(".div-textarea");
-                            $("#expression").css("visibility", "hidden");
-                        })
-                    }
-
-                    function initExpressionPackage() {
-                        for (var i = 1; i <= 12; i++)
-                            $("#expressionPackage").append('<img class="chatPicture" src="/img/picture/picture_' + i + '.jpg">');
-                        $("#expressionPackage img").click(function () {
-                            $(this).clone().appendTo(".div-textarea");
-                            $("#chat-fasong").click();
-                            $("#expressionPackage").css("visibility", "hidden");
-                        })
-
-                        $("#expressionPackage img").mouseover(function () {
-                            $(this).css({
-                                "width": "115px",
-                                "height": "115px",
-                                "margin": '0px'
-                            })
-                        })
-                        $("#expressionPackage img").mouseleave(function () {
-                            $(this).css({
-                                "width": "95px",
-                                "height": "95px",
-                                "margin": '0px'
-                            })
-                        })
-                    }
+    $("#expressionPackage img").mouseleave(function () {
+        $(this).css({
+            "width": "95px",
+            "height": "95px",
+            "margin": '0px'
+        })
+    })
+}
 
         //聊天好友界面切换
     $(".change_chat").click(function () {
@@ -549,13 +539,13 @@ function can() {
         });
 
 
-    //聊天记录
-    $("#history").click(function () {
-        $("#msg-history").show("slow");
-    });
-    $("#msg-history-close").click(function () {
-        $("#msg-history").hide("slow");
-    });
+//聊天记录
+$("#history").click(function () {
+    $("#msg-history").show("slow");
+});
+$("#msg-history-close").click(function () {
+    $("#msg-history").hide("slow");
+});
 </script>
 </body>
 

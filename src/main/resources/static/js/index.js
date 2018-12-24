@@ -19,11 +19,10 @@ function initFriend() {
                     var li_id = friendId+"li";
                     var tip_id = friendId +"tip";
                     var status_id = friendId +"status";
-
-                    chatWindowDivs = '<div class="chat" id=' +friendId +' data-chat="' +friendId +'"></div>';
-                    listFriend += '<li class="person" data-chat="' + friendId + '">' +
+                    listFriend += '<li class="person"id="'+li_id+'" data-chat="' + friendId + '">' +
                         '<img id="hook"  src="' + image + '" alt="' + friendId + '" />' +
-                        '<span class="name">' + friendName + '</span>' +
+                        '<span class="name" style="margin-right: 10px">' + friendName + '</span><span class="status" id="'+status_id+'">' +
+                        '</span><span class="tip" id="'+tip_id+'"></span>'+
                         '</li>';
                     chatWindowDivs = '<div style="" class="chat" id="' +friendId +'" data-chat="' +friendId +'"></div>';
                     $("#write").before(chatWindowDivs);
@@ -31,7 +30,6 @@ function initFriend() {
                 document.getElementById("people").innerHTML += listFriend;
                 boolOnline(friendIds +" " + userId);
                 init();
-                initChatRecord()
                 friend_initFriend()
             }
         }
@@ -48,6 +46,7 @@ function initFriend() {
 //好友列表好友
 function friend_initFriend() {
     var friend_userId = document.getElementById("friend_userIf").alt;
+    var friendIds = "";
     // var userId=$("img#userIf").attr("alt");
     xmlHttp.open("POST", "/friend/getAll", true);
     xmlHttp.onreadystatechange = function () {
@@ -55,18 +54,22 @@ function friend_initFriend() {
             if (xmlHttp.status == 200) {
                 var data = xmlHttp.responseText;
                 var obj = JSON.parse(data);
-                var friend_listFriend = '';
+                var listFriend = '';
+                var li_id = friendId+"li";
+                var tip_id = friendId +"tip";
+                var status_id = friendId +"status";
                 for (var i in obj) {
-                    var friend_friendId = obj[i].friendId;
-                    var friend_image = obj[i].image;
-                    var friend_friendName = obj[i].friendName;
-                    friend_listFriend += '<li class="friend_person" data-chat="' + friend_friendId + '">' +
-                        '<img id="friend_hook"  src="' + friend_image + '" alt="' + friend_friendId + '" />' +
-                        '<span class="friend_name">' + friend_friendName + '</span>' +
+                    var friendId = obj[i].friendId;
+                    friendIds += friendId +" ";
+                    var image = obj[i].image;
+                    var friendName = obj[i].friendName;
+                    listFriend += '<li class="friend_person" id="'+li_id+'" data-chat="' + friendId + '">' +
+                        '<img id="friend_hook"  src="' + image + '" alt="' + friendId + '" />' +
+                        '<span class="friend_name">' + friendName + '</span><span class="status" id="'+status_id+'">' +
                         '</li>';
                 }
-                document.getElementById("friend_people").innerHTML += friend_listFriend;
-                //init();
+                document.getElementById("friend_people").innerHTML += listFriend;
+                boolOnline(friendIds +" " + userId);
             }
         }
         $("#friend_hook").bind("mousedown",showFriendMsgBox);
@@ -140,7 +143,7 @@ function init() {
         }
 
         webSocket.onerror = function (ev) {
-            console.info("发生了错误")
+            alert("发生了错误")
         };
 
         webSocket.onmessage = function (ev) {  //当有好友发送消息时进行消息的显示
