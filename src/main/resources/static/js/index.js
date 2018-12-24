@@ -26,6 +26,7 @@ function initFriend() {
 
                 init();
                 initChatRecord()
+                friend_initFriend()
             }
 
         }
@@ -41,7 +42,7 @@ function initFriend() {
 
 //好友列表好友
 function friend_initFriend() {
-    var userId = document.getElementById("friend_userIf").alt;
+    var friend_userId = document.getElementById("friend_userIf").alt;
     // var userId=$("img#userIf").attr("alt");
     xmlHttp.open("POST", "/friend/getAll", true);
     xmlHttp.onreadystatechange = function () {
@@ -49,29 +50,24 @@ function friend_initFriend() {
             if (xmlHttp.status == 200) {
                 var data = xmlHttp.responseText;
                 var obj = JSON.parse(data);
-                var listFriend = '';
-                var chatWindowDivs = '';
+                var friend_listFriend = '';
                 for (var i in obj) {
-                    var friendId = obj[i].friendId;
-                    var image = obj[i].image;
-                    var friendName = obj[i].friendName;
-                    listFriend += '<li class="person" data-chat="' + friendId + '">' +
-                        '<img id="hook"  src="' + image + '" alt="' + friendId + '" />' +
-                        '<span class="name">' + friendName + '</span>' +
+                    var friend_friendId = obj[i].friendId;
+                    var friend_image = obj[i].image;
+                    var friend_friendName = obj[i].friendName;
+                    friend_listFriend += '<li class="friend_person" data-chat="' + friend_friendId + '">' +
+                        '<img id="friend_hook"  src="' + friend_image + '" alt="' + friend_friendId + '" />' +
+                        '<span class="friend_name">' + friend_friendName + '</span>' +
                         '</li>';
-                    chatWindowDivs = '<div style="" class="chat" id="' +friendId +'" data-chat="' +friendId +'"></div>';
-                    $("#write").before(chatWindowDivs);
                 }
-                document.getElementById("friend_people").innerHTML += listFriend;
-                init();
-                initChatRecord()
+                document.getElementById("friend_people").innerHTML += friend_listFriend;
+                //init();
             }
         }
-        $("#container_friend_left_top_head").bind("mousedown",showFriendMsgBox);
+        $("#friend_hook").bind("mousedown",showFriendMsgBox);
     };
     xmlHttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-    xmlHttp.send("userId=" + userId);
-
+    xmlHttp.send("userId=" + friend_userId);
 }
 
 function init() {

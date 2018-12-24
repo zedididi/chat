@@ -95,13 +95,13 @@
                 <a id="container_friend_left_top_head" th:alt="${user.getId()}"><img id="friend_userIf" width="60px" height="60px" style="border-radius: 50%;" th:alt="${user.getId()}" th:src="${user.getImage()}"></a>
             </div>
             <div class="container_friend_left_body" style="height: 85%;overflow-x: hidden;overflow-y: auto">
-                <ul class="people" id="friend_people">
+                <ul class="friend_people" id="friend_people">
 
                 </ul>
             </div>
         </div>
         <div class="container_friend_right" style="position: relative;float: left;width: 62.4%;height: 100%;overflow: hidden;border: 1px solid var(--light);background-color: var(--white)">
-            <div id="container_friend_info" style="display: none;position:relative;left: 1%;top: 5%;width: 400px;height: 550px;border: 1px solid var(--light);background-color: #8c8c8c">
+            <div id="container_friend_info" style="display: none;position:relative;left: 1%;width: 400px;height: 600px;border: 1px solid var(--light);background-color: #8c8c8c">
             </div>
         </div>
     </div>
@@ -407,7 +407,6 @@ function can() {
                     else {
                         group1 = '<p class="info">分组&nbsp;</p>\n';
                         group2 = '<p class="info-more">' + data.groupName + '</p>\n';
-                        input = '<input class="input-txt" type="text" maxlength="4" id="input-txt" /></br><input type="button" alt="'+friendId+'" value="评价" id="input-btn" />';
                     }
 
 
@@ -442,8 +441,6 @@ function can() {
                         '            <div class="impression">\n' +
                         evaS +
                         '            </div>\n' +
-                        '            <div class="comment">\n' +
-                        input +
                         '            </div>\n' +
                         '        </div>\n' +
                         '    </div>';
@@ -494,7 +491,6 @@ function can() {
         $(".container_friend").fadeOut(1000);
     });
     $(".change_friend").click(function () {
-        friend_initFriend();
         var div=$(".container_friend");
         $(".container").fadeOut(1000);
         $(".container_friend").fadeIn(1000);
