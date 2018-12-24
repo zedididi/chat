@@ -3,10 +3,14 @@ package cn.edu.ncu.bootwebsocketmybatis.entity;
 import com.alibaba.fastjson.JSON;
 import org.springframework.context.annotation.Bean;
 
+import java.math.BigInteger;
+
 /**
  * 消息实体类
  */
 public class Content {
+
+   // private BigInteger id;
    private String sendId;  //发送者ID
    private String receiveId;    //接收者ID
    private String content;  //消息
@@ -21,6 +25,14 @@ public class Content {
         this.createTime = createTime;
     }
 
+   /* public BigInteger getId() {
+        return id;
+    }
+
+    public void setId(BigInteger id) {
+        this.id = id;
+    }
+*/
     public String getSendId() {
         return sendId;
     }
@@ -65,5 +77,15 @@ public class Content {
     public static String jsonStr(String sendId,String receiveId,String content,String createTime){
         Content message = new Content(sendId,receiveId,content,createTime);
         return JSON.toJSONString(message);
+    }
+
+    @Override
+    public String toString() {
+        return "Content{" +
+                "sendId='" + sendId + '\'' +
+                ", receiveId='" + receiveId + '\'' +
+                ", content='" + content + '\'' +
+                ", createTime='" + createTime + '\'' +
+                '}';
     }
 }

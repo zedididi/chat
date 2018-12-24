@@ -3,7 +3,6 @@ package cn.edu.ncu.bootwebsocketmybatis.controller;
 import cn.edu.ncu.bootwebsocketmybatis.entity.User;
 import cn.edu.ncu.bootwebsocketmybatis.entity.UserInfo;
 import cn.edu.ncu.bootwebsocketmybatis.service.UserInfoServiceImpl;
-import cn.edu.ncu.bootwebsocketmybatis.service.UserService;
 import cn.edu.ncu.bootwebsocketmybatis.service.UserServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,10 +11,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-import org.thymeleaf.util.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
-import java.net.InetAddress;
 import java.net.UnknownHostException;
 
 /**
@@ -54,20 +51,6 @@ public class indexController {
         return new ModelAndView("/register");
     }
 
-    /**
-     * 聊天界面
-     */
-    @GetMapping("/index")
-    public ModelAndView index(String username, String password, HttpServletRequest request) throws UnknownHostException {
-        if (StringUtils.isEmpty(username)) {
-            username = "匿名用户";
-        }
-
-        ModelAndView mav = new ModelAndView("/chatRoom");
-        mav.addObject("username", username);
-        mav.addObject("webSocketUrl", "ws://" + InetAddress.getLocalHost().getHostAddress() + ":" + request.getServerPort() + request.getContextPath() + "/chat");
-        return mav;
-    }
 
     /**
      * 处理登陆事务

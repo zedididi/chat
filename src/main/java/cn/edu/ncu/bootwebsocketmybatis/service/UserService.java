@@ -14,6 +14,7 @@ public interface UserService {
 
      List<User> findAll();
      List<User> findByName(String userName);
+     List<User> findByIdOrName(String id,String userName);
      User findById(String id);
      String addUser(User user);
      boolean updateUser(User user);

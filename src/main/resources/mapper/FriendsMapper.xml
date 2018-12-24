@@ -9,6 +9,7 @@
         <result column="userid" jdbcType="VARCHAR" property="userId"/>
         <result column="friendid" jdbcType="VARCHAR" property="friendId"/>
         <result column="groupid" jdbcType="SMALLINT" property="groupId"/>
+        <result column="status" jdbcType="VARCHAR" property="status"/>
         <result column="group_name" jdbcType="VARCHAR" property="groupName"/>
         <result column="image" jdbcType="VARCHAR" property="image"/>
         <result column="friend_name" jdbcType="VARCHAR" property="friendName"/>
@@ -20,6 +21,14 @@
         left join `user` on friends.friendid = `user`.id
         where friends.userid=#{userId,jdbcType=VARCHAR}
     </select>
+    <select id="findAllByUserIdAndStatus" resultMap="friendMap">
+        select friends.*, `group`.name as group_name,userinfo.image,`user`.username as friend_name from friends
+            left join `group` on friends.groupid = `group`.id
+            left join userinfo on friends.friendid = userinfo.userid
+            left join `user` on friends.friendid = `user`.id
+        where friends.userid=#{userId,jdbcType=VARCHAR} and `status`=#{status,jdbcType=VARCHAR}
+    </select>
+
     <select id="findByUserId" resultMap="friendMap">
         select friends.*, `group`.name as group_name from friends
             left join `group` on friends.groupid = `group`.id
@@ -27,17 +36,25 @@
     </select>
 
     <insert id="addFriendByUserId" keyProperty="id" useGeneratedKeys="true" parameterType="Friend">
-        insert into friends(userid,friendid,groupid) values (#{userId,jdbcType=VARCHAR},#{friendId,jdbcType=VARCHAR},#{groupId,jdbcType=SMALLINT});
+        insert into friends(userid,friendid,groupid,`status`) values (#{userId,jdbcType=VARCHAR},#{friendId,jdbcType=VARCHAR},#{groupId,jdbcType=SMALLINT},#{status});
     </insert>
 
     <update id="updateFriendByUserId" parameterType="Friend" keyProperty="id">
+        update friends set groupid=#{groupId,jdbcType=SMALLINT},`status`=#{status,jdbcType=VARCHAR}
+        where userid=#{userId,jdbcType=VARCHAR} and friendid=#{friendId,jdbcType=VARCHAR}
+    </update>
+
+    <update id="updateGroupByUserId" parameterType="Friend" keyProperty="id">
         update friends set groupid=#{groupId,jdbcType=SMALLINT}
         where userid=#{userId,jdbcType=VARCHAR} and friendid=#{friendId,jdbcType=VARCHAR}
     </update>
 
+    <update id="updateStatusByUserId" parameterType="Friend" keyProperty="id">
+        update friends set `status`=#{status,jdbcType=VARCHAR}
+        where (userid=#{userId,jdbcType=VARCHAR} and friendid=#{friendId,jdbcType=VARCHAR}) or (userid=#{friendId,jdbcType=VARCHAR} and friendid=#{userId,jdbcType=VARCHAR})
+    </update>
+
     <delete id="deleteFriendByUserId" parameterType="Friend">
-        delete from friends where userid=#{userId,jdbcType=VARCHAR} and friendid=#{friendId,jdbcType=VARCHAR}
+        delete from friends where (userid=#{userId,jdbcType=VARCHAR} and friendid=#{friendId,jdbcType=VARCHAR}) or (userid=#{friendId,jdbcType=VARCHAR} and friendid=#{userId,jdbcType=VARCHAR})
     </delete>
-
-
 </mapper>

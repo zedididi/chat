@@ -24,6 +24,9 @@ public interface ContentDao {
      */
     List<Content> getContentRecords(@Param("sendId")String sendId, @Param("receiveId")String receiveId);
 
-    //插入一条聊天记录
+    /**
+     * 将传入的消息实体插入到数据库当中
+     * @param content
+     */
     void insertContentRecord(Content content);
 }

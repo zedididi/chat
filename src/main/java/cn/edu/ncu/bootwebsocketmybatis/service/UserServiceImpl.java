@@ -29,9 +29,25 @@ public class UserServiceImpl implements UserService {
         return userDao.findAll();
     }
 
+    /**
+     * 根据用户名 userName 来查询用户
+     * @param userName
+     * @return
+     */
     @Override
     public List<User> findByName(String userName) {
         return userDao.findByName(userName);
+    }
+
+    /**
+     * 根据用户Id id 或用户名 userName 来查询用户
+     * @param id
+     * @param userName
+     * @return
+     */
+    @Override
+    public List<User> findByIdOrName(String id, String userName) {
+        return userDao.findByIdOrName(id,userName);
     }
 
     /**

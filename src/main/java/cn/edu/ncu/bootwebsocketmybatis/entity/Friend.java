@@ -15,6 +15,7 @@ public class Friend {
     private String userId;       //对应user表的id    用户
     private String friendId;     //对应user表的id    用户好友
     private int groupId;         //对应group表的id   用户好友分组 id
+    private String status;       //好友状态 SR代表已是好友 S代表好友请求发送方 R代表好友请求接受方
     private String groupName;    //对应group表的name  用户还有分组名
     private String image;        //对应userinfo表的image   好友的头像
     private String friendName;   //对应user表的username   用户好友的名字
@@ -65,6 +66,14 @@ public class Friend {
         this.id = id;
     }
 
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
     public String getGroupName() {
         return groupName;
     }
@@ -96,6 +105,7 @@ public class Friend {
                 ", userId='" + userId + '\'' +
                 ", friendId='" + friendId + '\'' +
                 ", groupId=" + groupId +
+                ", status='" + status + '\'' +
                 ", groupName='" + groupName + '\'' +
                 ", image='" + image + '\'' +
                 ", friendName='" + friendName + '\'' +
