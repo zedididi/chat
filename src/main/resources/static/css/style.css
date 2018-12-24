@@ -395,6 +395,9 @@ body {
 .container .right .conversation-start span:after {
     right: 0;
 }
+
+
+
 .msg-box-head {
 
     height: 20%;
@@ -568,6 +571,84 @@ body {
     border-radius: 21px;
     font-family: 'Source Sans Pro', sans-serif;
     font-weight: 400;
+}
+
+.friend_people{
+    margin-left: -1px;
+    height: 85%;
+    overflow-y: auto;
+    overflow-x: hidden;
+    border-right: 1px solid var(--light);
+    border-left: 1px solid var(--light);
+    width: calc(100% + 2px);
+}
+.friend_person {
+    position: relative;
+    width: 100%;
+    padding: 12px 10% 16px;
+    cursor: pointer;
+    background-color: var(--white);
+    height: 60px;
+}
+.friend_person:after {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    display: block;
+    width: 80%;
+    height: 1px;
+    content: '';
+    background-color: var(--light);
+    -webkit-transform: translate(-50%, 0);
+    transform: translate(-50%, 0);
+}
+.friend_person img {
+    float: left;
+    width: 40px;
+    height: 40px;
+    margin-right: 12px;
+    border-radius: 50%;
+}
+.friend_name {
+    font-size: 14px;
+    line-height: 22px;
+    color: var(--dark);
+    font-family: 'Source Sans Pro', sans-serif;
+    font-weight: 600;
+}
+.friend_time {
+    font-size: 14px;
+    position: absolute;
+    top: 16px;
+    right: 10%;
+    padding: 0 0 5px 5px;
+    color: var(--grey);
+    background-color: var(--white);
+}
+friend_preview {
+    font-size: 14px;
+    display: inline-block;
+    overflow: hidden !important;
+    width: 70%;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    color: var(--grey);
+}
+.friend_person.active, .friend_person:hover {
+    margin-top: -1px;
+    margin-left: -1px;
+    padding-top: 13px;
+    border: 0;
+    background-color: var(--blue);
+    width: calc(100% + 2px);
+    padding-left: calc(10% + 1px);
+}
+.friend_person.active span,.friend_person:hover span {
+    color: var(--white);
+    background: transparent;
+}
+.friend_person.active:after,.friend_person:hover:after {
+    display: none;
 }
 
 .hidden{
