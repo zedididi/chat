@@ -7,6 +7,7 @@
     <title>用户登录注册界面</title>
     <link rel="stylesheet" type="text/css" href="/css/styles.css">
     <link rel="stylesheet" href="/css/verify.css">
+    <script src="/jquery-3.2.1.min.js"></script>
     <style>
         #msg {
             width: 100%;
@@ -16,9 +17,14 @@
         }
     </style>
 </head>
-<body onload="initAJAX()">
-<div style="padding-top:100px">
+<body onload="initAJAX()" id="large-header" style="height: 800px;">
+<canvas id="demo-canvas"></canvas>
     <div class="login-wrap">
+        <center>
+            <p id="homepage" style="margin-top: -530px;font-family: 华文彩云;color: white;font-size: 80px;">欢迎来到</p>
+            <p style="margin-top: 10px;font-family: 华文彩云;color: white;font-size: 80px;">SuperGod</p>
+            <p  style="margin-top: 10px;font-family: 华文彩云;color: white;font-size: 80px;">聊天室</p>
+        </center>
         <div class="login-html" >
             <input id="tab-1" type="radio" name="tab" class="sign-in" checked><label for="tab-1" class="tab">登录</label>
             <input id="tab-2" type="radio" name="tab" class="sign-up"><label for="tab-2" class="tab">注册</label>
@@ -79,12 +85,18 @@
                 </form>
             </div>
         </div>
-    </div>
 </div>
 <script src="js/verify.js"></script>
 <script>
-    var flag=false;
+    $(".login-html").hide();
+    $(document).ready(function() {
+        $("p").click(function () {
+            $("p").hide(2000);
+            $(".login-html").fadeIn(2000);
+        });
+    });
 
+    var flag=false;
     function httpPost(URL, PARAMS) {  //发送请求 POST
         var temp = document.createElement("form");
         temp.action = URL;
@@ -163,5 +175,9 @@
     }
 </script>
 <script src="/js/commons.js"></script>
+<script src="/js/TweenLight.min.js"></script>
+<script src="/js/EasePack.min.js"></script>
+<script src="/js/raf.js"></script>
+<script src="/js/demo.js"></script>
 </body>
 </html>
