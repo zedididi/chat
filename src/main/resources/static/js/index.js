@@ -130,6 +130,48 @@ function init() {
         f.querySelector(".tip").innerText ="";
     }
 
+    //显示聊天记录
+    $("#history").click(function () {
+        var sendId = $("#userIf").attr("alt");
+        var receiveId = $(".active").attr("data-chat");
+        $("table").html("");
+
+        $.ajax({
+            url:"/chatRoom/upload/record",
+            data:"sendId="+sendId+"&receiveId="+receiveId,
+            type:"POST",
+            success:function (ev) {
+                var userName = ev.split(" ")[0];
+                var receiveName = $(".active .name").text();
+                var path = "http://localhost:8080"+ev.split(" ")[1];
+                var obj = jQuery.parseJSON(ev.substring(25,ev.length))
+                var year_month_day;
+                for (var i in obj){
+                    var send = obj[i].sendId;
+                    var content = obj[i].content;
+                    var sendTime = obj[i].createTime;
+                    var time = sendTime.split(" ")[1];
+                    if (sendTime.split(" ")[0] != year_month_day){
+                        document.getElementById("historyTable").innerHTML += '<tr class="NYR"><td><span>'+sendTime.split(" ")[0]+'</span></td></tr>' +'<hr style="background-color: grey;width: 100%">' ;
+                        year_month_day = sendTime.split(" ")[0];
+                    }
+                    if (send == sendId) //该条信息是我发给好友的
+                        document.getElementById("historyTable").innerHTML += '<tr class="name_time"><td><span style="color:deepskyblue ">'+userName+'&nbsp;&nbsp;&nbsp;'+time+'</span></td></tr>';
+                     else //这条信息是好友发给我的
+                        document.getElementById("historyTable").innerHTML += '<tr class="name_time"><td><span style="color: green">'+receiveName+'&nbsp;&nbsp;&nbsp;'+time+'</span></td></tr>';
+                    document.getElementById("historyTable").innerHTML += '<tr class="message"><td><span>'+content+'</span></td></tr>';
+                }
+                alert("http://localhost:8080"+path);
+                alert(ev.split(" ")[1])
+                $("#download").attr({
+                    "href":path,
+                    "download":"聊天记录"
+                })
+
+            }
+        })
+    })
+
     //返回webSocket对象
     function getWebSocket() {
         var webSocket = new WebSocket("ws://localhost:8080/chatRoom/"+sendId);
@@ -445,3 +487,24 @@ function boolOnline(friend_id) {
     })
 }
 
+function downloadRecord() {
+    var sendId = $("#userIf").attr("alt");
+    var receiveId = $(".active").attr("data-chat");
+
+    $.ajax({
+        url:"/chatRoom/upload/record",
+        data: "sendId="+sendId+"&receiveId="+receiveId,
+        type: "POST",
+        success: function (ev) {
+            alert(ev);
+            $("#download").attr({
+                "href":"http://localhost:8080"+ev,
+                "download":ev
+            })
+            $("#download").click();
+
+            console.log("http://localhost:8080"+ev);
+        }
+
+    })
+}
