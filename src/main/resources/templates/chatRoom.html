@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
 
 <head>
     <meta charset="UTF-8">
     <title>Direct Messaging</title>
 
-    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600" rel="stylesheet">
+   <!-- <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600" rel="stylesheet">-->
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -118,13 +118,13 @@
                 <a id="container_friend_left_top_head" th:alt="${user.getId()}"><img id="friend_userIf" width="60px" height="60px" style="border-radius: 50%;" th:alt="${user.getId()}" th:src="${user.getImage()}"></a>
             </div>
             <div class="container_friend_left_body" style="height: 85%;overflow-x: hidden;overflow-y: auto">
-                <ul class="people" id="friend_people">
+                <ul class="friend_people" id="friend_people">
 
                 </ul>
             </div>
         </div>
         <div class="container_friend_right" style="position: relative;float: left;width: 62.4%;height: 100%;overflow: hidden;border: 1px solid var(--light);background-color: var(--white)">
-            <div id="container_friend_info" style="display: none;position:relative;left: 1%;top: 5%;width: 400px;height: 550px;border: 1px solid var(--light);background-color: #8c8c8c">
+            <div id="container_friend_info" style="display: none;position:relative;left: 1%;width: 400px;height: 600px;border: 1px solid var(--light);background-color: #8c8c8c">
             </div>
         </div>
     </div>
@@ -415,10 +415,10 @@ function can() {
                     else if (city != null && country != null)
                         country = country + "-" + city;
                     var phone = data.phone == null ? "无" : data.phone;
-                    var eva = data.evaluates;
-                    var evaS = "";
-                    for (var i in eva) {
-                        evaS += '<span><a>' + eva[i].content + '</a></span>';
+                    var eva=data.evaluates;
+                    var evaS="";
+                    for (var i in eva){
+                        evaS+='<span><a>'+eva[i].content+'</a></span>';
                     }
 
                     var group1, group2, input;
@@ -430,7 +430,6 @@ function can() {
                     else {
                         group1 = '<p class="info">分组&nbsp;</p>\n';
                         group2 = '<p class="info-more">' + data.groupName + '</p>\n';
-                        input = '<input class="input-txt" type="text" maxlength="4" id="input-txt" /></br><input type="button" alt="'+friendId+'" value="评价" id="input-btn" />';
                     }
 
 
@@ -465,8 +464,6 @@ function can() {
                         '            <div class="impression">\n' +
                         evaS +
                         '            </div>\n' +
-                        '            <div class="comment">\n' +
-                        input +
                         '            </div>\n' +
                         '        </div>\n' +
                         '    </div>';
@@ -481,9 +478,9 @@ function can() {
 
 
     /*function hideMsgBox(){
-                        timer = setTimeout(function () {
-                            $("#msg-box").hide();
-                        }, 500);
+        timer=setTimeout(function(){
+            $("#msg-box").hide();
+        },500);
     }*/
 
                     $(function () {
@@ -537,30 +534,28 @@ function can() {
                         })
                     }
 
-                    //聊天好友界面切换
-                    $(".change_chat").click(function () {
-                        $(".container").fadeIn(1000);
-                        $(".container_friend").fadeOut(1000);
-                    });
-                    $(".change_friend").click(function () {
-                        friend_initFriend();
-                        var div = $(".container_friend");
-                        $(".container").fadeOut(1000);
-                        $(".container_friend").fadeIn(1000);
-                        div.animate({left: '50%'}, "slow");
-                        $("#msg-box").fadeOut(1000);
-                        $("#msg-history").fadeOut(1000);
-                    });
+        //聊天好友界面切换
+    $(".change_chat").click(function () {
+        $(".container").fadeIn(1000);
+        $(".container_friend").fadeOut(1000);
+    });
+    $(".change_friend").click(function () {
+        var div=$(".container_friend");
+        $(".container").fadeOut(1000);
+        $(".container_friend").fadeIn(1000);
+        div.animate({left:'50%'},"slow");
+        $("#msg-box").fadeOut(1000);
+        $("#msg-history").fadeOut(1000);
+        });
 
 
-                    //聊天记录
-                    $("#history").click(function () {
-                        $("#msg-history").show("slow");
-                    });
-                    $("#msg-history-close").click(function () {
-                        $("#msg-history").hide("slow");
-                    });
-
+    //聊天记录
+    $("#history").click(function () {
+        $("#msg-history").show("slow");
+    });
+    $("#msg-history-close").click(function () {
+        $("#msg-history").hide("slow");
+    });
 </script>
 </body>
 
