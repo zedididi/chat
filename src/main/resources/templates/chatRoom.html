@@ -68,6 +68,7 @@
     </div>
     <input type="button" class="change_chat" value="聊天"  style="border-radius: 21px;width: 80px;height: 50px;position:absolute;top: 5%;left: 45%">
     <input type="button" class="change_friend" value="好友" style="border-radius: 21px;width: 80px;height: 50px;position:absolute;top: 5%;left: 55%">
+    <input type="button" value="聊天记录" id="history" style="border-radius: 21px;width: 80px;height: 50px;position: absolute;top: 5%;left: 82%">
         <!--聊天界面 container -->
         <div class="container">
             <div class="left">
@@ -107,7 +108,6 @@
                     <p style="font-size: 12px;font-weight: bolder">表情包</p>
                 </div>
             </div>
-                <input type="button" value="聊天记录" id="history" style="position: relative;top: 8%;float: right">
         </div>
         </div>
     <!--好友界面-->
@@ -239,40 +239,6 @@ function can() {
     $("#fri").hide();
 }
 
-/*第一分组*/
-    var group01='';
-    group01+='<li class="person" data-chat="person1">' +
-        '<img src="/img/thomas.jpg" alt="" />' +
-        ' <span class="name">Thomas Bangalter</span>'+
-        '<span class="time">2:09 PM</span>'+
-        '</li>'+'<li class="person" data-chat="person1">fff</li>';
-    var group02='';
-    var group03='';
-    var vm=new Vue({
-        el:'.left',
-        data:{
-            panels: [
-                {
-                    title: '我的好友',
-                    list: group01,
-                },
-                {
-                    title: '朋友',
-                    list: group02
-                },
-                {
-                    title: '家人',
-                    list: group03
-                }
-            ],
-            currentIndex: '' //存储当前索引值
-        },
-        methods:{
-            panelSwitch(index){
-                this.currentIndex = this.currentIndex === index ? '' : index; //当前索引值等于当前索引值，清空索引值；否则设置为当前索引值
-            }
-        }
-    });
 
     //获取登陆用户id
     var userId=document.getElementById("userIf").alt;
@@ -287,11 +253,11 @@ function can() {
 
 
     $("#friend_hook").bind("mousedown",showFriendMsgBox);
-    $("#friend_hook").click(function () {
+    /*$("#friend_hook").click(function () {
         $("#container_friend_info").show("slow")
         var div=$("#container_friend_info");
         div.animate({left: '10%'},"slow");
-    })
+    })*/
 
 
 
@@ -536,8 +502,10 @@ function initExpressionPackage() {
         //聊天好友界面切换
     $(".change_chat").click(function () {
         $(".container").fadeIn(1000);
+        $("#history").fadeIn(1000);
         $(".container_friend").fadeOut(1000);
     });
+$(".change_friend").bind("mousedown",showFriendMsgBox);
     $(".change_friend").click(function () {
         var div=$(".container_friend");
         $(".container").fadeOut(1000);
@@ -545,6 +513,10 @@ function initExpressionPackage() {
         div.animate({left:'50%'},"slow");
         $("#msg-box").fadeOut(1000);
         $("#msg-history").fadeOut(1000);
+        $("#history").fadeOut(1000);
+        $("#container_friend_info").show("slow")
+        var div1=$("#container_friend_info");
+        div1.animate({left: '10%'},"slow");
         });
 
 
