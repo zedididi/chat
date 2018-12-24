@@ -13,7 +13,7 @@ import java.util.List;
 
 import static org.junit.Assert.*;
 @RunWith(SpringRunner.class)
-@SpringBootTest
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class ContentServiceTest {
 
     @Autowired
@@ -23,7 +23,7 @@ public class ContentServiceTest {
 
     @Test
     public void getContentRecords() {
-        List<Content> list = contentService.getContentRecords("126098","163506");
+        List<Content> list = contentService.getContentRecords("113618","121411");
         for (Content content:list){
             String sendId = content.getSendId();
             String receiveId =content.getReceiveId();

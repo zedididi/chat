@@ -2,18 +2,19 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
-    <meta charset="UTF-8">
+
+    <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1">
     <title>Direct Messaging</title>
+
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600" rel="stylesheet">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="/css/reset.min.css">
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/panel.css">
-    <script src="/js/mDialogMin.js"></script>
-    <link href="/css/dialog.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css/dialog.css">
     <!--好友添加-->
     <link rel="stylesheet" href="/css/tan.css">
- <!--   <script  src="/js/jquery-2.2.4.js"></script>-->
+
     <style type="text/css">
         #msg-box { background:rgba(255,255,255,0.5);width: 400px; height: 600px; display: none; left: 150px;top:100px;position: absolute; }
         .tip {min-width: 28px;height: 18px;background: red;box-sizing: border-box;color: white;font-size: 13px;
@@ -29,16 +30,18 @@
         .name{font-size: larger;font-weight: bolder}
         .status{font-size: smaller;}
     </style>
-    <script src="/js/tan.js"></script>
+
     <script src="https://cdn.jsdelivr.net/npm/vue"></script>
     <script src="/js/verify.js"></script>
-    <script  src="/js/index.js"></script>
+    <script src="/js/index.js"></script>
     <script src="/js/impression.js"></script>
     <script src="/js/commons.js"></script>
     <script src="/jquery-3.2.1.min.js"></script>
+    <script src="/js/mDialogMin.js"></script>
+    <script src="/js/tan.js"></script>
 </head>
 
-<body onload="initAJAX();initFriend();initExpressionGif();initExpressionPackage()">
+<body onload="initAJAX();initFriend();initAddFriend();initExpressionGif();initExpressionPackage();">
 <audio src="/img/sound/message.wav" id="sound"></audio>
 <audio src="" id="msgAudio"></audio>
 <!--个人资料卡区域-->
@@ -68,6 +71,7 @@
     </div>
     <input type="button" class="change_chat" value="聊天"  style="border-radius: 21px;width: 80px;height: 50px;position:absolute;top: 5%;left: 45%">
     <input type="button" class="change_friend" value="好友" style="border-radius: 21px;width: 80px;height: 50px;position:absolute;top: 5%;left: 55%">
+    <input type="button" value="聊天记录" id="history" style="border-radius: 21px;width: 80px;height: 50px;position: absolute;top: 5%;left: 82%">
         <!--聊天界面 container -->
         <div class="container">
             <div class="left">
@@ -107,7 +111,6 @@
                     <p style="font-size: 12px;font-weight: bolder">表情包</p>
                 </div>
             </div>
-                <input type="button" value="聊天记录" id="history" style="position: relative;top: 8%;float: right">
         </div>
         </div>
     <!--好友界面-->
@@ -149,6 +152,8 @@
                 <div style="overflow: auto;">
                     <ul id="fri" class="people">
 
+                      <!--  搜索好友的结果-->
+
                     </ul>
                 </div>
             </div>
@@ -158,36 +163,19 @@
                     <h4>收到的验证</h4>
                     <br>
                     <ul id="reValidte" class="people">
-                        <li class="person" data-chat="person1">
-                            <img src="/img/thomas.jpg" alt="" style="width: 45px;height: 45px"/>
-                            <span class="name">Thomas Bangalter</span>
-                        </li>
-                        <li class="person" data-chat="person1">
-                            <img src="/img/thomas.jpg" alt="" style="width: 45px;height: 45px"/>
-                            <span class="name">Thomas Bangalter</span>
-                        </li>
-                        <li class="person" data-chat="person1">
-                            <img src="/img/thomas.jpg" alt="" style="width: 45px;height: 45px"/>
-                            <span class="name">Thomas Bangalter</span>
-                        </li>
-                        <li class="person" data-chat="person1">
-                            <img src="/img/thomas.jpg" alt="" style="width: 45px;height: 45px"/>
-                            <span class="name">Thomas Bangalter</span>
-                        </li>
-                        <li class="person" data-chat="person1">
-                            <img src="/img/thomas.jpg" alt="" style="width: 45px;height: 45px"/>
-                            <span class="name">Thomas Bangalter</span>
-                        </li>
-                        <li class="person" data-chat="person1">
-                            <img src="/img/thomas.jpg" alt="" style="width: 45px;height: 45px"/>
-                            <span class="name">Thomas Bangalter</span>
-                        </li>
+
+                       <!-- 收到的好友添加验证-->
+
                     </ul>
                 </div>
                 <hr>
                 <div style="overflow: auto;">
                     <h4>已发的验证</h4>
-                    <ul id="sendValidate" class="people"></ul>
+                    <ul id="sendValidate" class="people">
+
+                    <!--已发的验证-->
+
+                    </ul>
                 </div>
             </div>
         </div>
@@ -195,12 +183,29 @@
 </div>
 
 <script type="text/javascript">
-document.body.parentNode.style.overflow = "hidden";//隐藏且禁用横向纵向两个滚动条
+
+    //隐藏且禁用横向纵向两个滚动条
+   document.body.parentNode.style.overflow = "hidden";
+
+    //同意特殊标识
+    var agreeTAG="LCcIX/nI6sUfwWSy同意";
+    //请求特殊标识
+    var requestTAG="HupsfSX79aIMZ73nn请求";
+    //拒绝特殊标识
+    var refuseTAG="AAoHAR1TIiIkUFU拒绝";
+
+    //获取登陆用户id
+    var userId=document.getElementById("userIf").alt;
+
+    var webSocket=getWebSocket();
+
+
 $(document).ready(function () {
     $(".chat").scrollTop( $(".chat")[0].scrollHeight );
 })
 
 /*好友添加弹窗部分*/
+
 $("#div_4").hide();
 $("#div_3").hide();
 $("#addFriend").click (function () {
@@ -211,74 +216,177 @@ $("#mes").click(function () {
     $("#div_4").hide();
     $("#div_3").show(500);
 });
+
+//转换时间格式
+
+function timestampToTime(timestamp) {
+    var date = new Date(timestamp); //时间戳为10位需*1000，时间戳为13位的话不需乘1000
+    var Y = date.getFullYear() + '-';
+    var M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-';
+    var D = date.getDate() + ' ';
+    /* var h = date.getHours() + ':';
+    var m = date.getMinutes() + ':';
+    var s = date.getSeconds();*/
+     return Y+M+D;
+}
+
 /* 查找好友*/
 function sear() {
-    var s='';
+
     var input=document.getElementById("search_input").value;
     if(input=="")
         alert("请输入用户id");
-    else if(input.length!=6)
-        alert("请输入有效id号");
     else {
-        /*   查询数据库（id为input)*/
-        s = '<li class="person" data-chat="person1">' +
-            '<img src="/img/thomas.jpg" alt="" style="width: 45px;height: 45px"/>' +
-            ' <span class="name">Thomas Bangalter</span>' + '<span style="color: green" onclick="accept()">√</span>' + '<span style="color: red" onclick="can()">×</span>'
-        '</li>';
-        $("#fri").show();
+        $.ajax({
+            type: 'GET',
+            url: '/user/getIdOrName',
+            dataType: 'JSON',
+            data: {
+                'id': input,
+                'name': input
+            },
+            success: function(data){
+
+                var obj = data;
+                var s='';
+                for (var i in obj) {
+                    var id = obj[i].id;
+                    var image = obj[i].image;
+                    var userName = obj[i].userName;
+                    s += '<li class="person" data-chat="'+id+'">' +
+                        '<img id="needUser" src="'+image+'" alt="'+id+'" style="width: 45px;height: 45px"/>' +
+                        '<span class="name">帐号：'+id+' 用户名：'+userName+'</span>' +
+                        '<span style="color: green"  onclick="accept('+id+')">√</span>' +
+                        '<span style="color: red" onclick="can()">×</span>'+
+                        '</li>';
+                }
+                document.getElementById("fri").innerHTML=s;
+                $("#fri").show();
+            }
+        });
     }
-    document.getElementById("fri").innerHTML=s;
+    document.getElementById("search_input").value="";
 }
 
-function accept() {
-    alert("发送请求");
+
+//发送添加好友请求
+function accept( needId) {
+
+    window.console.info("needUserID:"+needId);
+
+    $.ajax({                //发送请求信息
+        type: 'POST',
+        url: '/friend/add',
+        dataType: 'text',
+        data: {
+            'friendId': needId,
+            'userId': userId,
+            'groupId': 1
+        },
+        success: function(data){
+            if (data=="请求发送成功") {
+                var content = {
+                    "sendId": userId,
+                    "receiveId": needId,
+                    "content": requestTAG
+                };
+                window.alert(data + JSON.stringify(content));
+                window.console.info("请求发送内容："+content.content);
+                webSocket.send(JSON.stringify(content));         //请求转发给服务端
+
+                $.ajax({              //获取已发送请求的好友信息
+                    type: 'GET',
+                    url: '/user/getId',
+                    dataType: 'JSON',
+                    data: {
+                        'id': needId
+                    },
+                    success: function(data){
+
+                        var sendValidate="";
+                            var id = data.id;
+                            var image = data.image;
+                            var userName = data.userName;
+                            sendValidate+='<li class="person" id="'+id+'">\n' +
+                                '<img src="'+image+'" alt="'+id+'" style="width: 45px;height: 45px"/>\n' +
+                                '<span class="name">帐号：'+id+' 用户名：'+userName+'</span>\n' +
+                                '</li>';
+                        document.getElementById("sendValidate").innerHTML+=sendValidate;
+                    }
+                });
+            }
+            else
+                window.alert(data);
+        }
+    });
 }
 
+
+//删除此查询结果
 function can() {
-    alert("取消");
     $("#fri").hide();
 }
 
-/*第一分组*/
-    var group01='';
-    group01+='<li class="person" data-chat="person1">' +
-        '<img src="/img/thomas.jpg" alt="" />' +
-        ' <span class="name">Thomas Bangalter</span>'+
-        '<span class="time">2:09 PM</span>'+
-        '</li>'+'<li class="person" data-chat="person1">fff</li>';
-    var group02='';
-    var group03='';
-    var vm=new Vue({
-        el:'.left',
-        data:{
-            panels: [
-                {
-                    title: '我的好友',
-                    list: group01,
-                },
-                {
-                    title: '朋友',
-                    list: group02
-                },
-                {
-                    title: '家人',
-                    list: group03
-                }
-            ],
-            currentIndex: '' //存储当前索引值
+//初始化添加好友界面
+function initAddFriend(){
+
+    $.ajax({              //获取接受添加请求的好友信息
+        type: 'GET',
+        url: '/friend/getSendReq',
+        dataType: 'JSON',
+        data: {
+            'userId': userId
         },
-        methods:{
-            panelSwitch(index){
-                this.currentIndex = this.currentIndex === index ? '' : index; //当前索引值等于当前索引值，清空索引值；否则设置为当前索引值
+        success: function(data){
+
+            var sendValidate="";
+            var obj = data;
+
+            for (var i in obj){
+                var id = obj[i].friendId;
+                var image = obj[i].image;
+                var userName = obj[i].friendName;
+                sendValidate+='<li class="person" id="'+id+'">\n' +
+                    '<img src="'+image+'" alt="'+id+'" style="width: 45px;height: 45px"/>\n' +
+                    '<span class="name">帐号：'+id+' 用户名：'+userName+'</span>\n' +
+                    '</li>';
             }
+            document.getElementById("sendValidate").innerHTML+=sendValidate;
         }
     });
 
-    //获取登陆用户id
-    var userId=document.getElementById("userIf").alt;
-    //var userId=$("img#userIf").attr("alt");
 
-    //资料卡悬浮框
+    $.ajax({              //获取接受添加请求的好友信息
+        type: 'GET',
+        url: '/friend/getReceiveReq',
+        dataType: 'JSON',
+        data: {
+            'userId': userId
+        },
+        success: function(data){
+
+            var reValidte="";
+            var obj = data;
+
+            for (var i in obj){
+
+                var id = obj[i].friendId;
+                var image = obj[i].image;
+                var userName = obj[i].friendName;
+                reValidte += '<li class="person" id="' + id + '">\n' +
+                    '<img src="' + image + '" alt="' + id + '" style="width: 45px;height: 45px"/>\n' +
+                    '<span class="name">帐号：' + id + ' 用户名：' + userName + '</span>\n' +
+                    '<span style="color: green"  onclick="acceptReq('+id+')">√</span>\n' +
+                    '<span style="color: red" onclick="refuseReq('+id+')">×</span>\n'+
+                    '</li>';
+            }
+            document.getElementById("reValidte").innerHTML+=reValidte;
+        }
+    });
+}
+
+
+    //资料卡悬浮框 功能绑定
 
     $("#hook").bind("mouseover",showMsgBox);
     $(".container").mousedown(function () {
@@ -286,18 +394,19 @@ function can() {
     });
 
 
+
     $("#friend_hook").bind("mousedown",showFriendMsgBox);
-    $("#friend_hook").click(function () {
+    /*$("#friend_hook").click(function () {
         $("#container_friend_info").show("slow")
         var div=$("#container_friend_info");
         div.animate({left: '10%'},"slow");
-    })
+    })*/
 
 
 
-
+    //聊天界面 显示个人资料卡
     function showMsgBox(){
-      //  if(timer){clearTimeout(timer);}
+
         var friendId=$(this).attr("alt");
         window.console.info("id:"+friendId);
 
@@ -312,7 +421,7 @@ function can() {
                 },
                 success: function (data) {
 
-                    var birthday = data.birthday == null ? "无" : data.birthday;
+                    var birthday = data.birthday == null ? "无" : timestampToTime(data.birthday);
                     var email = data.email == null ? "无" : data.email;
                     var country = data.country;
                     var city = data.city;
@@ -387,6 +496,8 @@ function can() {
         $("#msg-box").show("slow")
     }
 
+
+    //好友管理界面 显示个人资料卡
     function showFriendMsgBox() {
         var friend_friendId=$(this).attr("alt");
         window.console.info(friend_friendId);
@@ -473,13 +584,6 @@ function can() {
         //$(".container_friend_info").show("slow")
     }
 
-
-    /*function hideMsgBox(){
-                        timer = setTimeout(function () {
-                            $("#msg-box").hide();
-                        }, 500);
-    }*/
-
 $(function () {
     $("#chat-biaoqing").click(function () {
         $("#expression").css("visibility", "visible")
@@ -536,8 +640,10 @@ function initExpressionPackage() {
         //聊天好友界面切换
     $(".change_chat").click(function () {
         $(".container").fadeIn(1000);
+        $("#history").fadeIn(1000);
         $(".container_friend").fadeOut(1000);
     });
+$(".change_friend").bind("mousedown",showFriendMsgBox);
     $(".change_friend").click(function () {
         var div=$(".container_friend");
         $(".container").fadeOut(1000);
@@ -545,6 +651,10 @@ function initExpressionPackage() {
         div.animate({left:'50%'},"slow");
         $("#msg-box").fadeOut(1000);
         $("#msg-history").fadeOut(1000);
+        $("#history").fadeOut(1000);
+        $("#container_friend_info").show("slow")
+        var div1=$("#container_friend_info");
+        div1.animate({left: '10%'},"slow");
         });
 
 
@@ -600,5 +710,4 @@ $("#guimi").dblclick(function () {
 
 </script>
 </body>
-
 </html>

@@ -17,10 +17,12 @@
         <result column="username" jdbcType="VARCHAR" property="userName"/>
         <result column="groupName" jdbcType="VARCHAR" property="groupName"/>
     </resultMap>
+
     <select id="findAll" resultMap="userInfoMap">
         SELECT  userinfo.id,userid,image,sex,birthday,phone,email,country,city,`user`.username
         from userinfo left join `user` on userinfo.userid = `user`.id
     </select>
+
     <select id="findByUserId" resultMap="userInfoMap" parameterType="String">
         SELECT  userinfo.id,userid,image,sex,birthday,phone,email,country,city,`user`.username
         from userinfo left join `user` on userinfo.userid = `user`.id

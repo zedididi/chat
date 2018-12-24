@@ -16,5 +16,8 @@ public interface FriendService {
     Friend findByUserId(Friend friend);
     boolean addFriendByUserId(Friend friend);
     boolean updateFriendByUserId(Friend friend);
+    boolean updateGroupByUserId(Friend friend);
+    boolean updateStatusByUserId(Friend friend);
     boolean deleteFriendByUserId(Friend friend);
+    List<Friend> findAllByUserIdAndStatus(String userId,String status);
 }
