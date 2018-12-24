@@ -18,9 +18,19 @@ public class ContentService {
     @Autowired
     private ContentDao contentDao;
 
+    /**
+     * 返回from和to两个用户的聊天记录
+     * @param from
+     * @param to
+     * @return
+     */
     public List<Content> getContentRecords(String from,String to){
         return contentDao.getContentRecords(from,to);
     }
 
+    /**
+     * 将消息存储至数据库中
+     * @param content
+     */
     public void insertContentRecord(Content content){ contentDao.insertContentRecord(content);}
 }
