@@ -29,13 +29,15 @@
         .name{font-size: larger;font-weight: bolder}
         .status{font-size: smaller;}
     </style>
-    <script src="/js/tan.js"></script>
+
     <script src="https://cdn.jsdelivr.net/npm/vue"></script>
     <script src="/js/verify.js"></script>
-    <script  src="/js/index.js"></script>
+    <script src="/js/index.js"></script>
     <script src="/js/impression.js"></script>
     <script src="/js/commons.js"></script>
     <script src="/jquery-3.2.1.min.js"></script>
+    <script src="/js/mDialogMin.js"></script>
+    <script src="/js/tan.js"></script>
 </head>
 
 <body onload="initAJAX();initFriend();initAddFriend();initExpressionGif();initExpressionPackage();">
@@ -173,14 +175,6 @@
         </div>
     </div>
 </div>
-<script src="https://cdn.jsdelivr.net/npm/vue"></script>
-<script src="/js/verify.js"></script>
-<script src="/js/index.js"></script>
-<script src="/js/impression.js"></script>
-<script src="/js/commons.js"></script>
-<script src="/jquery-3.2.1.min.js"></script>
-<script src="/js/mDialogMin.js"></script>
-<script src="/js/tan.js"></script>
 
 <script type="text/javascript">
 
@@ -200,7 +194,6 @@
     var webSocket=getWebSocket();
 
 
-
 /*好友添加弹窗部分*/
 
 $("#div_4").hide();
@@ -217,7 +210,7 @@ $("#mes").click(function () {
 //转换时间格式
 
 function timestampToTime(timestamp) {
-    var date = new Date(timestamp);//时间戳为10位需*1000，时间戳为13位的话不需乘1000
+    var date = new Date(timestamp); //时间戳为10位需*1000，时间戳为13位的话不需乘1000
     var Y = date.getFullYear() + '-';
     var M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-';
     var D = date.getDate() + ' ';
@@ -252,7 +245,7 @@ function sear() {
                     var userName = obj[i].userName;
                     s += '<li class="person" data-chat="'+id+'">' +
                         '<img id="needUser" src="'+image+'" alt="'+id+'" style="width: 45px;height: 45px"/>' +
-                        ' <span class="name">帐号：'+id+' 用户名：'+userName+'</span>' +
+                        '<span class="name">帐号：'+id+' 用户名：'+userName+'</span>' +
                         '<span style="color: green"  onclick="accept('+id+')">√</span>' +
                         '<span style="color: red" onclick="can()">×</span>'+
                         '</li>';
@@ -267,7 +260,7 @@ function sear() {
 
 
 //发送添加好友请求
-function accept(needId) {
+function accept( needId) {
 
     window.console.info("needUserID:"+needId);
 
@@ -340,7 +333,6 @@ function initAddFriend(){
             var obj = data;
 
             for (var i in obj){
-
                 var id = obj[i].friendId;
                 var image = obj[i].image;
                 var userName = obj[i].friendName;
@@ -491,6 +483,8 @@ function initAddFriend(){
         $("#msg-box").show("slow")
     }
 
+
+    //好友管理界面 显示个人资料卡
     function showFriendMsgBox() {
         var friendId=$(this).attr("alt");
         window.console.info("id:"+friendId);
@@ -578,13 +572,6 @@ function initAddFriend(){
         $(".container_friend_info").show("slow")
     }
 
-
-    /*function hideMsgBox(){
-                        timer = setTimeout(function () {
-                            $("#msg-box").hide();
-                        }, 500);
-    }*/
-
 $(function () {
     $("#chat-biaoqing").click(function () {
         $("#expression").css("visibility", "visible")
@@ -662,5 +649,4 @@ $("#msg-history-close").click(function () {
 });
 </script>
 </body>
-
 </html>

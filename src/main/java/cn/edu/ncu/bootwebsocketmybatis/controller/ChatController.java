@@ -4,7 +4,6 @@ import cn.edu.ncu.bootwebsocketmybatis.entity.Content;
 import cn.edu.ncu.bootwebsocketmybatis.service.ContentService;
 import com.alibaba.fastjson.JSON;
 import org.apache.commons.io.FileUtils;
-import org.apache.ibatis.annotations.Param;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
