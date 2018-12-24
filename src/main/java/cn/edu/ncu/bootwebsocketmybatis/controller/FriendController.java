@@ -43,24 +43,23 @@ public class FriendController {
     }
 
     /**
-     * 获取好友添加请求
+     * 获取发送添加请求的好友
      * @param userId
      * @return
      */
-    @GetMapping("/getReq")
-    public List<Friend> getRequest(String userId){
-
+    @GetMapping("/getReceiveReq")
+    public List<Friend> getReceiveRequest(String userId){
         List<Friend> requestList=friendService.findAllByUserIdAndStatus(userId,"R");
         return  requestList;
     }
 
     /**
-     * 获取已发送好友添加请求，但还未相应的好友
+     * 获取接受到好友添加请求，但还未响应的好友
      * @param userId
      * @return
      */
-    @GetMapping("/getStatus")
-    public List<Friend> getStatus(String userId){
+    @GetMapping("/getSendReq")
+    public List<Friend> getSendRequest(String userId){
         List<Friend> statusList=friendService.findAllByUserIdAndStatus(userId,"S");
         return statusList;
     }

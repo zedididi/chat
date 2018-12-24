@@ -52,11 +52,9 @@ public class ChatController {
     @OnMessage
     public void OnMessage(Session session,String msg,@PathParam("sendId")String sendId){
         Content content = JSON.parseObject(msg, Content.class);
-        System.out.println("msg:"+msg+"    content:"+content.toString());
         String from = content.getSendId();
         String to = content.getReceiveId();
         String message = content.getContent();
-        System.out.println(sendId+to+message);
         Timestamp createTime = new Timestamp(new Date().getTime());
         content.setCreateTime(createTime.toString());
         if (onlineUsers.containsKey(to)) {

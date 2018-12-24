@@ -29,6 +29,12 @@
         where `user`.username=#{userName,jdbcType=VARCHAR}
     </select>
 
+    <select id="findByIdOrName" resultMap="userMap">
+        SELECT  `user`.id,username,`password`,createtime,userinfo.image as user_image
+        from `user` left join userinfo on `user`.id = userinfo.userid
+        where `user`.id=#{id,jdbcType=VARCHAR} or `user`.username=#{userName,jdbcType=VARCHAR}
+    </select>
+
     <insert id="addUser" keyProperty="id" parameterType="cn.edu.ncu.bootwebsocketmybatis.entity.User">
         insert into `user`(id,username,`password`) values (#{id,jdbcType=VARCHAR},#{userName,jdbcType=VARCHAR},#{password,jdbcType=VARCHAR});
     </insert>

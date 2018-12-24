@@ -9,8 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import static org.junit.Assert.*;
-
 /**
  * @auther: Liu Zedi.
  * @date: Create in 2018/12/19  22:41
@@ -32,6 +30,11 @@ public class FriendServiceImplTest {
 
     @Test
     public void findByUserId() {
+
+        String s="TYRTY";
+     //   if (s.contains("T"))
+            s.replaceAll("T"," ");
+        System.out.println(s);
     }
 
     @Test

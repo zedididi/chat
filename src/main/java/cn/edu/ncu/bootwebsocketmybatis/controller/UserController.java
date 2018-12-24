@@ -29,7 +29,7 @@ public class UserController {
     FriendServiceImpl friendService;
 
     /**
-     * 根据id查询用户
+     * 根据 id 查询用户
      * @param id
      * @return
      */
@@ -39,7 +39,7 @@ public class UserController {
     }
 
     /**
-     * 根据username查询用户
+     * 根据 username 查询用户
      * @param name
      * @return
      */
@@ -47,6 +47,18 @@ public class UserController {
     public List<User> getUserByName(String name){
         return userService.findByName(name);
     }
+
+    /**
+     * 根据 userName 和 id 查询用户
+     * @param id
+     * @param name
+     * @return
+     */
+    @GetMapping("/getIdOrName")
+    public List<User> getUserByIdOrName(String id,String name){
+        return userService.findByIdOrName(id, name);
+    }
+
 
 
 

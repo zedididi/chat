@@ -1,6 +1,5 @@
 function initFriend() {
    var userId = document.getElementById("userIf").alt;
-   // var userId=$("img#userIf").attr("alt");
     xmlHttp.open("POST", "/friend/getAll", true);
     xmlHttp.onreadystatechange = function () {
         if (xmlHttp.readyState == 4) {
@@ -25,18 +24,9 @@ function initFriend() {
                 init();
                 initChatRecord()
             }
-
         }
 
         $("#hook,#msg-box").bind("mouseover",showMsgBox);
-
-        //var timer;
-        //$("#hook").bind("mouseout",hideMsgBox);
-        //$("#msg-box").mouseover($("#hook").stop());
-       /* $("#msg-box").bind("mouseout",function(){
-            if(timer){clearTimeout(timer);}
-            $("#msg-box").hide();
-        });*/
 
     };
     xmlHttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
@@ -45,96 +35,242 @@ function initFriend() {
 }
 
 
-function getWebSocket(sendId) {
+//与服务端连接
+function getWebSocket() {
 
     var sendId = $("#userIf").attr("alt");
     var webSocket = new WebSocket("ws://localhost:8080/chatRoom/"+sendId);
 
     webSocket.onopen = function (ev) {
-        alert("发出连接请求")
+        window.console.info("发出连接请求");
     };
 
     webSocket.onclose = function (ev) {
-        alert("发生了关闭请求")
+        window.console.info("发生了关闭请求");
     };
 
     webSocket.onerror = function (ev) {
-        alert("发生了错误")
+        window.console.info("发生了错误");
     };
     webSocket.onmessage = function (ev) {
 
 
-        var obj = JSON.parse(ev.data);
-        // alert(ev.data);
-        //alert(obj);
+        // var obj=ev.data;
+        /* for (var i in obj){
+             var sendId = obj[i].sendId;
+             var receiveId = obj[i].receiveId;
+             var createTime = obj[i].createTime;
+             var msg = obj[i].content;*/
 
-        console.info("ev"+ev);
-        console.info("data"+ev.data);
-       // var obj=ev.data;
-       /* for (var i in obj){
-            var sendId = obj[i].sendId;
-            var receiveId = obj[i].receiveId;
-            var createTime = obj[i].createTime;
-            var msg = obj[i].content;*/
+        var obj = JSON.parse(ev.data);
+        console.info("data" + ev.data);
 
         var sendId = obj.sendId;
         var receiveId = obj.receiveId;
         var createTime = obj.createTime;
         var msg = obj.content;
 
-            if (msg=="HupsfSX79aIMZ73nn请求"){
+        dealAddReceived(ev);
 
-                var r=window.confirm("你同意来自"+sendId+"的好友请求吗！");
-                if (r==true){       //同意发送回复信息
-                    $.ajax({
-                        type: 'POST',
-                        url: '/friend/agree',
-                        dataType: 'text',
-                        data: {
-                            'friendId': receiveId,
-                            'userId': sendId,
-                        },
-                        success: function(data){
-                            var content={
-                                "sendId": receiveId,    //发送同意信息到请求者，因此receiveId是真正的发送者
-                                "receiveId": sendId,
-                                "content": "LCcIX/nI6sUfwWSy同意"
-                            };
-                            window.alert(data+JSON.stringify(content));
-                            webSocket.send(JSON.stringify(content));
-                            window.location.reload();
-                        }
-                    });
+        window.console.info("msg发送内容：" + msg);
+
+       /* if (msg == requestTAG) {
+
+            $.ajax({              //获取已发送请求的好友信息
+                type: 'GET',
+                url: '/user/getId',
+                dataType: 'JSON',
+                data: {
+                    'id': sendId              //目前为接受者，因此sendId是请求者
+                },
+                success: function (data) {
+
+                    var reValidte = '';
+                    var id = data.id;
+                    var image = data.image;
+                    var userName = data.userName;
+                    reValidte += '<li class="person" id="' + id + '">\n' +
+                        '<img src="' + image + '" alt="' + id + '" style="width: 45px;height: 45px"/>\n' +
+                        '<span class="name">帐号：' + id + ' 用户名：' + userName + '</span>\n' +
+                        '<span style="color: green"  onclick="acceptReq('+sendId+')">√</span>\n' +
+                        '<span style="color: red" onclick="refuseReq('+sendId+')">×</span>\n'+
+                        '</li>';
+                    document.getElementById("reValidte").innerHTML += reValidte;
                 }
-                else{                  //不同意
+            });
+        }
+        if (msg == agreeTAG) {
+            window.console.info(sendId+"已同意你的请求");
+            $("#sendValidate li[id="+sendId+"]").remove();
+        }
 
-                    $.ajax({
-                        type: 'POST',
-                        url: '/friend/delete',
-                        dataType: 'text',
-                        data: {
-                            'friendId': receiveId,
-                            'userId': sendId
-                        },
-                        success: function(data){
-                            window.alert(data);
-                            window.location.reload();
-                        }
-                    });
+        if (msg == refuseTAG ){
+            window.console.info(sendId+"已拒绝你的请求");
+            $("#sendValidate li[id="+sendId+"]").remove();
+        }
+        alert(sendId + " " + receiveId + " " + createTime + " " + msg)*/
 
-                }
-
-            }
-
-            if (msg=="LCcIX/nI6sUfwWSy同意") {
-                window.alert(receiveId+"已同意你的请求");
-                window.location.reload();
-            }
-            alert(sendId +" " + receiveId +" " + createTime+" " + msg)
-      //  }
     };
 
     return webSocket;
+}
+
+//处理好友添加请求
+function dealAddReceived(ev) {
+
+    var obj = JSON.parse(ev.data);
+    console.info("data" + ev.data);
+
+    var sendId = obj.sendId;
+    var receiveId = obj.receiveId;
+    var createTime = obj.createTime;
+    var msg = obj.content;
+
+    if (msg == requestTAG) {
+
+        $.ajax({              //获取已发送请求的好友信息
+            type: 'GET',
+            url: '/user/getId',
+            dataType: 'JSON',
+            data: {
+                'id': sendId              //目前为接受者，因此sendId是请求者
+            },
+            success: function (data) {
+
+                var reValidte = '';
+                var id = data.id;
+                var image = data.image;
+                var userName = data.userName;
+                reValidte += '<li class="person" id="' + id + '">\n' +
+                    '<img src="' + image + '" alt="' + id + '" style="width: 45px;height: 45px"/>\n' +
+                    '<span class="name">帐号：' + id + ' 用户名：' + userName + '</span>\n' +
+                    '<span style="color: green"  onclick="acceptReq('+id+')">√</span>\n' +
+                    '<span style="color: red" onclick="refuseReq('+id+')">×</span>\n'+
+                    '</li>';
+                document.getElementById("reValidte").innerHTML += reValidte;
+            }
+        });
+    }
+
+    if (msg == agreeTAG) {    //接收到好友请求同意消息
+
+        window.console.info(sendId+"已同意你的请求");
+        $("#sendValidate li[id="+sendId+"]").remove();
+
+        $.ajax({              //好友列表添加此好友信息
+            type: 'GET',
+            url: '/user/getId',
+            dataType: 'JSON',
+            data: {
+                'id': sendId
+            },
+            success: function(data){
+
+                var info="";
+                var id = data.id;
+                var image = data.image;
+                var userName = data.userName;
+
+                info +='<li class="person" data-chat="' + id + '">' +
+                    '<img id="hook"  src="' + image + '" alt="' + id + '" />' +
+                    '<span class="name">' + userName + '</span>' +
+                    '</li>';
+
+                //$("#people").innerHTML+=info;
+                document.getElementById("people").innerHTML +=info;
+            }
+        });
+    }
+
+    if (msg == refuseTAG ){   //接收到好友请求拒绝消息
+        window.console.info(sendId+"已拒绝你的请求");
+        $("#sendValidate li[id="+sendId+"]").remove();
+    }
+    alert(sendId + " " + receiveId + " " + createTime + " " + msg)
+
+}
+
+//同意好友添加请求
+function acceptReq(receiveId) {
+
+    var sendId = $("#userIf").attr("alt");
+
+    $.ajax({
+        type: 'POST',
+        url: '/friend/agree',
+        dataType: 'text',
+        data: {
+            'friendId': receiveId,
+            'userId': sendId,
+        },
+        success: function (data) {
+            var content = {
+                "sendId": sendId,    //发送同意信息到请求者，因此receiveId是真正的发送者
+                "receiveId": receiveId,
+                "content": agreeTAG
+            };
+            window.alert(data + JSON.stringify(content));
+            webSocket.send(JSON.stringify(content));
+            window.console.info("同意发送内容：" + content.content);
+            $("#reValidte li[id="+receiveId+"]").remove();
+
+            $.ajax({              //好友列表添加此好友信息
+                type: 'GET',
+                url: '/user/getId',
+                dataType: 'JSON',
+                data: {
+                    'id': receiveId
+                },
+                success: function(data){
+
+
+                    var info="";
+                    var id = data.id;
+                    var image = data.image;
+                    var userName = data.userName;
+
+                    info +='<li class="person" data-chat="' + id + '">' +
+                        '<img id="hook"  src="' + image + '" alt="' + id + '" />' +
+                        '<span class="name">' + userName + '</span>' +
+                        '</li>';
+
+                    //$("#people").innerHTML+=info;
+                    document.getElementById("people").innerHTML +=info;
+                }
+            });
+
+        }
+    });
+
+}
+
+//拒绝好友添加请求
+function refuseReq(receiveId) {
+
+    var sendId = $("#userIf").attr("alt");
+
+    $.ajax({
+        type: 'POST',
+        url: '/friend/delete',
+        dataType: 'text',
+        data: {
+            'friendId': receiveId,
+            'userId': sendId
+        },
+        success: function (data) {
+
+            var content = {
+                "sendId": sendId,    //发送拒绝信息到请求者，
+                "receiveId": receiveId,
+                "content": refuseTAG
+            };
+            window.alert(data + JSON.stringify(content));
+            webSocket.send(JSON.stringify(content));
+            window.console.info("拒绝发送内容：" + content.content);
+            $("#reValidte li[id="+receiveId+"]").remove();
+
+        }
+    });
 }
 
 
@@ -211,7 +347,7 @@ function init() {
     }*/
 
 
-    var webSocket = getWebSocket(sendId);
+    var webSocket = getWebSocket();
 
     //发送功能
     $("#chat-fasong").click(function () {
