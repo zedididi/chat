@@ -1,6 +1,5 @@
 //初始化好友列表
 function initFriend() {
-    initAJAX();
     var userId = document.getElementById("userIf").alt;
     var friendIds = "";
     xmlHttp.open("POST", "/friend/getAll", true);
@@ -20,21 +19,64 @@ function initFriend() {
                     var li_id = friendId+"li";
                     var tip_id = friendId +"tip";
                     var status_id = friendId +"status";
-                    listFriend += '<li class="person" id="'+li_id+'" data-chat="' + friendId + '">' +
-                        '<img src="' + image + '" alt="' + userId + '" />' +
-                        '<span class="name" >' + friendName + '</span><span class="status" id="'+status_id+'">' +
-                        '</span><span class="tip" id='+tip_id+'></span></li>';
+
                     chatWindowDivs = '<div class="chat" id=' +friendId +' data-chat="' +friendId +'"></div>';
+                    listFriend += '<li class="person" data-chat="' + friendId + '">' +
+                        '<img id="hook"  src="' + image + '" alt="' + friendId + '" />' +
+                        '<span class="name">' + friendName + '</span>' +
+                        '</li>';
+                    chatWindowDivs = '<div style="" class="chat" id="' +friendId +'" data-chat="' +friendId +'"></div>';
                     $("#write").before(chatWindowDivs);
                 }
                 document.getElementById("people").innerHTML += listFriend;
                 boolOnline(friendIds +" " + userId);
                 init();
+                initChatRecord()
             }
         }
+
+        $("#hook,#msg-box").bind("mouseover",showMsgBox);
+
+
     };
     xmlHttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
     xmlHttp.send("userId=" + userId);
+
+}
+
+//好友列表好友
+function friend_initFriend() {
+    var userId = document.getElementById("friend_userIf").alt;
+    // var userId=$("img#userIf").attr("alt");
+    xmlHttp.open("POST", "/friend/getAll", true);
+    xmlHttp.onreadystatechange = function () {
+        if (xmlHttp.readyState == 4) {
+            if (xmlHttp.status == 200) {
+                var data = xmlHttp.responseText;
+                var obj = JSON.parse(data);
+                var listFriend = '';
+                var chatWindowDivs = '';
+                for (var i in obj) {
+                    var friendId = obj[i].friendId;
+                    var image = obj[i].image;
+                    var friendName = obj[i].friendName;
+                    listFriend += '<li class="person" data-chat="' + friendId + '">' +
+                        '<img id="hook"  src="' + image + '" alt="' + friendId + '" />' +
+                        '<span class="name">' + friendName + '</span>' +
+                        '</li>';
+                    chatWindowDivs = '<div style="" class="chat" id="' +friendId +'" data-chat="' +friendId +'"></div>';
+                    $("#write").before(chatWindowDivs);
+                }
+                document.getElementById("friend_people").innerHTML += listFriend;
+                init();
+                initChatRecord()
+            }
+        }
+        $("#container_friend_left_top_head").bind("mousedown",showFriendMsgBox);
+    };
+    xmlHttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    xmlHttp.send("userId=" + userId);
+
 }
 
 //进行相关信息的初始化,并连接服务器
@@ -48,7 +90,6 @@ function init() {
             list: document.querySelector('ul.people'),//获取好友列表
             all: document.querySelectorAll('.left .person'),//获取所有好友
             name: '' },
-
 
         chat = {
             container: document.querySelector('.container .right'),//获取聊天栏
@@ -103,8 +144,8 @@ function init() {
         }
 
         webSocket.onerror = function (ev) {
-            alert("发生了错误")
-        }
+            console.info("发生了错误")
+        };
 
         webSocket.onmessage = function (ev) {  //当有好友发送消息时进行消息的显示
             if (ev.data.trim().length <= 15){
@@ -232,7 +273,6 @@ function init() {
         }else {
             alert("发送内容不能为空");
         }
-
     });
 
     //语音发送功能
@@ -298,7 +338,7 @@ function init() {
             .catch(function (reason) {
                 alert("请打开录音权限")
             })
-    } 
+    }
 }
 
 //播放语音消息
@@ -336,6 +376,7 @@ function initChatRecord(contactId) {
                     openedChatWindow.innerHTML += '<div class=\"conversation-start\"><span>'+sendTime.split(" ")[1]+'</span></div>';
                 else
                     openedChatWindow.innerHTML += '<div class=\"conversation-start\"><span>'+sendTime+'</span></div>';
+
             if (userId == sendId)
                 openedChatWindow.innerHTML += '<div class=\"bubble me\">' + content +'</div>';
             else

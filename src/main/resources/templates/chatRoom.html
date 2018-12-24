@@ -13,6 +13,16 @@
 
     <link rel="stylesheet" href="/css/style.css">
 
+    <link rel="stylesheet" href="/css/panel.css">
+
+    <script src="/js/mDialogMin.js"></script>
+    <link href="/css/dialog.css" rel="stylesheet">
+
+    <!--好友添加-->
+    <link rel="stylesheet" href="/css/tan.css">
+ <!--   <script  src="/js/jquery-2.2.4.js"></script>-->
+    <script src="/js/tan.js"></script>
+
     <script src="/jquery-3.2.1.min.js"></script>
     <style type="text/css">
         #msg-box { background:rgba(255,255,255,0.5);width: 400px; height: 600px; display: none; left: 150px;top:100px;position: absolute; }
@@ -37,59 +47,46 @@
 <audio src="" id="msgAudio"></audio>
 <!--个人资料卡区域-->
 <div id="msg-box">
-<div class="msg-box-head"><center><img th:src="${user.getImage()}"></center></div>
-    <hr style=" float: bottom;width:80%;margin:0 auto;border: 0;height: 3px;background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));">
-    <div class="msg-box-body">
-        <center>
-        <div class="msg-box-body-name"><p class="p-name" th:value="${user.getUserName()}">刘泽迪</p></br>
-            <p class="p-description">就是蠢</p>
-        </div>
-        </center>
-        <div class="user-info">
-            <p class="info">帐号&nbsp;</p>
-            <p class="info">出生日期&nbsp;</p>
-            <p class="info">性别&nbsp;</p>
-            <p class="info">分组&nbsp;</p>
-            <p class="info">邮箱&nbsp;</p>
-            <p class="info">所在地&nbsp;</p>
-            <p class="info">联系电话&nbsp;</p>
-        </div>
-        <div class="user-info-more">
-            <p class="info-more">1053067224</p>
-            <p class="info-more">1998.6.26</p>
-            <p class="info-more">男</p>
-            <p class="info-more">朋友</p>
-            <p class="info-more">1053067224@qq.com</p>
-            <p class="info-more">江西</p>
-            <p class="info-more">15797895764</p>
-        </div>
-        <hr style=" float: bottom;width:80%;margin:0 auto;border: 0;height: 1px;background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));">
-        <div class="msg-box-bottom">
-            <div class="impression">
-            </div>
-            <div class="comment">
-            <input type="text" maxlength="4" id="input-txt" />
-            <input type="button" value="评价" id="input-btn" />
-            </div>
-        </div>
-    </div>
+
+    <!--个人资料卡区域-->
+
 </div>
 
 <div class="wrapper">
-    <div class="container">
-        <div class="left">
+    <div id="msg-history" style="display: none;position: absolute;left: 90%;top: 100px;width: 400px;height: 600px;border: 1px solid var(--light);background-color: white">
+        <div class="msg-history-top" style="width: 100%;height: 10%;text-align: center">
+            <input value="关闭" type="button" id="msg-history-close" style="float: right;clear: both;">
+            <h1>聊天记录</h1>
+        </div>
+        <div class="msg-history-body" style="width: 100%;height: 90%;overflow-y: auto;overflow-x: hidden">
+        <ul>
+            <li class="history-person">
+                <span class="history-name">yf：</span>
+                <p class="history-msg">哈哈哈</p>
+            </li></br>
+            <li class="history-person">
+                <span class="history-name">lzd：</span>
+                <p class="history-msg">hahaha</p>
+            </li>
+        </ul>
+        </div>
+    </div>
+    <input type="button" class="change_chat" value="聊天"  style="border-radius: 21px;width: 80px;height: 50px;position:absolute;top: 5%;left: 45%"><input type="button" class="change_friend" value="好友" style="border-radius: 21px;width: 80px;height: 50px;position:absolute;top: 5%;left: 55%">
+        <div class="container">
+            <div class="left">
             <div class="top">
                 <!--个人资料卡区域-->
-                <div id="hook">
-                    <img id="userIf" width="40px" height="40px" style="float: left;border-radius: 50%;" th:alt="${user.getId()}" th:src="${user.getImage()}">
-                </div>
-
+                <div id="hook" th:alt="${user.getId()}" class="show-info"><img width="40px" height="40px" style="float: left;border-radius: 50%;" id="userIf" th:alt="${user.getId()}" th:src="${user.getImage()}"></div>
                 <input type="text" placeholder="Search" />
                 <a href="javascript:;" class="search"></a>
+                <a href="javascript:;" class="add" id="topen_btn" onmouseup="tan()"></a>
             </div>
+            <div class="left_body" style="height: 85%;overflow-y: auto;overflow-x: hidden">
+
             <ul class="people" id="people">
 
             </ul>
+            </div>
         </div>
         <div class="right">
             <div class="top" style="height: 60px">
@@ -112,81 +109,458 @@
                     <p style="font-size: 12px;font-weight: bolder">表情包</p>
                 </div>
             </div>
+                <input type="button" value="聊天记录" id="history" style="position: relative;top: 8%;float: right">
+        </div>
+        </div>
+    <div class="container_friend" style="position: absolute;top: 50%;left: 100%;width: 80%;height: 75%;/*background-color: white;*/-webkit-transform: translate(-50%, -50%);transform: translate(-50%, -50%);display: none">
+        <div class="container_friend_left" style="float: left;width: 30%;height: 100%;border: 1px solid var(--light);background-color: var(--white)">
+            <div class="container_friend_left_top" style="text-align: center;position: relative;width: 100%;height: 15%;padding: 10px">
+                <a id="container_friend_left_top_head" th:alt="${user.getId()}"><img id="friend_userIf" width="60px" height="60px" style="border-radius: 50%;" th:alt="${user.getId()}" th:src="${user.getImage()}"></a>
+            </div>
+            <div class="container_friend_left_body" style="height: 85%;overflow-x: hidden;overflow-y: auto">
+                <ul class="people" id="friend_people">
+
+                </ul>
+            </div>
+        </div>
+        <div class="container_friend_right" style="position: relative;float: left;width: 62.4%;height: 100%;overflow: hidden;border: 1px solid var(--light);background-color: var(--white)">
+            <div id="container_friend_info" style="display: none;position:relative;left: 1%;top: 5%;width: 400px;height: 550px;border: 1px solid var(--light);background-color: #8c8c8c">
+            </div>
         </div>
     </div>
 </div>
+<div id="tan_background" class="back">
+    <div id="div_1" class="content">
+        <div id="tclose">
+            <span id="tclose-button">×</span>
+            <span id="addFriend">添加好友</span><span id="mes">好友验证</span>
+        </div>
+        <div class="div_2">
+            <div id="div_4">
+                <hr>
+                <input id="search_input" type="text" placeholder="请输入用户ID" style="height: 30px;width: 250px" required>
+                <button onclick="sear()">查找</button>
+                <hr>
+                <div style="overflow: auto;">
+                    <ul id="fri" class="people">
 
+                    </ul>
+                </div>
+            </div>
+            <div id="div_3">
+                <hr>
+                <div style="height: 190px;overflow: auto;">
+                    <h4>收到的验证</h4>
+                    <br>
+                    <ul id="reValidte" class="people">
+                        <li class="person" data-chat="person1">
+                            <img src="/img/thomas.jpg" alt="" style="width: 45px;height: 45px"/>
+                            <span class="name">Thomas Bangalter</span>
+                        </li>
+                        <li class="person" data-chat="person1">
+                            <img src="/img/thomas.jpg" alt="" style="width: 45px;height: 45px"/>
+                            <span class="name">Thomas Bangalter</span>
+                        </li>
+                        <li class="person" data-chat="person1">
+                            <img src="/img/thomas.jpg" alt="" style="width: 45px;height: 45px"/>
+                            <span class="name">Thomas Bangalter</span>
+                        </li>
+                        <li class="person" data-chat="person1">
+                            <img src="/img/thomas.jpg" alt="" style="width: 45px;height: 45px"/>
+                            <span class="name">Thomas Bangalter</span>
+                        </li>
+                        <li class="person" data-chat="person1">
+                            <img src="/img/thomas.jpg" alt="" style="width: 45px;height: 45px"/>
+                            <span class="name">Thomas Bangalter</span>
+                        </li>
+                        <li class="person" data-chat="person1">
+                            <img src="/img/thomas.jpg" alt="" style="width: 45px;height: 45px"/>
+                            <span class="name">Thomas Bangalter</span>
+                        </li>
+                    </ul>
+                </div>
+                <hr>
+                <div style="overflow: auto;">
+                    <h4>已发的验证</h4>
+                    <ul id="sendValidate" class="people"></ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/vue"></script>
+<script src="/js/verify.js"></script>
+<script  src="/js/index.js"></script>
+<script src="/js/impression.js"></script>
+<script src="/js/commons.js"></script>
+<script src="/jquery-3.2.1.min.js"></script>
 <script type="text/javascript">
-    //个人资料卡悬浮框
-    var timer;
-    $("#hook,#msg-box").bind("mouseover",showMsgBox);
-    $("#hook").bind("mouseout",hideMsgBox);
-    $("#msg-box").bind("mouseout",function(){
-        if(timer){clearTimeout(timer);}
+document.body.parentNode.style.overflow = "hidden";//隐藏且禁用横向纵向两个滚动条
+/*好友添加弹窗部分*/
+$("#div_4").hide();
+$("#div_3").hide();
+$("#addFriend").click (function () {
+    $("#div_4").show(500);
+    $("#div_3").hide();
+});
+$("#mes").click(function () {
+    $("#div_4").hide();
+    $("#div_3").show(500);
+});
+/* 查找好友*/
+function sear() {
+    var s='';
+    var input=document.getElementById("search_input").value;
+    if(input=="")
+        alert("请输入用户id");
+    else if(input.length!=6)
+        alert("请输入有效id号");
+    else {
+        /*   查询数据库（id为input)*/
+        s = '<li class="person" data-chat="person1">' +
+            '<img src="/img/thomas.jpg" alt="" style="width: 45px;height: 45px"/>' +
+            ' <span class="name">Thomas Bangalter</span>' + '<span style="color: green" onclick="accept()">√</span>' + '<span style="color: red" onclick="can()">×</span>'
+        '</li>';
+        $("#fri").show();
+    }
+    document.getElementById("fri").innerHTML=s;
+}
+
+function accept() {
+    alert("发送请求");
+}
+
+function can() {
+    alert("取消");
+    $("#fri").hide();
+}
+
+
+
+
+/*第一分组*/
+    var group01='';
+    group01+='<li class="person" data-chat="person1">' +
+        '<img src="/img/thomas.jpg" alt="" />' +
+        ' <span class="name">Thomas Bangalter</span>'+
+        '<span class="time">2:09 PM</span>'+
+        '</li>'+'<li class="person" data-chat="person1">fff</li>';
+    var group02='';
+    var group03='';
+    var vm=new Vue({
+        el:'.left',
+        data:{
+            panels: [
+                {
+                    title: '我的好友',
+                    list: group01,
+                },
+                {
+                    title: '朋友',
+                    list: group02
+                },
+                {
+                    title: '家人',
+                    list: group03
+                }
+            ],
+            currentIndex: '' //存储当前索引值
+        },
+        methods:{
+            panelSwitch(index){
+                this.currentIndex = this.currentIndex === index ? '' : index; //当前索引值等于当前索引值，清空索引值；否则设置为当前索引值
+            }
+        }
+    });
+
+    //获取登陆用户id
+    var userId=document.getElementById("userIf").alt;
+    //var userId=$("img#userIf").attr("alt");
+
+
+
+    //资料卡悬浮框
+
+    $("#hook").bind("mouseover",showMsgBox);
+    $(".container").mousedown(function () {
         $("#msg-box").hide();
     });
 
+
+    $("#container_friend_left_top_head").bind("mousedown",showFriendMsgBox);
+    $("#container_friend_left_top_head").click(function () {
+        $("#container_friend_info").show("slow")
+        var div=$("#container_friend_info");
+        div.animate({left: '10%'},"slow");
+    })
+
+
+
+
     function showMsgBox(){
-        if(timer){clearTimeout(timer);}
-        $("#msg-box").show();
+
+      //  if(timer){clearTimeout(timer);}
+        var friendId=$(this).attr("alt");
+        window.console.info("id:"+friendId);
+
+        if (friendId!=undefined) {         //鼠标不是放在个人资料卡上
+            $.ajax({
+                type: 'POST',
+                url: '/userInfo/get',
+                dataType: 'json',
+                data: {
+                    'friendId': friendId,
+                    'userId': userId
+                },
+                success: function (data) {
+
+                    var birthday = data.birthday == null ? "无" : data.birthday;
+                    var email = data.email == null ? "无" : data.email;
+                    var country = data.country;
+                    var city = data.city;
+                    if (country == null && city == null)
+                        country = "无";
+                    else if (country == null)
+                        country = city;
+                    else if (city != null && country != null)
+                        country = country + "-" + city;
+                    var phone = data.phone == null ? "无" : data.phone;
+                    var eva=data.evaluates;
+                    var evaS="";
+                    for (var i in eva){
+                        evaS+='<span><a>'+eva[i].content+'</a></span>';
+                    }
+
+                    var group1, group2, input;
+                    if (friendId === userId) {        //当为本人
+                        group1 = "";
+                        group2 = "";
+                        input = "";
+                    }
+                    else {
+                        group1 = '<p class="info">分组&nbsp;</p>\n';
+                        group2 = '<p class="info-more">' + data.groupName + '</p>\n';
+                        input = '<input class="input-txt" type="text" maxlength="4" id="input-txt" /></br><input type="button" alt="'+friendId+'" value="评价" id="input-btn" />';
+                    }
+
+
+                    var userInfo = '<div class="msg-box-head"><center><img src="' + data.image + '"></center></div>\n' +
+                        '    <hr style=" float: bottom;width:80%;margin:0 auto;border: 0;height: 3px;background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));">\n' +
+                        '    <div class="msg-box-body">\n' +
+                        '        <center>\n' +
+                        '        <div class="msg-box-body-name"><p class="p-name"/>' + data.userName + '</br>\n' +
+                        // '            <p class="p-description">就是蠢</p>\n' +
+                        '        </div>\n' +
+                        '        </center>\n' +
+                        '        <div class="user-info">\n' +
+                        '            <p class="info">帐号&nbsp;</p>\n' +
+                        '            <p class="info">出生日期&nbsp;</p>\n' +
+                        '            <p class="info">性别&nbsp;</p>\n' +
+                        group1 +
+                        '            <p class="info">邮箱&nbsp;</p>\n' +
+                        '            <p class="info">所在地&nbsp;</p>\n' +
+                        '            <p class="info">联系电话&nbsp;</p>\n' +
+                        '        </div>\n' +
+                        '        <div class="user-info-more">\n' +
+                        '            <p class="info-more">' + data.userId + '</p>\n' +
+                        '            <p class="info-more">' + birthday + '</p>\n' +
+                        '            <p class="info-more">' + data.sex + '</p>\n' +
+                        group2 +
+                        '            <p class="info-more">' + email + '</p>\n' +
+                        '            <p class="info-more">' + country + '</p>\n' +
+                        '            <p class="info-more">' + phone + '</p>\n' +
+                        '        </div>\n' +
+                        '        <hr style=" float: bottom;width:80%;margin:0 auto;border: 0;height: 1px;background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));">\n' +
+                        '        <div class="msg-box-bottom">\n' +
+                        '            <div class="impression">\n' +
+                        evaS +
+                        '            </div>\n' +
+                        '            <div class="comment">\n' +
+                        input +
+                        '            </div>\n' +
+                        '        </div>\n' +
+                        '    </div>';
+
+                    document.getElementById("msg-box").innerHTML = userInfo;
+                }
+            });
+        }
+        addEvaluation();
+        $("#msg-box").show("slow")
     }
 
-    function hideMsgBox(){
-        timer=setTimeout(function(){
-            $("#msg-box").hide();
-        },500);
+    function showFriendMsgBox() {
+        var friendId=$(this).attr("alt");
+        window.console.info("id:"+friendId);
+
+        if (friendId!=undefined) {         //鼠标不是放在个人资料卡上
+            $.ajax({
+                type: 'POST',
+                url: '/userInfo/get',
+                dataType: 'json',
+                data: {
+                    'friendId': friendId,
+                    'userId': userId
+                },
+                success: function (data) {
+
+                    var birthday = data.birthday == null ? "无" : data.birthday;
+                    var email = data.email == null ? "无" : data.email;
+                    var country = data.country;
+                    var city = data.city;
+                    if (country == null && city == null)
+                        country = "无";
+                    else if (country == null)
+                        country = city;
+                    else if (city != null && country != null)
+                        country = country + "-" + city;
+                    var phone = data.phone == null ? "无" : data.phone;
+                    var eva = data.evaluates;
+                    var evaS = "";
+                    for (var i in eva) {
+                        evaS += '<span><a>' + eva[i].content + '</a></span>';
+                    }
+
+                    var group1, group2, input;
+                    if (friendId === userId) {        //当为本人
+                        group1 = "";
+                        group2 = "";
+                        input = "";
+                    }
+                    else {
+                        group1 = '<p class="info">分组&nbsp;</p>\n';
+                        group2 = '<p class="info-more">' + data.groupName + '</p>\n';
+                        input = '<input class="input-txt" type="text" maxlength="4" id="input-txt" /></br><input type="button" alt="'+friendId+'" value="评价" id="input-btn" />';
+                    }
+
+
+                    var userInfo = '<div class="msg-box-head"><center><img src="' + data.image + '"></center></div>\n' +
+                        '    <hr style=" float: bottom;width:80%;margin:0 auto;border: 0;height: 3px;background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));">\n' +
+                        '    <div class="msg-box-body">\n' +
+                        '        <center>\n' +
+                        '        <div class="msg-box-body-name"><p class="p-name"/>' + data.userName + '</br>\n' +
+                        // '            <p class="p-description">就是蠢</p>\n' +
+                        '        </div>\n' +
+                        '        </center>\n' +
+                        '        <div class="user-info">\n' +
+                        '            <p class="info">帐号&nbsp;</p>\n' +
+                        '            <p class="info">出生日期&nbsp;</p>\n' +
+                        '            <p class="info">性别&nbsp;</p>\n' +
+                        group1 +
+                        '            <p class="info">邮箱&nbsp;</p>\n' +
+                        '            <p class="info">所在地&nbsp;</p>\n' +
+                        '            <p class="info">联系电话&nbsp;</p>\n' +
+                        '        </div>\n' +
+                        '        <div class="user-info-more">\n' +
+                        '            <p class="info-more">' + data.userId + '</p>\n' +
+                        '            <p class="info-more">' + birthday + '</p>\n' +
+                        '            <p class="info-more">' + data.sex + '</p>\n' +
+                        group2 +
+                        '            <p class="info-more">' + email + '</p>\n' +
+                        '            <p class="info-more">' + country + '</p>\n' +
+                        '            <p class="info-more">' + phone + '</p>\n' +
+                        '        </div>\n' +
+                        '        <hr style=" float: bottom;width:80%;margin:0 auto;border: 0;height: 1px;background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));">\n' +
+                        '        <div class="msg-box-bottom">\n' +
+                        '            <div class="impression">\n' +
+                        evaS +
+                        '            </div>\n' +
+                        '            <div class="comment">\n' +
+                        input +
+                        '            </div>\n' +
+                        '        </div>\n' +
+                        '    </div>';
+
+                    document.getElementById("container_friend_info").innerHTML = userInfo;
+                }
+            });
+        }
+        addEvaluation();
+        $(".container_friend_info").show("slow")
     }
 
-    $(function () {
-        $("#chat-biaoqing").click(function () {
-            $("#expression").css("visibility","visible")
-        })
-    })
 
-    $(function () {
-        $("#chat-picture").click(function () {
-            $("#expressionPackage").css("visibility","visible");
-        })
-    })
+    /*function hideMsgBox(){
+                        timer = setTimeout(function () {
+                            $("#msg-box").hide();
+                        }, 500);
+    }*/
+
+                    $(function () {
+                        $("#chat-biaoqing").click(function () {
+                            $("#expression").css("visibility", "visible")
+                        })
+                    });
+
+                    $(function () {
+                        $("#chat-picture").click(function () {
+                            $("#expressionPackage").css("visibility", "visible");
+                        })
+                    });
 
 
-    function getUserinfo() {
-        var userId=document.getElementById("userIf").alt;
-    }
 
 
-    function initExpressionGif() {
-        for (var i = 1;i<=56;i++)
-            $("#expression").append('<img src="/img/expression/'+i+'.gif">');
-        $("#expression img").click(function () {
-            $(this).clone().appendTo(".div-textarea");
-            $("#expression").css("visibility","hidden");
-        })
-    }
-    function initExpressionPackage() {
-        for (var i = 1;i<=12;i++)
-            $("#expressionPackage").append('<img class="chatPicture" src="/img/picture/picture_'+i+'.jpg">');
-        $("#expressionPackage img").click(function () {
-            $(this).clone().appendTo(".div-textarea");
-            $("#chat-fasong").click();
-            $("#expressionPackage").css("visibility","hidden");
-        })
 
-        $("#expressionPackage img").mouseover(function () {
-            $(this).css({
-                "width":"115px",
-                "height":"115px",
-                "margin":'0px'
-            })
-        })
-        $("#expressionPackage img").mouseleave(function () {
-            $(this).css({
-                "width":"95px",
-                "height":"95px",
-                "margin":'0px'
-            })
-        })
-    }
+
+                    function initExpressionGif() {
+                        for (var i = 1; i <= 56; i++)
+                            $("#expression").append('<img src="/img/expression/' + i + '.gif">');
+                        $("#expression img").click(function () {
+                            $(this).clone().appendTo(".div-textarea");
+                            $("#expression").css("visibility", "hidden");
+                        })
+                    }
+
+                    function initExpressionPackage() {
+                        for (var i = 1; i <= 12; i++)
+                            $("#expressionPackage").append('<img class="chatPicture" src="/img/picture/picture_' + i + '.jpg">');
+                        $("#expressionPackage img").click(function () {
+                            $(this).clone().appendTo(".div-textarea");
+                            $("#chat-fasong").click();
+                            $("#expressionPackage").css("visibility", "hidden");
+                        })
+
+                        $("#expressionPackage img").mouseover(function () {
+                            $(this).css({
+                                "width": "115px",
+                                "height": "115px",
+                                "margin": '0px'
+                            })
+                        })
+                        $("#expressionPackage img").mouseleave(function () {
+                            $(this).css({
+                                "width": "95px",
+                                "height": "95px",
+                                "margin": '0px'
+                            })
+                        })
+                    }
+
+                    //聊天好友界面切换
+                    $(".change_chat").click(function () {
+                        $(".container").fadeIn(1000);
+                        $(".container_friend").fadeOut(1000);
+                    });
+                    $(".change_friend").click(function () {
+                        friend_initFriend();
+                        var div = $(".container_friend");
+                        $(".container").fadeOut(1000);
+                        $(".container_friend").fadeIn(1000);
+                        div.animate({left: '50%'}, "slow");
+                        $("#msg-box").fadeOut(1000);
+                        $("#msg-history").fadeOut(1000);
+                    });
+
+
+                    //聊天记录
+                    $("#history").click(function () {
+                        $("#msg-history").show("slow");
+                    });
+                    $("#msg-history-close").click(function () {
+                        $("#msg-history").hide("slow");
+                    });
+
 </script>
 </body>
 

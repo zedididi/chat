@@ -12,21 +12,27 @@
         <result column="user_image" jdbcType="VARCHAR" property="image"/>
     </resultMap>
     <select id="findAll" resultMap="userMap">
-        SELECT  user.id,username,password,createtime,userinfo.image as user_image
-        from user left join userinfo on user.id = userinfo.userid
+        SELECT  `user`.id,username,`password`,createtime,userinfo.image as user_image
+        from `user` left join userinfo on `user`.id = userinfo.userid
     </select>
     <select id="findById" resultMap="userMap">
-        SELECT  user.id,username,password,createtime,userinfo.image as user_image
-        from user left join userinfo on user.id = userinfo.userid
-        where user.id=#{id,jdbcType=VARCHAR}
+        SELECT  `user`.id,username,`password`,createtime,userinfo.image as user_image
+        from `user` left join userinfo on `user`.id = userinfo.userid
+        where `user`.id=#{id,jdbcType=VARCHAR}
+    </select>
+
+    <select id="findByName" resultMap="userMap">
+        SELECT  `user`.id,username,`password`,createtime,userinfo.image as user_image
+        from `user` left join userinfo on `user`.id = userinfo.userid
+        where `user`.username=#{userName,jdbcType=VARCHAR}
     </select>
 
     <insert id="addUser" keyProperty="id" parameterType="cn.edu.ncu.bootwebsocketmybatis.entity.User">
-        insert into user(id,username,password) values (#{id,jdbcType=VARCHAR},#{userName,jdbcType=VARCHAR},#{password,jdbcType=VARCHAR});
+        insert into `user`(id,username,`password`) values (#{id,jdbcType=VARCHAR},#{userName,jdbcType=VARCHAR},#{password,jdbcType=VARCHAR});
     </insert>
 
     <update id="updateUser" keyProperty="id" parameterType="User">
-        update user set username=#{userName,jdbcType=VARCHAR},password=#{password,jdbcType=VARCHAR}  where id=#{id,jdbcType=VARCHAR}
+        update `user` set username=#{userName,jdbcType=VARCHAR},`password`=#{password,jdbcType=VARCHAR}  where id=#{id,jdbcType=VARCHAR}
     </update>
 
 

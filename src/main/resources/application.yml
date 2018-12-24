@@ -1,6 +1,7 @@
 spring:
    thymeleaf:
-   cache: false
+     encoding: UTF-8
+     cache: false
    datasource:
      driver-class-name: com.mysql.cj.jdbc.Driver
      username: fuqian

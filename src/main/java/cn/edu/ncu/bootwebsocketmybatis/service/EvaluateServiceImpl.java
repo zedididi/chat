@@ -40,4 +40,14 @@ public class EvaluateServiceImpl implements EvaluateService {
             return true;
         return false;
     }
+
+    /**
+     * 根据userId和evaluateInfoId来查询指定用户id的好友印象
+     * @param evaluate
+     * @return
+     */
+    @Override
+    public Evaluate findByUserIdAndEvaId(Evaluate evaluate) {
+        return evaluateDao.findByUserIdAndEvaId(evaluate);
+    }
 }

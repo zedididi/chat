@@ -3,6 +3,7 @@ package cn.edu.ncu.bootwebsocketmybatis.entity;
 import java.math.BigInteger;
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.util.List;
 
 /**
  * @auther: Liu Zedi.
@@ -22,6 +23,9 @@ public class UserInfo {
     private String country;
     private String city;
     private String userName;  //对应User表username
+    private String groupName;  //对应friends表的group  用于显示好友分组
+
+    private List<Evaluate> evaluates;   //对应evaluate表内容，用于显示评价
 
     /*public UserInfo() {
         this.image="";
@@ -113,6 +117,23 @@ public class UserInfo {
         this.userName = userName;
     }
 
+    public String getGroupName() {
+        return groupName;
+    }
+
+    public void setGroupName(String groupName) {
+        this.groupName = groupName;
+    }
+
+
+    public List<Evaluate> getEvaluates() {
+        return evaluates;
+    }
+
+    public void setEvaluates(List<Evaluate> evaluates) {
+        this.evaluates = evaluates;
+    }
+
     @Override
     public String toString() {
         return "UserInfo{" +
@@ -126,6 +147,7 @@ public class UserInfo {
                 ", country='" + country + '\'' +
                 ", city='" + city + '\'' +
                 ", userName='" + userName + '\'' +
+                ", groupName='" + groupName + '\'' +
                 '}';
     }
 }

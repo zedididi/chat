@@ -49,7 +49,7 @@ public class indexController {
      * @description 注册界面
      * @return
      */
-    @GetMapping("/register")
+    @RequestMapping("/register")
     public ModelAndView register(){
         return new ModelAndView("/register");
     }
@@ -98,10 +98,9 @@ public class indexController {
      */
     @PostMapping("/re")
     @ResponseBody
-    public String register(String username,String password,Model model){
+    public String register(String username,String password){
 
         User user=userService.register(new User("",username,password));
-
         if (user!=null){         //注册成功
             UserInfo userInfo=new UserInfo();
             userInfo.setUserId(user.getId());
