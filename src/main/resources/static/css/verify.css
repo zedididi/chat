@@ -113,3 +113,17 @@
     background: url(../img/icon_light.f13cff3.png) 0 -437px;
     background-size: 34px 471px;
 }
+
+.tip {
+    min-width: 30px;
+    height: 18px;
+    background: red;
+    box-sizing: border-box;
+    color: white;
+    font-size: 13px;
+    text-align: center;
+    line-height: 20px;
+    padding: 0 5px;
+    border-radius: 10px;
+    display: inline-block;//肯定是inline-block，因为行内元素宽度auto呀
+}

@@ -16,13 +16,25 @@
     <script src="/jquery-3.2.1.min.js"></script>
     <style type="text/css">
         #msg-box { background:rgba(255,255,255,0.5);width: 400px; height: 600px; display: none; left: 150px;top:100px;position: absolute; }
+        .tip {min-width: 28px;height: 18px;background: red;box-sizing: border-box;color: white;font-size: 13px;
+            text-align: center;line-height: 20px;padding: 0 5px;border-radius: 10px;display: inline-block;position: absolute;right: 0px;visibility: hidden}
+        .picture{visibility: hidden;width: 320px;height: 200px;position: absolute;top: -200px;left: -2px;
+            background-color: white;border:solid 1px lightgrey;padding: 10px;opacity: 1;overflow-y: auto}
+        #expression img{margin: 2px}
+        #expressionPackage img{width: 85px;height: 85px;margin: 5px}
+        .status{position: absolute;right: 60px}
+        .userImg{max-width: 100px;max-height: 100px;margin: 5px}
+        .chatPicture{margin: 5px}
+        .soundImg{width: 20px;height: 15px}
     </style>
     <script src="/js/index.js"></script>
     <script src="/js/impression.js"></script>
     <script src="/js/commons.js"></script>
 </head>
 
-<body onload="initAJAX();initFriend()">
+<body onload="initAJAX();initFriend();initExpressionGif();initExpressionPackage()">
+<audio src="/img/sound/message.wav" id="sound"></audio>
+<audio src="" id="msgAudio"></audio>
 <!--个人资料卡区域-->
 <div id="msg-box">
 <div class="msg-box-head"><center><img th:src="${user.getImage()}"></center></div>
@@ -80,19 +92,25 @@
             </ul>
         </div>
         <div class="right">
-            <div class="top" ><span>To: <span class="name"></span></span></div>
+            <div class="top" style="height: 60px">
+                <p class="name" style="margin-left: 190px;font-size: larger;font-weight: bolder"></p>
+                <p class="status" style="position: absolute;top: 45px;left: 230px;font-size: smaller;"></p>
+            </div>
 
-            <!--<div class="chat" data-chat="163501">
-                <div class="bubble you">
-                    刘泽迪
+            <div class="write" id="write" style="width: 480px;margin-left: -15px">
+                <label  id="chat-tuxiang" title="发送图片" for="inputImage" class="write-link attach"><input type="file" accept="image/jpg,image/jpeg,image/png" name="file"  id="inputImage" class="hidden"></label>
+                <div class="div-textarea" contenteditable="true" style="width: 330px"></div>
+                <a href="javascript:void(0)" ><img id="chat-audio" src="/img/audio.png" width="22px" height="20px" style="position: absolute;left: 384px;top: 12px;" title="按住说话"></a>
+                <a href="javascript:void(0)" id="chat-biaoqing" class="write-link smiley">
+                    <i class="iconfont icon-biaoqing"></i></a>
+                <a href="javascript:void(0)"><img id="chat-picture" src="/img/picture.png" width="23px" height="19px" style="position: absolute;left: 415px;top: 12px;"></a>
+                <a href="javascript:void(0)" id="chat-fasong" class="write-link send" style="position: absolute;left: 440px"></a>
+                <div id="expression" class="picture">
+                  <p style="font-size: 12px;font-weight: bolder" >经典表情</p>
                 </div>
-            </div>-->
-
-            <div class="write" id="write">
-                <label  id="chat-tuxiang" title="发送图片" for="inputImage" class="write-link attach"><input type="file" onchange="selectImg(this)" accept="image/jpg,image/jpeg,image/png" name="file" id="inputImage" class="hidden"></label>
-                <div class="div-textarea" contenteditable="true"></div>
-                <a href="javascript:void(0)" id="chat-biaoqing" class="write-link smiley"><i class="iconfont icon-biaoqing"></i></a>
-                <a href="javascript:void(0)" id="chat-fasong" class="write-link send"></a>
+                <div id="expressionPackage" class="picture" style="width: 360px;height:250px;top: -250px;">
+                    <p style="font-size: 12px;font-weight: bolder">表情包</p>
+                </div>
             </div>
         </div>
     </div>
@@ -119,30 +137,56 @@
         },500);
     }
 
+    $(function () {
+        $("#chat-biaoqing").click(function () {
+            $("#expression").css("visibility","visible")
+        })
+    })
 
-    //图片发送
-    function selectImg(pic) {
-        if (!pic.files || !pic.files[0]) {
-            return;
-        }
-        var reader = new FileReader();
-        reader.onload = function (evt) {
-            var images = evt.target.result;
-            $(".chat.active-chat").append("<div class=\"bubble me\">" +
-                /*"<div class=\"author-name\"><small class=\"chat-date\">2017-12-02 14:26:58</small> </div> " +*/
-                "<img style='max-width: 100px;max-height: 100px' src=" + images + "> " /*+
-                "<div class=\"chat-avatars\"><img src=\"img/icon01.png\" alt=\"头像\" /></div> </div> </div>"*/);
-            //聊天框默认最底部
-            $(document).ready(function () {
-                $("#chat.active-chat").scrollTop($("#chat.active-chat")[0].scrollHeight);
-            });
-        };
-        reader.readAsDataURL(pic.files[0]);
+    $(function () {
+        $("#chat-picture").click(function () {
+            $("#expressionPackage").css("visibility","visible");
+        })
+    })
+
+
+    function getUserinfo() {
+        var userId=document.getElementById("userIf").alt;
     }
 
-        function getUserinfo() {
-            var userId=document.getElementById("userIf").alt;
-        }
+
+    function initExpressionGif() {
+        for (var i = 1;i<=56;i++)
+            $("#expression").append('<img src="/img/expression/'+i+'.gif">');
+        $("#expression img").click(function () {
+            $(this).clone().appendTo(".div-textarea");
+            $("#expression").css("visibility","hidden");
+        })
+    }
+    function initExpressionPackage() {
+        for (var i = 1;i<=12;i++)
+            $("#expressionPackage").append('<img class="chatPicture" src="/img/picture/picture_'+i+'.jpg">');
+        $("#expressionPackage img").click(function () {
+            $(this).clone().appendTo(".div-textarea");
+            $("#chat-fasong").click();
+            $("#expressionPackage").css("visibility","hidden");
+        })
+
+        $("#expressionPackage img").mouseover(function () {
+            $(this).css({
+                "width":"115px",
+                "height":"115px",
+                "margin":'0px'
+            })
+        })
+        $("#expressionPackage img").mouseleave(function () {
+            $(this).css({
+                "width":"95px",
+                "height":"95px",
+                "margin":'0px'
+            })
+        })
+    }
 </script>
 </body>
 

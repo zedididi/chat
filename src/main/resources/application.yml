@@ -6,6 +6,12 @@ spring:
      username: fuqian
      password: 123456
      url: jdbc:mysql://localhost:3306/onlinechat?serverTimezone=UTC&characterEncoding=UTF-8&useSSL=false&allowPublicKeyRetrieval=true
+   mvc:
+     static-path-pattern: /**
+   resources:
+     static-locations: classpath:/META-INF/resources/,classpath:/resources/,classpath:/static/,classpath:/public/,file:${web.upload-path}
+
+web.upload-path: D:/onlineChat/upload/
 
 mybatis:
   type-aliases-package: cn.edu.ncu.bootwebsocketmybatis.entity
