@@ -291,7 +291,6 @@ function accept( needId) {
                     "content": requestTAG
                 };
                 window.alert(data + JSON.stringify(content));
-                window.console.info("请求发送内容："+content.content);
                 webSocket.send(JSON.stringify(content));         //请求转发给服务端
 
                 $.ajax({              //获取已发送请求的好友信息
@@ -392,7 +391,6 @@ function initAddFriend(){
     $(".container").mousedown(function () {
         $("#msg-box").hide();
     });
-
 
 
     $("#friend_hook").bind("mousedown",showFriendMsgBox);

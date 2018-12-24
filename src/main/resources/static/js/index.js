@@ -1,7 +1,7 @@
-//初始化好友列表
 
 var friends,chat;
 
+//初始化好友列表
 function initFriend() {
     var userId = document.getElementById("userIf").alt;
     var friendIds = "";
@@ -24,7 +24,7 @@ function initFriend() {
                     var status_id = friendId +"status";
                     listFriend += '<li  class="person" id="'+li_id+'" data-chat="' + friendId + '">' +
                         '<img id="hook"  src="' + image + '" alt="' + friendId + '" />' +
-                        '<span class="name" style="margin-right: 8px">' + friendName + '</span><span class="status" id="'+status_id+'">' +
+                        '<span class="name" style="margin-right: 8px">' + friendName + '</span> <span class="status" id="'+status_id+'">' +
                         '</span><span class="tip" id="'+tip_id+'"></span>'+
                         '</li>';
                     chatWindowDivs = '<div style="" class="chat" id="' +friendId +'" data-chat="' +friendId +'"></div>';
@@ -45,8 +45,7 @@ function initFriend() {
 
 }
 
-
-//处理好友添加请求
+/*//处理好友添加请求
 function dealAddReceived(ev) {
 
     var obj = JSON.parse(ev.data);
@@ -119,7 +118,7 @@ function dealAddReceived(ev) {
     }
     alert(sendId + " " + receiveId + " " + createTime + " " + msg)
 
-}
+}*/
 
 //同意好友添加请求
 function acceptReq(receiveId) {
@@ -142,36 +141,44 @@ function acceptReq(receiveId) {
             };
             window.alert(data + JSON.stringify(content));
             webSocket.send(JSON.stringify(content));
-            window.console.info("同意发送内容：" + content.content);
             $("#reValidte li[id="+receiveId+"]").remove();
 
             $.ajax({              //好友列表添加此好友信息
                 type: 'GET',
-                url: '/user/getId',
+                url: '/friend/get',
                 dataType: 'JSON',
                 data: {
-                    'id': receiveId
+                    'userId': sendId,
+                    'friendId': receiveId
                 },
                 success: function(data){
 
                     var info="";
-                    var id = data.id;
+                    var listFriend = '';
+                    var friendId = data.friendId;
                     var image = data.image;
-                    var userName = data.userName;
+                    var friendName = data.friendName;
+                    var groupId = data.groupId;
 
-                    info +='<li class="person" data-chat="' + id + '">' +
-                        '<img id="hook"  src="' + image + '" alt="' + id + '" />' +
-                        '<span class="name">' + userName + '</span>' +
+                    info +='<li class="person" data-chat="' + friendId + '">' +
+                        '<img id="hook"  src="' + image + '" alt="' + friendId + '" />' +
+                        '<span class="name">' + friendName + '</span>' +
+                        '</li>';
+
+                    listFriend += '<li style="display: none" class="friend_person"  data-chat="' + friendId + '" alt="'+friendId+'">' +
+                        '<img id="friend_hook"  src="' + image + '" alt="' + friendId + '" />' +
+                        '<span class="friend_name">' + friendName + '</span>' +
+                        '<p style="display: none">'+groupId+'</p>' +
                         '</li>';
 
                     document.getElementById("people").innerHTML +=info;
+                    document.getElementById("friend_people").innerHTML += listFriend;
+                    $(".friend_person").bind("mousedown",showFriendMsgBox);
                     init();
                 }
             });
-
         }
     });
-
 }
 
 
@@ -208,34 +215,30 @@ function refuseReq(receiveId) {
 //好友管理界面  好友列表
 //初始化第二页好友列表
 function friend_initFriend() {
+
     var friend_userId = document.getElementById("friend_userIf").alt;
-    var friendIds = "";
-    // var userId=$("img#userIf").attr("alt");
+
     xmlHttp.open("POST", "/friend/getAll", true);
     xmlHttp.onreadystatechange = function () {
         if (xmlHttp.readyState == 4) {
             if (xmlHttp.status == 200) {
+
                 var data = xmlHttp.responseText;
                 var obj = JSON.parse(data);
-                var groupFriend = '';
                 var listFriend = '';
-                var li_id = friendId+"li";
-                var tip_id = friendId +"tip";
-                var status_id = friendId +"status";
                 for (var i in obj) {
                     var friendId = obj[i].friendId;
-                    friendIds += friendId +" ";
                     var groupId = obj[i].groupId;
                     var image = obj[i].image;
                     var friendName = obj[i].friendName;
-                    listFriend += '<li style="display: none" class="friend_person"  data-chat="' + friendId + '"alt="'+friendId+'">' +
+                    listFriend += '<li style="display: none" class="friend_person"  data-chat="' + friendId + '" alt="'+friendId+'">' +
                         '<img id="friend_hook"  src="' + image + '" alt="' + friendId + '" />' +
-                        '<span class="friend_name">' + friendName + '</span><span class="status" id="'+status_id+'">' +
-                        '<p style="display: none">'+groupId+'</p>'
+                        '<span class="friend_name">' + friendName + '</span>' +
+                        '<p style="display: none">'+groupId+'</p>' +
                         '</li>';
                 }
                 document.getElementById("friend_people").innerHTML += listFriend;
-                boolOnline(friendIds +" " + userId);
+                // boolOnline(friendIds +" " + userId);
             }
         }
         $(".friend_person").bind("mousedown",showFriendMsgBox);
@@ -271,7 +274,6 @@ function getWebSocket() {
         var obj1 = JSON.parse(ev.data);
         var sendId1 = obj1.sendId;
         var msg1 = obj1.content;
-        console.info("msg1："+msg1+"sendId1:"+sendId1);
 
         if (msg1 == requestTAG || msg1 == agreeTAG || msg1 == refuseTAG) {
 
@@ -304,29 +306,44 @@ function getWebSocket() {
 
             if (msg1 == agreeTAG) {    //接收到好友请求同意消息
 
+                sendId = $("#userIf").attr("alt");
+
                 window.console.info(sendId1 + "已同意你的请求");
                 $("#sendValidate li[id=" + sendId1 + "]").remove();
 
+
                 $.ajax({              //好友列表添加此好友信息
                     type: 'GET',
-                    url: '/user/getId',
+                    url: '/friend/get',
                     dataType: 'JSON',
                     data: {
-                        'id': sendId1
+                        'userId': sendId,
+                        'friendId': sendId1
                     },
-                    success: function (data) {
+                    success: function(data){
 
-                        var info = "";
-                        var id = data.id;
+                        var info="";
+                        var listFriend = '';
+                        var friendId = data.friendId;
                         var image = data.image;
-                        var userName = data.userName;
+                        var friendName = data.friendName;
+                        var groupId = data.groupId;
 
-                        info += '<li class="person" data-chat="' + id + '">' +
-                            '<img id="hook"  src="' + image + '" alt="' + id + '" />' +
-                            '<span class="name">' + userName + '</span>' +
+                        info +='<li class="person" data-chat="' + friendId + '">' +
+                            '<img id="hook"  src="' + image + '" alt="' + friendId + '" />' +
+                            '<span class="name">' + friendName + '</span>' +
                             '</li>';
 
-                        document.getElementById("people").innerHTML += info;
+                        listFriend += '<li style="display: none" class="friend_person"  data-chat="' + friendId + '" alt="'+friendId+'">' +
+                            '<img id="friend_hook"  src="' + image + '" alt="' + friendId + '" />' +
+                            '<span class="friend_name">' + friendName + '</span>' +
+                            '<p style="display: none">'+groupId+'</p>' +
+                            '</li>';
+
+                        document.getElementById("people").innerHTML +=info;
+                        document.getElementById("friend_people").innerHTML += listFriend;
+                        $(".friend_person").bind("mousedown",showFriendMsgBox);
+                        init();
                     }
                 });
             }
