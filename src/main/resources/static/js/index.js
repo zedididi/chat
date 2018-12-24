@@ -1,3 +1,5 @@
+
+//聊天界面好友
 function initFriend() {
    var userId = document.getElementById("userIf").alt;
    // var userId=$("img#userIf").attr("alt");
@@ -30,14 +32,42 @@ function initFriend() {
 
         $("#hook,#msg-box").bind("mouseover",showMsgBox);
 
-        //var timer;
-        //$("#hook").bind("mouseout",hideMsgBox);
-        //$("#msg-box").mouseover($("#hook").stop());
-       /* $("#msg-box").bind("mouseout",function(){
-            if(timer){clearTimeout(timer);}
-            $("#msg-box").hide();
-        });*/
 
+    };
+    xmlHttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    xmlHttp.send("userId=" + userId);
+
+}
+
+//好友列表好友
+function friend_initFriend() {
+    var userId = document.getElementById("friend_userIf").alt;
+    // var userId=$("img#userIf").attr("alt");
+    xmlHttp.open("POST", "/friend/getAll", true);
+    xmlHttp.onreadystatechange = function () {
+        if (xmlHttp.readyState == 4) {
+            if (xmlHttp.status == 200) {
+                var data = xmlHttp.responseText;
+                var obj = JSON.parse(data);
+                var listFriend = '';
+                var chatWindowDivs = '';
+                for (var i in obj) {
+                    var friendId = obj[i].friendId;
+                    var image = obj[i].image;
+                    var friendName = obj[i].friendName;
+                    listFriend += '<li class="person" data-chat="' + friendId + '">' +
+                        '<img id="hook"  src="' + image + '" alt="' + friendId + '" />' +
+                        '<span class="name">' + friendName + '</span>' +
+                        '</li>';
+                    chatWindowDivs = '<div style="" class="chat" id="' +friendId +'" data-chat="' +friendId +'"></div>';
+                    $("#write").before(chatWindowDivs);
+                }
+                document.getElementById("friend_people").innerHTML += listFriend;
+                init();
+                initChatRecord()
+            }
+        }
+        $("#container_friend_left_top_head").bind("mousedown",showFriendMsgBox);
     };
     xmlHttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
     xmlHttp.send("userId=" + userId);
@@ -86,15 +116,15 @@ function init() {
         var webSocket = new WebSocket("ws://localhost:8080/chatRoom/"+sendId);
 
         webSocket.onopen = function (ev) {
-            alert("发出连接请求")
+           console.info("发出连接请求")
         };
 
         webSocket.onclose = function (ev) {
-            alert("发生了关闭请求")
+            console.info("发生了关闭请求")
         };
 
         webSocket.onerror = function (ev) {
-            alert("发生了错误")
+            console.info("发生了错误")
         };
 
         webSocket.onmessage = function (ev) {

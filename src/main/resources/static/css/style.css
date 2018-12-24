@@ -573,6 +573,84 @@ body {
     font-weight: 400;
 }
 
+.container_friend.container_friend_left.people{
+    margin-left: -1px;
+    height: 85%;
+    overflow-y: auto;
+    overflow-x: hidden;
+    border-right: 1px solid var(--light);
+    border-left: 1px solid var(--light);
+    width: calc(100% + 2px);
+}
+.container_friend.container_friend_left.people.person {
+    position: relative;
+    width: 100%;
+    padding: 12px 10% 16px;
+    cursor: pointer;
+    background-color: var(--white);
+    height: 60px;
+}
+.container_friend.container_friend_left.people.person:after {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    display: block;
+    width: 80%;
+    height: 1px;
+    content: '';
+    background-color: var(--light);
+    -webkit-transform: translate(-50%, 0);
+    transform: translate(-50%, 0);
+}
+.container_friend.container_friend_left.people.person img {
+    float: left;
+    width: 40px;
+    height: 40px;
+    margin-right: 12px;
+    border-radius: 50%;
+}
+.container_friend.container_friend_left.people .person .name {
+    font-size: 14px;
+    line-height: 22px;
+    color: var(--dark);
+    font-family: 'Source Sans Pro', sans-serif;
+    font-weight: 600;
+}
+.container_friend.container_friend_left.people .person .time {
+    font-size: 14px;
+    position: absolute;
+    top: 16px;
+    right: 10%;
+    padding: 0 0 5px 5px;
+    color: var(--grey);
+    background-color: var(--white);
+}
+.container_friend.container_friend_left.people .person .preview {
+    font-size: 14px;
+    display: inline-block;
+    overflow: hidden !important;
+    width: 70%;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    color: var(--grey);
+}
+.container_friend.container_friend_left.people .person.active, .container_friend.container_friend_left.people.person:hover {
+    margin-top: -1px;
+    margin-left: -1px;
+    padding-top: 13px;
+    border: 0;
+    background-color: var(--blue);
+    width: calc(100% + 2px);
+    padding-left: calc(10% + 1px);
+}
+.container_friend.container_friend_left.people .person.active span,.container_friend.container_friend_left.people .person:hover span {
+    color: var(--white);
+    background: transparent;
+}
+.container_friend.container_friend_left.people.person.active:after,.container_friend.container_friend_left.people.person:hover:after {
+    display: none;
+}
+
 .hidden{
     display: none;
 }
