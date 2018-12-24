@@ -19,16 +19,30 @@ public class GroupServiceImpl implements GroupService {
     @Autowired
     GroupDao groupDao;
 
+    /**
+     * 查询所有的分组
+     * @return
+     */
     @Override
     public List<Group> findAll() {
         return groupDao.findAll();
     }
 
+    /**
+     * 根据分组名查询分组
+     * @param name
+     * @return
+     */
     @Override
     public Group findByContent(String name) {
         return groupDao.findByContent(name);
     }
 
+    /**
+     * 添加分组
+     * @param group
+     * @return
+     */
     @Override
     public boolean addGroup(Group group) {
 

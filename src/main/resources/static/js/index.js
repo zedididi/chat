@@ -1,5 +1,7 @@
 //初始化好友列表
 function initFriend() {
+   var userId = document.getElementById("userIf").alt;
+   // var userId=$("img#userIf").attr("alt");
     initAJAX();
     var userId = document.getElementById("userIf").alt;
     var friendIds = "";
@@ -10,7 +12,7 @@ function initFriend() {
                 var data = xmlHttp.responseText;
                 var obj = JSON.parse(data);
                 var listFriend = '';
-                var chatWindowDivs = "";
+                var chatWindowDivs = '';
                 for (var i in obj) {
                     var friendId = obj[i].friendId;
                     friendIds += friendId +" ";
@@ -25,13 +27,32 @@ function initFriend() {
                         '<span class="name" >' + friendName + '</span><span class="status" id="'+status_id+'">' +
                         '</span><span class="tip" id='+tip_id+'></span></li>';
                     chatWindowDivs = '<div class="chat" id=' +friendId +' data-chat="' +friendId +'"></div>';
+                    listFriend += '<li class="person" data-chat="' + friendId + '">' +
+                        '<img id="hook"  src="' + image + '" alt="' + friendId + '" />' +
+                        '<span class="name">' + friendName + '</span>' +
+                        '</li>';
+                    chatWindowDivs = '<div style="" class="chat" id="' +friendId +'" data-chat="' +friendId +'"></div>';
                     $("#write").before(chatWindowDivs);
                 }
                 document.getElementById("people").innerHTML += listFriend;
                 boolOnline(friendIds +" " + userId);
+
                 init();
+                initChatRecord()
             }
+
         }
+
+        $("#hook,#msg-box").bind("mouseover",showMsgBox);
+
+        //var timer;
+        //$("#hook").bind("mouseout",hideMsgBox);
+        //$("#msg-box").mouseover($("#hook").stop());
+       /* $("#msg-box").bind("mouseout",function(){
+            if(timer){clearTimeout(timer);}
+            $("#msg-box").hide();
+        });*/
+
     };
     xmlHttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
     xmlHttp.send("userId=" + userId);
@@ -44,6 +65,8 @@ function init() {
     $(".right .top .name").text($(".active .name").text());
     $(".right .top .status").text($(".active .status").text().substring(1,3))
 
+    document.querySelector('.person').classList.add('active');//使person处于选中状态
+    document.querySelector('.chat').classList.add('active-chat');//选择person处于正在聊天状态
     var friends = {
             list: document.querySelector('ul.people'),//获取好友列表
             all: document.querySelectorAll('.left .person'),//获取所有好友
@@ -91,20 +114,24 @@ function init() {
     }
 
     //返回webSocket对象
+
     function getWebSocket() {
         var webSocket = new WebSocket("ws://localhost:8080/chatRoom/"+sendId);
-        
+
         webSocket.onopen = function (ev) {
             console.log("用户打开了连接");
         }
+
 
         webSocket.onclose = function (ev) {
             console.log("用户关闭了连接")
         }
 
+
         webSocket.onerror = function (ev) {
             alert("发生了错误")
-        }
+        };
+
 
         webSocket.onmessage = function (ev) {  //当有好友发送消息时进行消息的显示
             if (ev.data.trim().length <= 15){
@@ -168,7 +195,6 @@ function init() {
                 }
             }
         }
-
         return webSocket;
     }
 
@@ -206,7 +232,8 @@ function init() {
                 "sendId": $("#userIf").attr("alt"),
                 "receiveId":$(".active").attr("data-chat"),
                 "content":$(".div-textarea").html()
-            }
+            };
+
             webSocket.send(JSON.stringify(content));
             $.ajax({
                 url:"/chatRoom/send",
@@ -224,7 +251,7 @@ function init() {
                             $(".active-chat").append('<div class=\"conversation-start\"><span>'+currentTime.split(" ")[1]+'</span></div>');
                         }
                         else $(".active-chat").append('<div class=\"conversation-start\"><span>'+currentTime+'</span></div>');
-                    $(".active-chat").append("<div class='bubble me'>"+msg+"</div>")
+                    $(".active-chat").append("<div class='bubble me'>"+msg+"</div>");
                     //发送后清空输入框
                     $(".div-textarea").html("");
                 }
@@ -298,7 +325,7 @@ function init() {
             .catch(function (reason) {
                 alert("请打开录音权限")
             })
-    } 
+    }
 }
 
 //播放语音消息
@@ -316,7 +343,7 @@ function initChatRecord(contactId) {
         var obj = jQuery.parseJSON(data);
         var show = true;
         var openedChatWindow = document.getElementById(contactId);
-        openedChatWindow.innerHTML = "";
+        openedChatWindow.innerHTML = " ";
         for (var i in obj){
             var content = obj[i].content;
             var sendTime = obj[i].createTime;
@@ -336,6 +363,7 @@ function initChatRecord(contactId) {
                     openedChatWindow.innerHTML += '<div class=\"conversation-start\"><span>'+sendTime.split(" ")[1]+'</span></div>';
                 else
                     openedChatWindow.innerHTML += '<div class=\"conversation-start\"><span>'+sendTime+'</span></div>';
+
             if (userId == sendId)
                 openedChatWindow.innerHTML += '<div class=\"bubble me\">' + content +'</div>';
             else
