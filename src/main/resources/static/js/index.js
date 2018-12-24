@@ -22,7 +22,7 @@ function initFriend() {
                     var li_id = friendId+"li";
                     var tip_id = friendId +"tip";
                     var status_id = friendId +"status";
-                    listFriend += '<li class="person" id="'+li_id+'" data-chat="' + friendId + '">' +
+                    listFriend += '<li style="display: none" class="person" id="'+li_id+'" data-chat="' + friendId + '">' +
                         '<img id="hook"  src="' + image + '" alt="' + friendId + '" />' +
                         '<span class="name" style="margin-right: 8px">' + friendName + '</span><span class="status" id="'+status_id+'">' +
                         '</span><span class="tip" id="'+tip_id+'"></span>'+

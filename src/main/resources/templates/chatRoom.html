@@ -7,6 +7,7 @@
     <title>Direct Messaging</title>
 
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="/css/reset.min.css">
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/panel.css">
@@ -70,6 +71,7 @@
     </div>
     <input type="button" class="change_chat" value="聊天"  style="border-radius: 21px;width: 80px;height: 50px;position:absolute;top: 5%;left: 45%">
     <input type="button" class="change_friend" value="好友" style="border-radius: 21px;width: 80px;height: 50px;position:absolute;top: 5%;left: 55%">
+    <input type="button" value="聊天记录" id="history" style="border-radius: 21px;width: 80px;height: 50px;position: absolute;top: 5%;left: 82%">
         <!--聊天界面 container -->
         <div class="container">
             <div class="left">
@@ -109,7 +111,6 @@
                     <p style="font-size: 12px;font-weight: bolder">表情包</p>
                 </div>
             </div>
-                <input type="button" value="聊天记录" id="history" style="position: relative;top: 8%;float: right">
         </div>
         </div>
     <!--好友界面-->
@@ -133,7 +134,6 @@
         <div class="container_friend_right" style="position: relative;float: left;width: 62.4%;height: 100%;overflow: hidden;border: 1px solid var(--light);background-color: var(--white)">
             <div id="container_friend_info" style="display: none;position:relative;left: 1%;width: 400px;height: 600px;border: 1px solid var(--light);background-color: #8c8c8c">
             </div>
-                <input type="button" value="聊天记录" onclick="" style="position: relative;top: 8%;float: right">
         </div>
     </div>
 </div>
@@ -396,11 +396,12 @@ function initAddFriend(){
 
 
     $("#friend_hook").bind("mousedown",showFriendMsgBox);
-    $("#friend_hook").click(function () {
+    /*$("#friend_hook").click(function () {
         $("#container_friend_info").show("slow")
         var div=$("#container_friend_info");
         div.animate({left: '10%'},"slow");
-    });
+    })*/
+
 
 
     //聊天界面 显示个人资料卡
@@ -639,8 +640,10 @@ function initExpressionPackage() {
         //聊天好友界面切换
     $(".change_chat").click(function () {
         $(".container").fadeIn(1000);
+        $("#history").fadeIn(1000);
         $(".container_friend").fadeOut(1000);
     });
+$(".change_friend").bind("mousedown",showFriendMsgBox);
     $(".change_friend").click(function () {
         var div=$(".container_friend");
         $(".container").fadeOut(1000);
@@ -648,6 +651,10 @@ function initExpressionPackage() {
         div.animate({left:'50%'},"slow");
         $("#msg-box").fadeOut(1000);
         $("#msg-history").fadeOut(1000);
+        $("#history").fadeOut(1000);
+        $("#container_friend_info").show("slow")
+        var div1=$("#container_friend_info");
+        div1.animate({left: '10%'},"slow");
         });
 
 
