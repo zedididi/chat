@@ -112,17 +112,23 @@
                 <input type="button" value="聊天记录" id="history" style="position: relative;top: 8%;float: right">
         </div>
         </div>
-
+    <!--好友界面-->
     <div class="container_friend" style="position: absolute;top: 50%;left: 100%;width: 80%;height: 75%;/*background-color: white;*/-webkit-transform: translate(-50%, -50%);transform: translate(-50%, -50%);display: none">
         <div class="container_friend_left" style="float: left;width: 30%;height: 100%;border: 1px solid var(--light);background-color: var(--white)">
             <div class="container_friend_left_top" style="text-align: center;position: relative;width: 100%;height: 15%;padding: 10px">
-                <a id="container_friend_left_top_head" th:alt="${user.getId()}"><img id="friend_userIf" width="60px" height="60px" style="border-radius: 50%;" th:alt="${user.getId()}" th:src="${user.getImage()}"></a>
+                <a id="friend_hook" th:alt="${user.getId()}"><img id="friend_userIf" width="60px" height="60px" style="border-radius: 50%;" th:alt="${user.getId()}" th:src="${user.getImage()}"></a>
             </div>
             <div class="container_friend_left_body" style="height: 85%;overflow-x: hidden;overflow-y: auto">
                 <ul class="friend_people" id="friend_people">
-
                 </ul>
+                <div class="container_friend_left_body_bottom" style="height: 15%;width: 100%">
+                    <input type="button" id="tongxue" style="width: 50%;height: 50%;border-radius: 25%;float: left;clear: both" value="同学">
+                    <input type="button" id="pengyou" style="width: 50%;height: 50%;border-radius: 25%;float: left" value="朋友">
+                    <input type="button" id="tongshi" style="width: 50%;height: 50%;border-radius: 25%;float: left" value="同事">
+                    <input type="button" id="guimi" style="width: 50%;height: 50%;border-radius: 25%;float: left" value="闺蜜">
+                </div>
             </div>
+
         </div>
         <div class="container_friend_right" style="position: relative;float: left;width: 62.4%;height: 100%;overflow: hidden;border: 1px solid var(--light);background-color: var(--white)">
             <div id="container_friend_info" style="display: none;position:relative;left: 1%;width: 400px;height: 600px;border: 1px solid var(--light);background-color: #8c8c8c">
@@ -193,6 +199,10 @@
 
     var webSocket=getWebSocket();
 
+
+$(document).ready(function () {
+    $(".chat").scrollTop( $(".chat")[0].scrollHeight );
+})
 
 /*好友添加弹窗部分*/
 
@@ -383,8 +393,10 @@ function initAddFriend(){
         $("#msg-box").hide();
     });
 
-    $("#container_friend_left_top_head").bind("mousedown",showFriendMsgBox);
-    $("#container_friend_left_top_head").click(function () {
+
+
+    $("#friend_hook").bind("mousedown",showFriendMsgBox);
+    $("#friend_hook").click(function () {
         $("#container_friend_info").show("slow")
         var div=$("#container_friend_info");
         div.animate({left: '10%'},"slow");
@@ -486,16 +498,16 @@ function initAddFriend(){
 
     //好友管理界面 显示个人资料卡
     function showFriendMsgBox() {
-        var friendId=$(this).attr("alt");
-        window.console.info("id:"+friendId);
+        var friend_friendId=$(this).attr("alt");
+        window.console.info(friend_friendId);
 
-        if (friendId!=undefined) {         //鼠标不是放在个人资料卡上
+        if (friend_friendId!=undefined) {         //鼠标不是放在个人资料卡上
             $.ajax({
                 type: 'POST',
                 url: '/userInfo/get',
                 dataType: 'json',
                 data: {
-                    'friendId': friendId,
+                    'friendId': friend_friendId,
                     'userId': userId
                 },
                 success: function (data) {
@@ -517,11 +529,10 @@ function initAddFriend(){
                         evaS += '<span><a>' + eva[i].content + '</a></span>';
                     }
 
-                    var group1, group2, input;
-                    if (friendId === userId) {        //当为本人
+                    var group1, group2;
+                    if (friend_friendId === userId) {        //当为本人
                         group1 = "";
                         group2 = "";
-                        input = "";
                     }
                     else {
                         group1 = '<p class="info">分组&nbsp;</p>\n';
@@ -529,7 +540,7 @@ function initAddFriend(){
                     }
 
 
-                    var userInfo = '<div class="msg-box-head"><center><img src="' + data.image + '"></center></div>\n' +
+                    var friend_userInfo = '<div class="msg-box-head"><center><img src="' + data.image + '"></center></div>\n' +
                         '    <hr style=" float: bottom;width:80%;margin:0 auto;border: 0;height: 3px;background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));">\n' +
                         '    <div class="msg-box-body">\n' +
                         '        <center>\n' +
@@ -564,12 +575,12 @@ function initAddFriend(){
                         '        </div>\n' +
                         '    </div>';
 
-                    document.getElementById("container_friend_info").innerHTML = userInfo;
+                    document.getElementById("container_friend_info").innerHTML = friend_userInfo;
                 }
             });
         }
         addEvaluation();
-        $(".container_friend_info").show("slow")
+        //$(".container_friend_info").show("slow")
     }
 
 $(function () {
@@ -647,6 +658,49 @@ $("#history").click(function () {
 $("#msg-history-close").click(function () {
     $("#msg-history").hide("slow");
 });
+
+//好友列表分组
+//同学
+$("#tongxue").click(function () {
+    $('li:contains("1")').show("slow");
+    $('li:contains("2")').hide("slow");
+    $('li:contains("3")').hide("slow");
+    $('li:contains("4")').hide("slow");
+})
+$("#tomhxue").dblclick(function () {
+        $('li:contains("1")').hide("slow");
+    })
+    //朋友
+$("#pengyou").click(function () {
+    $('li:contains("1")').hide("slow");
+    $('li:contains("2")').show("slow");
+    $('li:contains("3")').hide("slow");
+    $('li:contains("4")').hide("slow");
+})
+$("#pengyou").dblclick(function () {
+    $('li:contains("2")').hide("slow");
+})
+    //同事
+$("#tongshi").click(function () {
+    $('li:contains("1")').hide("slow");
+    $('li:contains("2")').hide("slow");
+    $('li:contains("3")').show("slow");
+    $('li:contains("4")').hide("slow");
+})
+$("#tomhxue").dblclick(function () {
+    $('li:contains("3")').hide("slow");
+})
+    //闺蜜
+$("#guimi").click(function () {
+    $('li:contains("1")').hide("slow");
+    $('li:contains("2")').hide("slow");
+    $('li:contains("3")').hide("slow");
+    $('li:contains("4")').show("slow");
+})
+$("#guimi").dblclick(function () {
+    $('li:contains("4")').hide("slow");
+})
+
 </script>
 </body>
 </html>
