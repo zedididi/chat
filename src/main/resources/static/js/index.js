@@ -19,9 +19,9 @@ function initFriend() {
                     var li_id = friendId+"li";
                     var tip_id = friendId +"tip";
                     var status_id = friendId +"status";
-                    listFriend += '<li class="person"id="'+li_id+'" data-chat="' + friendId + '">' +
+                    listFriend += '<li class="person" id="'+li_id+'" data-chat="' + friendId + '">' +
                         '<img id="hook"  src="' + image + '" alt="' + friendId + '" />' +
-                        '<span class="name" style="margin-right: 10px">' + friendName + '</span><span class="status" id="'+status_id+'">' +
+                        '<span class="name" style="margin-right: 8px">' + friendName + '</span><span class="status" id="'+status_id+'">' +
                         '</span><span class="tip" id="'+tip_id+'"></span>'+
                         '</li>';
                     chatWindowDivs = '<div style="" class="chat" id="' +friendId +'" data-chat="' +friendId +'"></div>';
@@ -34,7 +34,7 @@ function initFriend() {
             }
         }
 
-        $("#hook,#msg-box").bind("mouseover",showMsgBox);
+        $("#hook/*,#msg-box*/").bind("mouseover",showMsgBox);
 
 
     };
@@ -43,7 +43,7 @@ function initFriend() {
 
 }
 
-//好友列表好友
+//初始化第二页好友列表
 function friend_initFriend() {
     var friend_userId = document.getElementById("friend_userIf").alt;
     var friendIds = "";
@@ -54,6 +54,7 @@ function friend_initFriend() {
             if (xmlHttp.status == 200) {
                 var data = xmlHttp.responseText;
                 var obj = JSON.parse(data);
+                var groupFriend = '';
                 var listFriend = '';
                 var li_id = friendId+"li";
                 var tip_id = friendId +"tip";
@@ -61,18 +62,20 @@ function friend_initFriend() {
                 for (var i in obj) {
                     var friendId = obj[i].friendId;
                     friendIds += friendId +" ";
+                    var groupId = obj[i].groupId;
                     var image = obj[i].image;
                     var friendName = obj[i].friendName;
-                    listFriend += '<li class="friend_person" id="'+li_id+'" data-chat="' + friendId + '">' +
+                    listFriend += '<li class="friend_person"  data-chat="' + friendId + '"alt="'+friendId+'">' +
                         '<img id="friend_hook"  src="' + image + '" alt="' + friendId + '" />' +
                         '<span class="friend_name">' + friendName + '</span><span class="status" id="'+status_id+'">' +
+                        '<p style="display: none">'+groupId+'</p>'
                         '</li>';
                 }
                 document.getElementById("friend_people").innerHTML += listFriend;
                 boolOnline(friendIds +" " + userId);
             }
         }
-        $("#friend_hook").bind("mousedown",showFriendMsgBox);
+        $(".friend_person").bind("mousedown",showFriendMsgBox);
     };
     xmlHttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
     xmlHttp.send("userId=" + friend_userId);
