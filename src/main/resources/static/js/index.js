@@ -22,7 +22,7 @@ function initFriend() {
                     var li_id = friendId+"li";
                     var tip_id = friendId +"tip";
                     var status_id = friendId +"status";
-                    listFriend += '<li style="display: none" class="person" id="'+li_id+'" data-chat="' + friendId + '">' +
+                    listFriend += '<li  class="person" id="'+li_id+'" data-chat="' + friendId + '">' +
                         '<img id="hook"  src="' + image + '" alt="' + friendId + '" />' +
                         '<span class="name" style="margin-right: 8px">' + friendName + '</span><span class="status" id="'+status_id+'">' +
                         '</span><span class="tip" id="'+tip_id+'"></span>'+
@@ -228,7 +228,7 @@ function friend_initFriend() {
                     var groupId = obj[i].groupId;
                     var image = obj[i].image;
                     var friendName = obj[i].friendName;
-                    listFriend += '<li class="friend_person"  data-chat="' + friendId + '"alt="'+friendId+'">' +
+                    listFriend += '<li style="display: none" class="friend_person"  data-chat="' + friendId + '"alt="'+friendId+'">' +
                         '<img id="friend_hook"  src="' + image + '" alt="' + friendId + '" />' +
                         '<span class="friend_name">' + friendName + '</span><span class="status" id="'+status_id+'">' +
                         '<p style="display: none">'+groupId+'</p>'

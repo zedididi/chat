@@ -51,22 +51,6 @@ public class indexController {
         return new ModelAndView("/register");
     }
 
-    /**
-     * 聊天界面
-     */
-
-    /*
-    @GetMapping("/index")
-    public ModelAndView index(String username, String password, HttpServletRequest request) throws UnknownHostException {
-        if (StringUtils.isEmpty(username)) {
-            username = "匿名用户";
-        }
-
-        ModelAndView mav = new ModelAndView("/chatRoom");
-        mav.addObject("username", username);
-        mav.addObject("webSocketUrl", "ws://" + InetAddress.getLocalHost().getHostAddress() + ":" + request.getServerPort() + request.getContextPath() + "/chat");
-        return mav;
-    }*/
 
     /**
      * 处理登陆事务
