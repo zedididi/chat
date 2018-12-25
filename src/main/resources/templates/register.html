@@ -23,10 +23,10 @@
             <input id="tab-1" type="radio" name="tab" class="sign-in" checked><label for="tab-1" class="tab">登录</label>
             <input id="tab-2" type="radio" name="tab" class="sign-up"><label for="tab-2" class="tab">注册</label>
             <div class="login-form">
-                <form  >
+                <form>
                     <div class="sign-in-htm">
                         <div class="group">
-                            <label for="userId" class="label" required>账号</label>
+                            <label for="userId" class="label">账号</label>
                             <input id="userId" name="userId"  type="search" th:value="${id}" class="input" required>
                         </div>
                         <div class="group">
@@ -123,7 +123,9 @@
     }
     jigsaw.init(document.getElementById('captcha'), function () {
         flag=true;
-        document.getElementById('msg').innerHTML = '登录成功！';
+        //document.getElementById('msg').innerHTML = '登录成功！';
+        document.getElementById('msg').innerHTML="<font color='black'>验证成功！</font>"
+
     });
 
 

@@ -773,3 +773,24 @@ function boolOnline(friend_id) {
     })
 }
 
+function downloadRecord() {
+    var sendId = $("#userIf").attr("alt");
+    var receiveId = $(".active").attr("data-chat");
+
+    $.ajax({
+        url:"/chatRoom/upload/record",
+        data: "sendId="+sendId+"&receiveId="+receiveId,
+        type: "POST",
+        success: function (ev) {
+            alert(ev);
+            $("#download").attr({
+                "href":"http://localhost:8080"+ev,
+                "download":ev
+            })
+            $("#download").click();
+
+            console.log("http://localhost:8080"+ev);
+        }
+
+    })
+}
