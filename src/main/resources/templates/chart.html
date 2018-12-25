@@ -44,14 +44,33 @@
                     donotKonw++;
                 num++;
             }
-            number2.push(num);
+          //  number2.push(num);
         },
         error : function(errorMsg) {
             alert("加载数据失败");
         }
     }); //ajax
 
+
     $.ajax({
+        type : 'GET',
+        async : false, //同步执行
+        url :'/chatRoom/getNum', //web.xml中注册的Servlet的url-pattern
+        // data : {}, //无参数
+        dataType : 'json', //返回数据形式为json
+        success : function(data) {
+
+            number2.push(data[0]);
+            number2.push(data[1]);
+            number2.push(data[2]);
+
+        },
+        error : function(errorMsg) {
+            alert("加载数据失败");
+        }
+    }); //ajax
+
+   /* $.ajax({
         type : 'GET',
         async : false, //同步执行
         url :'/chatRoom/getOnline', //web.xml中注册的Servlet的url-pattern
@@ -91,7 +110,7 @@
         error : function(errorMsg) {
             alert("加载数据失败");
         }
-    }); //ajax
+    }); //ajax*/
 
 
     console.info(number2);
@@ -171,7 +190,7 @@ function line() {
        legend: {
            orient : 'vertical',
            x : 'left',
-           data:['下线','在线','总数']
+           data:['总数','在线','下线']
        },
        toolbox: {
            show : true,
@@ -202,9 +221,9 @@ function line() {
                radius : '55%',
                center: ['50%', '60%'],
                data:[
-                   {value:number2[0], name:'下线'},
+                   {value:number2[0], name:'总数'},
                    {value:number2[1], name:'在线'},
-                   {value:number2[2], name:'总数'},
+                   {value:number2[2], name:'下线'},
                ]
            }
        ]
