@@ -2,7 +2,9 @@ package cn.edu.ncu.bootwebsocketmybatis.controller;
 
 import cn.edu.ncu.bootwebsocketmybatis.entity.Content;
 import cn.edu.ncu.bootwebsocketmybatis.entity.User;
+import cn.edu.ncu.bootwebsocketmybatis.entity.UserInfo;
 import cn.edu.ncu.bootwebsocketmybatis.service.ContentService;
+import cn.edu.ncu.bootwebsocketmybatis.service.UserInfoServiceImpl;
 import cn.edu.ncu.bootwebsocketmybatis.service.UserServiceImpl;
 import com.alibaba.fastjson.JSON;
 import org.apache.commons.io.FileUtils;
@@ -51,6 +53,9 @@ public class ChatController {
 
     @Autowired
     private UserServiceImpl userService;
+
+    @Autowired
+    private UserInfoServiceImpl userInfoService;
 
     /**
      * 好友上线通知其所有的好友,更新状态
@@ -210,11 +215,11 @@ public class ChatController {
      * @return
      */
     @GetMapping("/getOnline")
-    public List<User> getOnline(){
+    public List<UserInfo> getOnline(){
 
-        List<User> users=new ArrayList<>();
+        List<UserInfo> users=new ArrayList<>();
         for (Map.Entry<String,Session> entry : onlineUsers.entrySet() ){
-            users.add(userService.findById(entry.getKey()));
+            users.add(userInfoService.findByUserId(entry.getKey()));
         }
 
         System.out.println(users);
@@ -227,19 +232,19 @@ public class ChatController {
      * @return
      */
     @GetMapping("/getAll")
-    public List<User> getAll(){
-        return userService.findAll();
+    public List<UserInfo> getAll(){
+        return userInfoService.findAll();
     }
 
     @GetMapping("/getOffline")
-    public List<User> getOffline(){
+    public List<UserInfo> getOffline(){
 
-        List<User> onlineUserList=new ArrayList<>();
+        List<UserInfo> onlineUserList=new ArrayList<>();
         for (Map.Entry<String,Session> entry : onlineUsers.entrySet() ){
-            onlineUserList.add(userService.findById(entry.getKey()));
+            onlineUserList.add(userInfoService.findByUserId(entry.getKey()));
         }
 
-        List<User> allUserList =userService.findAll();
+        List<UserInfo> allUserList =userInfoService.findAll();
 
         System.out.print("AllUser:"+allUserList.size());
         allUserList.removeAll(onlineUserList);
