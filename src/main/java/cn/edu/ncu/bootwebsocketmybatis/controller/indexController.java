@@ -15,6 +15,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import java.net.UnknownHostException;
 
+
 /**
  * @auther: Liu Zedi.
  * @date: Create in 2018/12/18  23:06
@@ -42,6 +43,10 @@ public class indexController {
         return "register";
     }
 
+    @GetMapping("/chart")
+    public String chart(){
+        return "chart";
+    }
     /**
      * @description 注册界面
      * @return

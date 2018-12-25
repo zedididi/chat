@@ -1,7 +1,9 @@
 package cn.edu.ncu.bootwebsocketmybatis.controller;
 
 import cn.edu.ncu.bootwebsocketmybatis.entity.Content;
+import cn.edu.ncu.bootwebsocketmybatis.entity.User;
 import cn.edu.ncu.bootwebsocketmybatis.service.ContentService;
+import cn.edu.ncu.bootwebsocketmybatis.service.UserServiceImpl;
 import com.alibaba.fastjson.JSON;
 import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
@@ -26,6 +28,7 @@ import java.util.concurrent.ConcurrentHashMap;
 @Component
 @RequestMapping("/chatRoom")
 public class ChatController {
+
     /**
      * 键为userID,值为Session，存储在线用户
      */
@@ -45,6 +48,9 @@ public class ChatController {
 
     @Autowired
     private ContentService contentService;
+
+    @Autowired
+    private UserServiceImpl userService;
 
     /**
      * 好友上线通知其所有的好友,更新状态
@@ -198,4 +204,48 @@ public class ChatController {
             builder.append(random.nextInt(10));
         return builder.toString();
     }
+
+    /**
+     *获取上线用户数据
+     * @return
+     */
+    @GetMapping("/getOnline")
+    public List<User> getOnline(){
+
+        List<User> users=new ArrayList<>();
+        for (Map.Entry<String,Session> entry : onlineUsers.entrySet() ){
+            users.add(userService.findById(entry.getKey()));
+        }
+
+        System.out.println(users);
+        return users;
+    }
+
+
+    /**
+     * 获取所有上线用户数据
+     * @return
+     */
+    @GetMapping("/getAll")
+    public List<User> getAll(){
+        return userService.findAll();
+    }
+
+    @GetMapping("/getOffline")
+    public List<User> getOffline(){
+
+        List<User> onlineUserList=new ArrayList<>();
+        for (Map.Entry<String,Session> entry : onlineUsers.entrySet() ){
+            onlineUserList.add(userService.findById(entry.getKey()));
+        }
+
+        List<User> allUserList =userService.findAll();
+
+        System.out.print("AllUser:"+allUserList.size());
+        allUserList.removeAll(onlineUserList);
+        System.out.println("onlineUser:"+onlineUserList+"\nofflineUser:"+allUserList);
+        return allUserList;
+
+    }
+
 }

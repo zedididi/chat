@@ -23,10 +23,10 @@
             <input id="tab-1" type="radio" name="tab" class="sign-in" checked><label for="tab-1" class="tab">登录</label>
             <input id="tab-2" type="radio" name="tab" class="sign-up"><label for="tab-2" class="tab">注册</label>
             <div class="login-form">
-                <form>
+                <form  >
                     <div class="sign-in-htm">
                         <div class="group">
-                            <label for="userId" class="label">账号</label>
+                            <label for="userId" class="label" required>账号</label>
                             <input id="userId" name="userId"  type="search" th:value="${id}" class="input" required>
                         </div>
                         <div class="group">
@@ -39,17 +39,18 @@
                                 <div id="msg"></div>
                             </div>
                         </div>
-                        <div class="group">
+                        <!--<div class="group">
                             <input id="check" type="checkbox" class="check" checked>
                             <label for="check"><span class="icon"></span> 保持登录</label>
-                        </div>
+                        </div>-->
                         <div class="group">
                             <input type="button" class="button" value="登录" onClick="login()">
+                           <!-- <button  class="button">登录</button>-->
                         </div>
-                        <div class="hr"></div>
+                       <!-- <div class="hr"></div>
                         <div class="foot-lnk">
                             <a href="#forgot">忘记密码?</a>
-                        </div>
+                        </div>-->
                     </div>
                 </form>
                 <form onsubmit="register()">

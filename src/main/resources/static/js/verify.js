@@ -1,6 +1,6 @@
 (function (window) {
     // noinspection JSAnnotator
-    const l = 42, // 婊戝潡杈归暱
+    const l = 42, //
         r = 10, // 婊戝潡鍗婂緞
         w = 350, // canvas瀹藉害
         h = 50, // canvas楂樺害
@@ -194,7 +194,7 @@
                         this.success && this.success()
                     } else {
                         addClass(this.sliderContainer, 'sliderContainer_fail')
-                        this.text.innerHTML = '鍐嶈瘯涓€娆�'
+                        this.text.innerHTML = '验证失败'
                         this.reset()
                     }
                 } else {
@@ -208,24 +208,24 @@
         }
 
         verify() {
-            const arr = this.trail // 鎷栧姩鏃秠杞寸殑绉诲姩璺濈
-            const average = arr.reduce(sum) / arr.length // 骞冲潎鍊�
-            const deviations = arr.map(x => x - average) // 鍋忓樊鏁扮粍
-            const stddev = Math.sqrt(deviations.map(square).reduce(sum) / arr.length) // 鏍囧噯宸�
-            const left = parseInt(this.block.style.left)
+            const arr = this.trail;
+            const average = arr.reduce(sum) / arr.length;
+            const deviations = arr.map(x => x - average);
+            const stddev = Math.sqrt(deviations.map(square).reduce(sum) / arr.length);
+            const left = parseInt(this.block.style.left);
             return {
                 spliced: Math.abs(left - this.x) < 10,
-                TuringTest: average !== stddev, // 鍙槸绠€鍗曠殑楠岃瘉鎷栧姩杞ㄨ抗锛岀浉绛夋椂涓€鑸负0锛岃〃绀哄彲鑳介潪浜轰负鎿嶄綔
+                TuringTest: average !== stddev, //
             }
         }
 
         reset() {
-            this.sliderContainer.className = 'sliderContainer'
-            this.slider.style.left = 0
-            this.block.style.left = 0
-            this.sliderMask.style.width = 0
+            this.sliderContainer.className = 'sliderContainer';
+            this.slider.style.left = 0;
+            this.block.style.left = 0;
+            this.sliderMask.style.width = 0;
             this.clean()
-            this.img.src = getRandomImg()
+            this.img.src = getRandomImg();
             this.draw()
         }
 

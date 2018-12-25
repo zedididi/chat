@@ -86,7 +86,7 @@
             <div class="left_body" style="height: 85%;overflow-y: auto;overflow-x: hidden">
 
             <ul class="people" id="people">
-
+                <li class="person" style="display: none"></li>
             </ul>
             </div>
         </div>
@@ -95,6 +95,7 @@
                 <p class="name" style="margin-left: 190px;"></p>
                 <p class="status" style="position: absolute;top: 45px;left: 230px;"></p>
             </div>
+            <div class="chat" style="display: none"></div>
 
             <div class="write" id="write" style="width: 480px;margin-left: -15px">
                 <label  id="chat-tuxiang" title="发送图片" for="inputImage" class="write-link attach"><input type="file" accept="image/jpg,image/jpeg,image/png" name="file"  id="inputImage" class="hidden"></label>
@@ -193,11 +194,16 @@
     var requestTAG="HupsfSX79aIMZ73nn请求";
     //拒绝特殊标识
     var refuseTAG="AAoHAR1TIiIkUFU拒绝";
+    //删除特殊标识
+    var deleteTAG="QgVyInVSVQJVFRUS删除";
 
     //获取登陆用户id
     var userId=document.getElementById("userIf").alt;
 
     var webSocket=getWebSocket();
+
+    //分组信息
+    var groupInfo;
 
 
 $(document).ready(function () {
@@ -272,7 +278,7 @@ function sear() {
 //发送添加好友请求
 function accept( needId) {
 
-    window.console.info("needUserID:"+needId);
+  //  window.console.info("needUserID:"+needId);
 
     $.ajax({                //发送请求信息
         type: 'POST',
@@ -316,6 +322,110 @@ function accept( needId) {
             }
             else
                 window.alert(data);
+        }
+    });
+}
+//删除好友
+function deleteFriend(friendId) {
+
+    $.ajax({
+        type: 'POST',
+        url: '/friend/delete',
+        dataType: 'text',
+        data: {
+            'friendId': friendId,
+            'userId': userId
+        },
+        success: function(data){
+
+            if (data=="删除成功"){
+
+                var content = {
+                    "sendId": userId,
+                    "receiveId": friendId,
+                    "content": deleteTAG
+                };
+                window.alert(data + JSON.stringify(content));
+                webSocket.send(JSON.stringify(content));         //请求转发给服务端
+
+                $("#people li[id="+friendId+"]").remove();
+                $("friend_people li[id="+friendId+"]").remove();
+            }
+            else
+                alert(data);
+        }
+    });
+
+}
+
+//获取分组
+function getGroup() {
+
+    $.ajax({
+        type: 'GET',
+        url: '/friend/getGroup',
+        dataType: 'JSON',
+        success: function(data){
+
+            groupInfo=data;
+        }});
+
+}
+//好友重新分组
+function setGroup(friendId,groupName) {
+
+    var groupId;
+    for (var i in groupInfo){
+        if (groupInfo[i].name == groupName){
+            groupId = groupInfo[i].id;
+        }
+    }
+
+    $.ajax({
+
+        type: 'POST',
+        url: '/friend/updateGroup',
+        dataType: 'text',
+        data: {
+            'friendId':friendId,
+            'userId':userId,
+            'groupId':groupId
+        },
+        success: function(data){
+
+            if (data == "分组更新成功"){
+
+                $("friend_people li[id="+friendId+"]").remove();    //好友管理列表删除此好友信息
+
+                $.ajax({              //好友管理列表重新添加此好友信息
+                    type: 'GET',
+                    url: '/friend/get',
+                    dataType: 'JSON',
+                    data: {
+                        'userId': userId,
+                        'friendId': friendId
+                    },
+                    success: function(data){
+
+                        var listFriend = '';
+                        var friendId = data.friendId;
+                        var image = data.image;
+                        var friendName = data.friendName;
+                        var groupId = data.groupId;
+
+                        listFriend += '<li style="display: none" class="friend_person"  data-chat="' + friendId + '" id="'+friendId+'">' +
+                            '<img id="friend_hook"  src="' + image + '" alt="' + friendId + '" />' +
+                            '<span class="friend_name">' + friendName + '</span>' +
+                            '<p style="display: none">'+groupId+'</p>' +
+                            '</li>';
+
+                        document.getElementById("friend_people").innerHTML += listFriend;
+                        $(".friend_person").bind("mousedown",showFriendMsgBox);
+                    }
+                });
+            }
+            else
+                alert(data);
         }
     });
 }

@@ -99,19 +99,21 @@
     left: 13px;
     width: 14px;
     height: 10px;
-    background: url(../img/icon_light.f13cff3.png) 0 -26px;
+    /*background: url(../img/icon_light.f13cff3.png) 0 -26px;*/
     background-size: 34px 471px;
 }
 
 .refreshIcon {
     position: absolute;
+    background: no-repeat;
     right: 0;
     top: 0;
     width: 34px;
-    height: 34px;
+    height: 50px;
     cursor: pointer;
-    background: url(../img/icon_light.f13cff3.png) 0 -437px;
-    background-size: 34px 471px;
+    background-image: url(/img/refre.png);
+
+    padding: 10px 9px 5px 7px;
 }
 
 .tip {
