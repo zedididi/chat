@@ -1,8 +1,11 @@
 package cn.edu.ncu.bootwebsocketmybatis.controller;
 
 import cn.edu.ncu.bootwebsocketmybatis.entity.Content;
+import cn.edu.ncu.bootwebsocketmybatis.entity.User;
+import cn.edu.ncu.bootwebsocketmybatis.entity.UserInfo;
 import cn.edu.ncu.bootwebsocketmybatis.service.ContentService;
-import cn.edu.ncu.bootwebsocketmybatis.service.UserService;
+import cn.edu.ncu.bootwebsocketmybatis.service.UserInfoServiceImpl;
+import cn.edu.ncu.bootwebsocketmybatis.service.UserServiceImpl;
 import com.alibaba.fastjson.JSON;
 import org.apache.commons.io.FileUtils;
 import org.apache.ibatis.annotations.Param;
@@ -19,19 +22,16 @@ import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.PrintWriter;
 import java.sql.Timestamp;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 @RestController
 @ServerEndpoint("/chatRoom/{sendId}")
 @Component
 @RequestMapping("/chatRoom")
 public class ChatController {
+
     /**
      * 使用一个同步Map存储在线的用户
      * 键为userID,值为Session，存储在线用户
@@ -47,13 +47,17 @@ public class ChatController {
     /**
      * 存储用户发送图片的路径
      */
-    @Value("D://onlineChat/upload/")
+    @Value("D:/onlineChat/upload/")
     private String uploadPath;
 
     @Autowired
     private ContentService contentService;
+
     @Autowired
-    private UserService userService;
+    private UserServiceImpl userService;
+
+    @Autowired
+    private UserInfoServiceImpl userInfoService;
 
     /**
      * 好友上线通知其所有的好友,更新状态
@@ -167,7 +171,7 @@ public class ChatController {
      * @throws IOException
      */
     @PostMapping("/upload/picture")
-    public String getUploadPcturePath(@RequestParam("file") MultipartFile file,String sendId,String receiveId)throws IOException {
+    public String getUploadPciturePath(@RequestParam("file") MultipartFile file,String sendId,String receiveId)throws IOException {
         String fileOriginName = file.getOriginalFilename();
         logger.info(fileOriginName);
         String fileType = "."+fileOriginName.split("[\\.]")[1];
@@ -188,6 +192,7 @@ public class ChatController {
      */
     @PostMapping("/upload/audio")
     public String getUploadAudioPath(@RequestParam("audio")MultipartFile audio,String sendId)throws IOException{
+        logger.info(sendId+"发来了音频");
         String audioId = generateFileId()+".mp3";
         int seconds = 0;
         if (audio!=null){
@@ -195,37 +200,6 @@ public class ChatController {
             FileUtils.copyInputStreamToFile(audio.getInputStream(),out);
         }
         return "/audio/"+sendId +"/"+audioId ;
-    }
-
-    @PostMapping("/upload/record")
-    public String getUploadRecordPath(String sendId,String receiveId)throws IOException{
-        List<Content> list = contentService.getContentRecords(sendId,receiveId);
-        String recordPath = generateFileId()+".txt";
-        File file = new File(uploadPath+"/record/" + recordPath);
-        Pattern pattern = Pattern.compile("^<img?");
-        java.io.PrintWriter out = new PrintWriter(file);
-        String sendName = userService.findById(sendId).getUserName();
-        String receiveName = userService.findById(receiveId).getUserName();
-        String year_month_day="";
-        for (Content content:list){
-            if (!pattern.matcher(content.getContent()).find()){
-                if (!year_month_day.equals(content.getCreateTime().split(" ")[0])){
-                    out.println(content.getCreateTime().split(" ")[0]);
-                    out.println("--------------------------------------------------------------");
-                    year_month_day = content.getCreateTime().split(" ")[0];
-                }
-                logger.info(content.getSendId() +" " + sendId);
-                if (content.getSendId().equals(sendId))
-                    out.println(sendName +"  " + content.getCreateTime().split(" ")[1]);
-                else
-                    out.println(receiveName +"  " + content.getCreateTime().split(" ")[1]);
-                out.println(content.getContent());
-            }
-        }
-        out.close();
-        String jsonStr = JSON.toJSONString(list);
-        logger.info(sendName+" "+"/record/"+recordPath+" "+jsonStr);
-        return sendName +" "+"/record/" +recordPath+" "+jsonStr;
     }
 
     /**
@@ -239,4 +213,48 @@ public class ChatController {
             builder.append(random.nextInt(10));
         return builder.toString();
     }
+
+    /**
+     *获取上线用户数据
+     * @return
+     */
+    @GetMapping("/getOnline")
+    public List<UserInfo> getOnline(){
+
+        List<UserInfo> users=new ArrayList<>();
+        for (Map.Entry<String,Session> entry : onlineUsers.entrySet() ){
+            users.add(userInfoService.findByUserId(entry.getKey()));
+        }
+
+        System.out.println(users);
+        return users;
+    }
+
+
+    /**
+     * 获取所有上线用户数据
+     * @return
+     */
+    @GetMapping("/getAll")
+    public List<UserInfo> getAll(){
+        return userInfoService.findAll();
+    }
+
+    @GetMapping("/getOffline")
+    public List<UserInfo> getOffline(){
+
+        List<UserInfo> onlineUserList=new ArrayList<>();
+        for (Map.Entry<String,Session> entry : onlineUsers.entrySet() ){
+            onlineUserList.add(userInfoService.findByUserId(entry.getKey()));
+        }
+
+        List<UserInfo> allUserList =userInfoService.findAll();
+
+        System.out.print("AllUser:"+allUserList.size());
+        allUserList.removeAll(onlineUserList);
+        System.out.println("onlineUser:"+onlineUserList+"\nofflineUser:"+allUserList);
+        return allUserList;
+
+    }
+
 }

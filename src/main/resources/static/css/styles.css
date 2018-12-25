@@ -1,7 +1,8 @@
 body{
     margin:0;
     color:#6a6f8c;
-    background-image: url("/img/login.jpg");
+    /*background-image: url("/img/login.jpg");*/
+    background-image: url("../img/login.jpg");
     /*background:#c8c8c8;*/
     font:600 16px/18px 'Open Sans',sans-serif;
 }
@@ -17,7 +18,7 @@ input, button {
     width:100%;
     margin:auto;
     max-width:525px;
-    min-height:670px;
+    min-height:0px;
     position:relative;
     /*图片待定*/
    /* background:url(../img/login.jpg) no-repeat center;*/
@@ -28,8 +29,10 @@ input, button {
     height:100%;
     position:absolute;
     padding:90px 70px 50px 70px;
+    margin-top: -750px;
     /*background: rgba(40, 57, 101, 0.71);*/
 }
+
 .login-html .sign-in-htm,
 .login-html .sign-up-htm{
     top:0;

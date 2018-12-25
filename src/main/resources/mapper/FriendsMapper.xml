@@ -14,6 +14,7 @@
         <result column="image" jdbcType="VARCHAR" property="image"/>
         <result column="friend_name" jdbcType="VARCHAR" property="friendName"/>
     </resultMap>
+
     <select id="findAllByUserId" resultMap="friendMap">
         select friends.*, `group`.name as group_name,userinfo.image,`user`.username as friend_name from friends
         left join `group` on friends.groupid = `group`.id
@@ -21,6 +22,7 @@
         left join `user` on friends.friendid = `user`.id
         where friends.userid=#{userId,jdbcType=VARCHAR}
     </select>
+
     <select id="findAllByUserIdAndStatus" resultMap="friendMap">
         select friends.*, `group`.name as group_name,userinfo.image,`user`.username as friend_name from friends
             left join `group` on friends.groupid = `group`.id
@@ -30,9 +32,11 @@
     </select>
 
     <select id="findByUserId" resultMap="friendMap">
-        select friends.*, `group`.name as group_name from friends
+        select friends.*, `group`.name as group_name,userinfo.image,`user`.username as friend_name from friends
             left join `group` on friends.groupid = `group`.id
-        where userid=#{userId,jdbcType=VARCHAR} and friendid=#{friendId,jdbcType=VARCHAR}
+            left join userinfo on friends.friendid = userinfo.userid
+            left join `user` on friends.friendid = `user`.id
+        where friends.userid=#{userId,jdbcType=VARCHAR} and friends.friendid=#{friendId,jdbcType=VARCHAR}
     </select>
 
     <insert id="addFriendByUserId" keyProperty="id" useGeneratedKeys="true" parameterType="Friend">

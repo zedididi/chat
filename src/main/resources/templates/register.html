@@ -7,6 +7,7 @@
     <title>用户登录注册界面</title>
     <link rel="stylesheet" type="text/css" href="/css/styles.css">
     <link rel="stylesheet" href="/css/verify.css">
+    <script src="/jquery-3.2.1.min.js"></script>
     <style>
         #msg {
             width: 100%;
@@ -16,116 +17,121 @@
         }
     </style>
 </head>
-<body onload="initAJAX()">
-<div style="padding-top:100px">
-    <div class="login-wrap">
-        <div class="login-html" >
-            <input id="tab-1" type="radio" name="tab" class="sign-in" checked><label for="tab-1" class="tab">登录</label>
-            <input id="tab-2" type="radio" name="tab" class="sign-up"><label for="tab-2" class="tab">注册</label>
-            <div class="login-form">
-                <form>
-                    <div class="sign-in-htm">
-                        <div class="group">
-                            <label for="userId" class="label">账号</label>
-                            <input id="userId" name="userId"  type="search" th:value="${id}" class="input" required>
-                        </div>
-                        <div class="group">
-                            <label for="password" class="label">密码</label>
-                            <input id="password" type="password" class="input" data-type="password" required>
-                        </div>
-                        <div class="group">
-                            <div class="container">
-                                <div id="captcha" style="position: relative" data-type="password"></div>
-                                <div id="msg"></div>
-                            </div>
-                        </div>
-                        <div class="group">
-                            <input id="check" type="checkbox" class="check" checked>
-                            <label for="check"><span class="icon"></span> 保持登录</label>
-                        </div>
-                        <div class="group">
-                            <input type="button" class="button" value="登录" onClick="login()">
-                        </div>
-                        <div class="hr"></div>
-                        <div class="foot-lnk">
-                            <a href="#forgot">忘记密码?</a>
+<body onload="initAJAX()" id="large-header" style="height: 800px;">
+
+<canvas id="demo-canvas"></canvas>
+<div class="login-wrap">
+    <center>
+        <p id="homepage" style="margin-top: -530px;font-family: 华文彩云;color: white;font-size: 80px;">欢迎来到</p>
+        <p style="margin-top: 10px;font-family: 华文彩云;color: white;font-size: 80px;">SuperGod</p>
+        <p  style="margin-top: 10px;font-family: 华文彩云;color: white;font-size: 80px;">聊天室</p>
+    </center>
+    <div class="login-html" >
+        <input id="tab-1" type="radio" name="tab" class="sign-in" checked><label for="tab-1" class="tab">登录</label>
+        <input id="tab-2" type="radio" name="tab" class="sign-up"><label for="tab-2" class="tab">注册</label>
+        <div class="login-form">
+            <form>
+                <div class="sign-in-htm">
+                    <div class="group">
+                        <label for="userId" class="label">账号</label>
+                        <input id="userId" name="userId"  type="search" th:value="${id}" class="input" required>
+                    </div>
+                    <div class="group">
+                        <label for="password" class="label">密码</label>
+                        <input id="password" type="password" class="input" data-type="password" required>
+                    </div>
+                    <div class="group">
+                        <div class="container">
+                            <div id="captcha" style="position: relative" data-type="password"></div>
+                            <div id="msg"></div>
                         </div>
                     </div>
-                </form>
-                <form onsubmit="register()">
-                    <div class="sign-up-htm">
-                        <div class="group">
-                            <label for="username" class="label" required>用户名</label>
-                            <input id="username" type="text" class="input" required>
-                        </div>
-                        <div class="group">
-                            <label for="pass" class="label">密码</label>
-                            <input id="pass" type="password" class="input" data-type="password" required>
-                        </div>
-                        <div class="group">
-                            <label for="pass2" class="label">确认密码</label>
-                            <input id="pass2" type="password" class="input" data-type="password" onkeyup="textPwd()" required>
-                            <span id="mgs1"></span>
-                        </div>
-                        <div class="group">
-                            <!--<a href="register.html">--><button id="submit" class="button">注册</button>
-                                <!--<input type="button" id="submit" value="注册" class="button"/>--><!--</a>-->
-                        </div>
-                        <div class="hr"></div>
-                        <div class="foot-lnk">
-                            <label for="tab-1"><a>已经成员?</a></label>
-                        </div>
+                    <!--<div class="group">
+                        <input id="check" type="checkbox" class="check" checked>
+                        <label for="check"><span class="icon"></span> 保持登录</label>
+                    </div>-->
+                    <div class="group">
+                        <input type="button" class="button" value="登录" onClick="login()">
+                        <!-- <button  class="button">登录</button>-->
                     </div>
-                </form>
-            </div>
+                    <!-- <div class="hr"></div>
+                     <div class="foot-lnk">
+                         <a href="#forgot">忘记密码?</a>
+                     </div>-->
+                </div>
+            </form>
+            <form onsubmit="register()">
+                <div class="sign-up-htm">
+                    <div class="group">
+                        <label for="username" class="label" required>用户名</label>
+                        <input id="username" type="text" class="input" required>
+                    </div>
+                    <div class="group">
+                        <label for="pass" class="label">密码</label>
+                        <input id="pass" type="password" class="input" data-type="password" required>
+                    </div>
+                    <div class="group">
+                        <label for="pass2" class="label">确认密码</label>
+                        <input id="pass2" type="password" class="input" data-type="password" onkeyup="textPwd()" required>
+                        <span id="mgs1"></span>
+                    </div>
+                    <div class="group">
+                        <!--<a href="register.html">--><button id="submit" class="button">注册</button>
+                        <!--<input type="button" id="submit" value="注册" class="button"/>--><!--</a>-->
+                    </div>
+                    <div class="hr"></div>
+                    <div class="foot-lnk">
+                        <label for="tab-1"><a>已经成员?</a></label>
+                    </div>
+                </div>
+            </form>
         </div>
     </div>
 </div>
 <script src="js/verify.js"></script>
 <script>
+    $(".login-html").hide();
+    $(document).ready(function() {
+        $("p").click(function () {
+            $("p").hide(2000);
+            $(".login-html").fadeIn(2000);
+        });
+    });
     var flag=false;
-
     function httpPost(URL, PARAMS) {  //发送请求 POST
         var temp = document.createElement("form");
         temp.action = URL;
         temp.method = "post";
         temp.style.display = "none";
-
         for (var x in PARAMS) {
             var opt = document.createElement("textarea");
             opt.name = x;
             opt.value = PARAMS[x];
             temp.appendChild(opt);
         }
-
         document.body.appendChild(temp);
         temp.submit();
-
         return temp;
     }
-
     function login(){         //登陆
         var id=document.getElementById('userId').value;
         var pass=document.getElementById('password').value;
-            if(flag==false){
-                alert("验证失败!");
-                return;
-            }
-
-            var params = {
-                "userId":id,
-                "password":pass
-            };
-            httpPost("lo",params);
-
+        if(flag==false){
+            alert("验证失败!");
+            return;
+        }
+        var params = {
+            "userId":id,
+            "password":pass
+        };
+        httpPost("lo",params);
         //window.location.href = '/lo?userId='+id+'&password='+pass;
     }
     jigsaw.init(document.getElementById('captcha'), function () {
         flag=true;
-        document.getElementById('msg').innerHTML = '登录成功！';
+        //document.getElementById('msg').innerHTML = '登录成功！';
+        document.getElementById('msg').innerHTML="<font color='black'>验证成功！</font>"
     });
-
-
     function textPwd(){
         var pwd02=document.getElementById("pass");
         var pwd01=document.getElementById("pass2");
@@ -138,7 +144,6 @@
             document.getElementById("submit").disabled = false;
         }
     }
-
     function register() {    //注册
         var name=document.getElementById('username').value;
         var pass=document.getElementById('pass').value;
@@ -152,7 +157,6 @@
                     else {
                         window.alert("欢迎来到SuperGod聊天室，您的ID为：" + data);
                         window.location.href = "/register";
-
                     }
                 }else
                     window.alert("很抱歉，注册失败！")
@@ -163,5 +167,9 @@
     }
 </script>
 <script src="/js/commons.js"></script>
+<script src="/js/TweenLight.min.js"></script>
+<script src="/js/EasePack.min.js"></script>
+<script src="/js/raf.js"></script>
+<script src="/js/demo.js"></script>
 </body>
 </html>

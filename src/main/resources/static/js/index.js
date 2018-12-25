@@ -113,6 +113,9 @@ function setActiveChat(f) {
 }
 
 //初始化好友列表
+
+var friends,chat;
+
 function initFriend() {
     var userId = document.getElementById("userIf").alt;
     var friendIds = "";
@@ -127,7 +130,6 @@ function initFriend() {
                 for (var i in obj) {
                     var friendId = obj[i].friendId;
                     friendIds += friendId +" ";
-
                     var userId = obj[i].userId;
                     var image = obj[i].image;
                     var friendName = obj[i].friendName;
@@ -150,13 +152,119 @@ function initFriend() {
             }
         }
 
-        $("#hook,#msg-box").bind("mouseover",showMsgBox);
+        $("#hook").bind("mouseover",showMsgBox);
+
     };
     xmlHttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
     xmlHttp.send("userId=" + userId);
+
 }
 
-//好友列表好友
+
+
+//同意好友添加请求
+function acceptReq(reId) {
+
+    var seId = $("#userIf").attr("alt");
+
+    $.ajax({
+        type: 'POST',
+        url: '/friend/agree',
+        dataType: 'text',
+        data: {
+            'friendId': reId,
+            'userId': seId,
+        },
+        success: function (data) {
+            var content = {
+                "sendId": seId,    //发送同意信息到请求者，因此receiveId是真正的发送者
+                "receiveId": reId,
+                "content": agreeTAG
+            };
+
+            window.alert(data + JSON.stringify(content));
+            webSocket.send(JSON.stringify(content));
+            $("#reValidte li[id="+reId+"]").remove();
+
+            $.ajax({              //好友列表添加此好友信息
+                type: 'GET',
+                url: '/friend/get',
+                dataType: 'JSON',
+                data: {
+                    'userId': seId,
+                    'friendId': reId
+                },
+                success: function(data){
+
+                    var info="";
+                    var listFriend = '';
+                    var friendId = data.friendId;
+                    var image = data.image;
+                    var friendName = data.friendName;
+                    var groupId = data.groupId;
+                    var li_id = friendId+"li";
+                    var tip_id = friendId +"tip";
+                    var status_id = friendId +"status";
+
+                    info +='<li class="person" id="'+li_id+'" data-chat="' + friendId + '">' +
+                        '<img id="hook"  src="' + image + '" alt="' + friendId + '" />' +
+                        '<span class="name" style="margin-right: 10px">' + friendName + '</span> <span class="status" id="'+status_id+'">' +"[在线]"+
+                        '</span><span class="tip" id="'+tip_id+'"></span>'+
+                        '</li>';
+
+                    listFriend += '<li style="display: none" class="friend_person"  data-chat="' + friendId + '" id="'+friendId+'">' +
+                        '<img id="friend_hook"  src="' + image + '" alt="' + friendId + '" />' +
+                        '<span class="friend_name">' + friendName + '</span>' +
+                        '<p style="display: none">'+groupId+'</p>' +
+                        '</li>';
+
+                    var chatWindowDivs = '<div style="" class="chat" id="' +friendId +'" data-chat="' +friendId +'"></div>';
+                    $("#write").before(chatWindowDivs);
+
+                    document.getElementById("people").innerHTML +=info;
+                    document.getElementById("friend_people").innerHTML += listFriend;
+                    $(".friend_person").bind("mousedown",showFriendMsgBox);
+                    initFriendAndChat()
+                    alert("执行了")
+                }
+            });
+        }
+    });
+}
+
+
+//拒绝好友添加请求
+function refuseReq(reId) {
+
+    var seId = $("#userIf").attr("alt");
+
+    $.ajax({
+        type: 'POST',
+        url: '/friend/delete',
+        dataType: 'text',
+        data: {
+            'friendId': reId,
+            'userId': seId
+        },
+        success: function (data) {
+
+            var content = {
+                "sendId": seId,    //发送拒绝信息到请求者，
+                "receiveId": reId,
+                "content": refuseTAG
+            };
+            window.alert(data + JSON.stringify(content));
+            webSocket.send(JSON.stringify(content));
+            window.console.info("拒绝发送内容：" + content.content);
+            $("#reValidte li[id="+reId+"]").remove();
+
+        }
+    });
+}
+
+
+//好友管理界面  好友列表
+//初始化第二页好友列表
 function friend_initFriend() {
     var friend_userId = document.getElementById("friend_userIf").alt;
     var friendIds = "";
@@ -167,6 +275,7 @@ function friend_initFriend() {
             if (xmlHttp.status == 200) {
                 var data = xmlHttp.responseText;
                 var obj = JSON.parse(data);
+                var groupFriend = '';
                 var listFriend = '';
                 var li_id = friendId+"li";
                 var tip_id = friendId +"tip";
@@ -174,18 +283,19 @@ function friend_initFriend() {
                 for (var i in obj) {
                     var friendId = obj[i].friendId;
                     friendIds += friendId +" ";
+                    var groupId = obj[i].groupId;
                     var image = obj[i].image;
                     var friendName = obj[i].friendName;
-                    listFriend += '<li class="friend_person" id="'+li_id+'" data-chat="' + friendId + '">' +
+                    listFriend += '<li style="display: none" class="friend_person"  data-chat="' + friendId + '"alt="'+friendId+'">' +
                         '<img id="friend_hook"  src="' + image + '" alt="' + friendId + '" />' +
                         '<span class="friend_name">' + friendName + '</span><span class="status" id="'+status_id+'">' +
+                        '<p style="display: none">'+groupId+'</p>'+
                         '</li>';
                 }
                 document.getElementById("friend_people").innerHTML += listFriend;
-                boolOnline(friendIds +" " + userId);
             }
         }
-        $("#friend_hook").bind("mousedown",showFriendMsgBox);
+        $(".friend_person").bind("mousedown",showFriendMsgBox);
     };
     xmlHttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
     xmlHttp.send("userId=" + friend_userId);
@@ -248,10 +358,93 @@ function init() {
                     "href":path,
                     "download":"聊天记录"
                 })
+
             }
         })
     })
+/*
+    //返回webSocket对象
+    function getWebSocket() {
+        var webSocket = new WebSocket("ws://localhost:8080/chatRoom/"+sendId);
+        
+        webSocket.onopen = function (ev) {
+            console.log("用户打开了连接");
+        }
 
+        webSocket.onclose = function (ev) {
+            console.log("用户关闭了连接")
+        }
+
+        webSocket.onerror = function (ev) {
+            alert("发生了错误")
+        };
+
+        webSocket.onmessage = function (ev) {  //当有好友发送消息时进行消息的显示
+            if (ev.data.trim().length <= 15){
+                var status_id = ev.data.split(" ")[0] +"status";
+                if (ev.data.split(" ")[1] == "loginIn"){
+                    document.getElementById(status_id).innerText = "[在线]";
+                    if ($(".active").attr("data-chat") == ev.data.split(" ")[0]) $(".right .top .status").text("在线");
+                } else {
+                    document.getElementById(status_id).innerText ="[离线]";
+                    if ($(".active").attr("data-chat") == ev.data.split(" ")[0]) $(".right .top .status").text("离线");
+                }
+            } else {
+                var obj = JSON.parse(ev.data);
+                var sendId = obj.sendId;
+                var receiveId = obj.receiveId;
+                var createTime = obj.createTime.substring(0,19);
+                var content = obj.content;
+                document.getElementById("sound").play();
+                if ($(".active").attr("data-chat") == sendId){  //如果此时，正好打开了与发送消息的好友的窗口,直接显示
+                    var time = document.getElementById($(".active").attr("data-chat")).getElementsByClassName("conversation-start");
+                    var lastTime;
+                    if (time.length == 0) lastTime ="2010-12-22 11:08:29";
+                    else  lastTime = time[time.length-1].innerText;
+                    if (judgeShowTime(createTime,lastTime)){
+                        if (boolToday(createTime))
+                            $(".active-chat").append('<div class=\"conversation-start\"><span>'+createTime.split(" ")[1]+'</span></div>');
+                        else
+                            $(".active-chat").append('<div class=\"conversation-start\"><span>'+createTime+'</span></div>');
+                    }
+                    $(".active-chat").append("<div class='bubble you'>"+content+"</div>")
+                } else { //如果此时没有打开与发送消息好友的窗口,则给出提醒
+                    var li_id = sendId +"li";
+                    var person = document.getElementById(li_id);
+                    var tip_id = sendId +"tip";
+                    var tip = document.getElementById(tip_id);
+                    var status_id = sendId +"status";
+                    var status = document.getElementById(status_id).innerText;
+                    var unread;
+                    if (tip.innerText == "") unread = 1;
+                    else unread = parseInt(tip.innerText)+1;
+                    var img_url = person.getElementsByTagName("img")[0].getAttribute("src");
+                    var friendName = person.getElementsByTagName("span")[0].innerText;
+                    $("#people").prepend('<li class="person" data-chat="'+sendId +'" id="'+li_id+'">' +
+                        '<img src="'+img_url+'" alt ="'+receiveId+'"/><span class="name">' +friendName +'</span><span class="status" id="'+status_id+'">'+status+'</span><span class="tip" ' +
+                        'id="'+tip_id+'" style="visibility: visible">'+unread+'</span></li> ')
+                    person.parentNode.removeChild(person);
+                    friends = {
+                        list: document.querySelector('ul.people'),//获取好友列表
+                        all: document.querySelectorAll('.left .person'),//获取所有好友
+                        name: '' };
+                    chat = {
+                        container: document.querySelector('.container .right'),//获取聊天栏
+                        current: null,
+                        person: null,
+                        name: document.querySelector('.container .right .top .name') };//获取聊天对象名称
+                    friends.all.forEach(function (f) {
+                        f.addEventListener('mousedown', function () {
+                            f.classList.contains('active') || setActiveChat(f);
+                        });
+                    });
+                }
+            }
+        }
+
+        return webSocket;
+    }
+*/
 
     //用户与服务器进行连接
     var webSocket = getWebSocket();
@@ -261,7 +454,7 @@ function init() {
         var file = document.getElementById("inputImage").files[0];
         if (file == null) return;
         var formData = new FormData();
-        formData.append("file",file)
+        formData.append("file",file);
         formData.append("sendId",sendId);
         formData.append("receiveId",receiveId);
         $.ajax({
@@ -287,7 +480,7 @@ function init() {
                 "sendId": $("#userIf").attr("alt"),
                 "receiveId":$(".active").attr("data-chat"),
                 "content":$(".div-textarea").html()
-            }
+            };
             webSocket.send(JSON.stringify(content));
             $.ajax({
                 url:"/chatRoom/send",
@@ -334,11 +527,11 @@ function init() {
                         "top":"2px",
                         "left":"374px"
                     })
-                })
+                });
 
                 mediaRecorder.ondataavailable = function(ev){
                     chunks.push(ev.data)
-                }
+                };
 
                 $("#chat-audio").mouseup(function () {
                     end = new Date();
@@ -349,7 +542,7 @@ function init() {
                         "left": "384px",
                         "top": "12px"
                     })
-                })
+                });
 
                 mediaRecorder.onstop = function (ev) {
                     if (end.getTime() - start.getTime() <1000){
