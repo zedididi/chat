@@ -8,9 +8,11 @@
         <id column="id" jdbcType="SMALLINT" property="id"/>
         <result column="name" jdbcType="VARCHAR" property="name"/>
     </resultMap>
+
     <select id="findAll" resultMap="groupMap">
         select * from `group`
     </select>
+
     <select id="findByContent" resultMap="groupMap">
         select * from `group` where `name`=#{name,jdbcType=VARCHAR}
     </select>

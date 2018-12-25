@@ -213,13 +213,13 @@ body {
 .container .right .chat {
     position: relative;
     display: none;
-    overflow-y: auto;
+    overflow-y: scroll;
     overflow-x: hidden;
     padding: 0 35px 92px;
     border-width: 1px 1px 1px 0;
     border-style: solid;
     border-color: var(--light);
-    height: 480px;
+    height: 470px;
     /*justify-content: flex-end;*/
     flex-direction: column;
 }

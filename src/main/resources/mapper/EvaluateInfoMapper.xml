@@ -13,12 +13,14 @@
         select id,content
         from evaluateinfo
     </select>
-    <!--resultMap="evaluateInfoMap"-->
+
+
     <select id="findById"  resultMap="evaluateInfoMap" parameterType="INTEGER">
          select id,content
         from evaluateinfo
         where id=#{id}
     </select>
+
     <select id="findByContent" resultMap="evaluateInfoMap" >
         select id,content
         from evaluateinfo

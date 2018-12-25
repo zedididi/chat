@@ -52,7 +52,31 @@ public class FriendServiceImpl implements FriendService {
     }
 
     /**
-     * 更新好友关系 主要是好友的分组           还未完成
+     * 更新好友关系 好友的分组
+     * @param friend
+     * @return
+     */
+    @Override
+    public boolean updateGroupByUserId(Friend friend) {
+        if (friendsDao.updateGroupByUserId(friend)>0)
+            return true;
+        return false;
+    }
+
+    /**
+     * 更新好友关系 好友状态
+     * @param friend
+     * @return
+     */
+    @Override
+    public boolean updateStatusByUserId(Friend friend) {
+        if (friendsDao.updateStatusByUserId(friend)>0)
+            return true;
+        return false;
+    }
+
+    /**
+     * 更新好友关系 好友的分组和状态
      * @param friend
      * @return
      */
@@ -73,5 +97,16 @@ public class FriendServiceImpl implements FriendService {
         if (friendsDao.deleteFriendByUserId(friend)>0)
             return true;
         return false;
+    }
+
+    /**
+     * 根据userId和status来查询好友 好友状态 SR代表已是好友 S代表好友请求发送方 R代表好友请求接受方
+     * @param userId
+     * @param status
+     * @return
+     */
+    @Override
+    public List<Friend> findAllByUserIdAndStatus(String userId, String status) {
+        return friendsDao.findAllByUserIdAndStatus(userId,status);
     }
 }

@@ -5,7 +5,6 @@ import cn.edu.ncu.bootwebsocketmybatis.service.ContentService;
 import cn.edu.ncu.bootwebsocketmybatis.service.UserService;
 import com.alibaba.fastjson.JSON;
 import org.apache.commons.io.FileUtils;
-import org.apache.ibatis.annotations.Param;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +32,6 @@ import java.util.regex.Pattern;
 @RequestMapping("/chatRoom")
 public class ChatController {
     /**
-     * 使用一个同步Map存储在线的用户
      * 键为userID,值为Session，存储在线用户
      */
     private static Map<String, Session> onlineUsers = new ConcurrentHashMap<>();
