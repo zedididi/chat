@@ -247,7 +247,7 @@ function getWebSocket() {
             var sendId1 = obj1.sendId;
             var msg1 = obj1.content;
 
-            if (msg1 == requestTAG || msg1 == agreeTAG || msg1 == refuseTAG) {
+            if (msg1 == requestTAG || msg1 == agreeTAG || msg1 == refuseTAG ||msg1 == deleteTAG ) {
 
                 console.info("进入判断事件：" + msg1);
                 if (msg1 == requestTAG) {
