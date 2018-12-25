@@ -42,7 +42,8 @@
     <script src="/js/commons.js"></script>
     <script src="/jquery-3.2.1.min.js"></script>
     <script src="/js/mDialogMin.js"></script>
-    <script src="/js/tan.js"></script>
+    <script src="/js/image-file.js"></script>
+
 </head>
 
 <body onload="initAJAX();initFriend();initAddFriend();initExpressionGif();initExpressionPackage();">
@@ -106,7 +107,7 @@
                 <a href="javascript:void(0)" id="chat-biaoqing" class="write-link smiley">
                     <i class="iconfont icon-biaoqing"></i></a>
                 <a href="javascript:void(0)"><img id="chat-picture" src="/img/picture.png" width="23px" height="19px" style="position: absolute;left: 415px;top: 12px;"></a>
-                <a href="javascript:void(0)" id="chat-fasong" class="write-link send" style="position: absolute;left: 440px"></a>
+                <a href="javascript:setDIV()" id="chat-fasong" class="write-link send" style="position: absolute;left: 440px"></a>
                 <div id="expression" class="picture">
                   <p style="font-size: 12px;font-weight: bolder" >经典表情</p>
                 </div>
@@ -184,8 +185,10 @@
         </div>
     </div>
 </div>
-
 <script type="text/javascript">
+
+
+
 
     //隐藏且禁用横向纵向两个滚动条
    document.body.parentNode.style.overflow = "hidden";
@@ -215,6 +218,7 @@ $(document).ready(function () {
 /*好友添加弹窗部分*/
 $("#div_4").hide();
 $("#div_3").hide();
+
 $("#addFriend").click (function () {
     $("#div_4").show(500);
     $("#div_3").hide();
@@ -223,7 +227,6 @@ $("#mes").click(function () {
     $("#div_4").hide();
     $("#div_3").show(500);
 });
-
 //转换时间格式
 
 function timestampToTime(timestamp) {
@@ -505,11 +508,7 @@ function initAddFriend(){
 
 
     $("#friend_hook").bind("mousedown",showFriendMsgBox);
-    /*$("#friend_hook").click(function () {
-        $("#container_friend_info").show("slow")
-        var div=$("#container_friend_info");
-        div.animate({left: '10%'},"slow");
-    })*/
+
 
 
 
@@ -611,6 +610,7 @@ function initAddFriend(){
         var friend_friendId=$(this).attr("alt");
         window.console.info(friend_friendId);
 
+
         if (friend_friendId!=undefined) {         //鼠标不是放在个人资料卡上
             $.ajax({
                 type: 'POST',
@@ -639,18 +639,44 @@ function initAddFriend(){
                         evaS += '<span><a>' + eva[i].content + '</a></span>';
                     }
 
-                    var group1, group2;
+                    var group0, group1, group2, group3, group4, group5, group6, group7, deleteFriend;
                     if (friend_friendId === userId) {        //当为本人
+                        group0 = '<center><div id="image-wrap"><img src="'+ data.image +'"></div></center>\n';
                         group1 = "";
                         group2 = "";
+                        group3 = '<input id="bday" style="height: 16px;font-size: 15px" class="info-more" size="10" type="text" value='+birthday+'>\n';
+                        group4 = '<input id="sex" style="height: 16px;font-size: 15px" class="info-more" size="2" type="text" value='+data.sex+'>\n';
+                        group5 = '<input id="em" style="height: 16px;" class="info-more" size="10" type="text" value='+email+'>\n';
+                        group6 = '<input id="place" style="height: 16px;" class="info-more" size="10" type="text" value='+country+'>\n';
+                        group7 = '<input id="ph" style="height: 16px;" class="info-more" size="11" type="text" value='+phone+'>\n';
+                        deleteFriend = '<input id="change_head" type="file" value="更换头像" style="width: 70px;height: 30px">\n'
                     }
                     else {
+                        group0 = '<center><div id="image-wrap"><img src="' + data.image + '"></div></center>\n'
                         group1 = '<p class="info">分组&nbsp;</p>\n';
-                        group2 = '<p class="info-more">' + data.groupName + '</p>\n';
+                        group2 = '<select id="select" class="info-more">\n'+
+                            '<option value="同学" id="tongxue">同学</option> \n'+
+                            '<option value="朋友" id="pengyou">朋友</option> \n'+
+                            '<option value="同事" id="tongshi">同事</option> \n'+
+                            '<option value="闺蜜" id="guimi">闺蜜</option> \n'+
+                            '</select>\n';
+                        group3 =  '<p class="info-more">' + birthday + '</p>\n';
+                        group4 = '<p class="info-more">' + data.sex + '</p>\n';
+                        group5 =  '<p class="info-more">' + email + '</p>\n';
+                        group6 = '<p class="info-more">' + country + '</p>\n';
+                        group7 =  '<p class="info-more">' + phone + '</p>\n';
+
+                        deleteFriend = '<input id="delete" type="button" value="删除" style="width: 50px;height: 30px">\n'
                     }
 
 
-                    var friend_userInfo = '<div class="msg-box-head"><center><img src="' + data.image + '"></center></div>\n' +
+                    var friend_userInfo =
+                        '<div class="msg-box-head">' +
+                        '<div style="position: relative;right: 0;top: 0">\n'+
+                        deleteFriend +
+                        '</div>\n'+
+                        group0 +
+                        '</div>\n' +
                         '    <hr style=" float: bottom;width:80%;margin:0 auto;border: 0;height: 3px;background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));">\n' +
                         '    <div class="msg-box-body">\n' +
                         '        <center>\n' +
@@ -669,28 +695,52 @@ function initAddFriend(){
                         '        </div>\n' +
                         '        <div class="user-info-more">\n' +
                         '            <p class="info-more">' + data.userId + '</p>\n' +
-                        '            <p class="info-more">' + birthday + '</p>\n' +
-                        '            <p class="info-more">' + data.sex + '</p>\n' +
+                        group3 +
+                        group4 +
                         group2 +
-                        '            <p class="info-more">' + email + '</p>\n' +
-                        '            <p class="info-more">' + country + '</p>\n' +
-                        '            <p class="info-more">' + phone + '</p>\n' +
+                        group5 +
+                        group6 +
+                        group7 +
                         '        </div>\n' +
                         '        <hr style=" float: bottom;width:80%;margin:0 auto;border: 0;height: 1px;background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));">\n' +
                         '        <div class="msg-box-bottom">\n' +
                         '            <div class="impression">\n' +
                         evaS +
                         '            </div>\n' +
+                        '<div class="change_friendInfo" style="text-align: center;float: bottom">\n'+
+                        '<input id="confirm" type="button" value="确认" onclick="gi('+data.userId+')" style="width: 50px;height: 50px;border-radius: 20%">\n'+
+                        '</div>\n'+
                         '            </div>\n' +
                         '        </div>\n' +
-                        '    </div>';
+                        '    </div>\n' +
+                        '<span id="url" style="display: none;"></span>\n';
 
                     document.getElementById("container_friend_info").innerHTML = friend_userInfo;
                 }
             });
         }
         addEvaluation();
-        //$(".container_friend_info").show("slow")
+        $(".container_friend_info").show("slow")
+    }
+
+    function gi(id) {
+        var p=$("#change_head").val();
+        $("#url").html(p);
+        var URL=$("#url").text();
+        var birthday=$("#bday").val();
+        var sex=$("#sex").val();
+        var groupName=$("#select  option:selected").text();
+        var email=$("#em").val();
+        var country=$("#place").val();
+        var phone=$("#ph").val();
+        window.console.info(birthday);
+        window.console.info(sex);
+        window.console.info(groupName);
+        window.console.info(email);
+        window.console.info(country);
+        window.console.info(phone);
+        window.console.info(id);
+        window.console.info(URL);
     }
 
 
@@ -755,68 +805,94 @@ function initExpressionPackage() {
 
         //聊天好友界面切换
     $(".change_chat").click(function () {
+        $("#history").fadeIn(1000);
         $(".container").fadeIn(1000);
         $(".container_friend").fadeOut(1000);
     });
     $(".change_friend").click(function () {
         var div=$(".container_friend");
         $(".container").fadeOut(1000);
+        $("#history").fadeOut(1000);
         $(".container_friend").fadeIn(1000);
         div.animate({left:'50%'},"slow");
         $("#msg-box").fadeOut(1000);
         $("#msg-history").fadeOut(1000);
-        });
+        $("#container_friend_info").show("slow")
+        var div1=$("#container_friend_info");
+        div1.animate({left: '10%'},"slow");
+    });
 
+    //聊天记录
+    $("#history").click(function () {
+        $("#msg-history").show("slow");
+    });
+    $("#msg-history-close").click(function () {
+        $("#msg-history").hide("slow");
+    });
 
-//聊天记录
-$("#history").click(function () {
-    $("#msg-history").show("slow");
-});
-$("#msg-history-close").click(function () {
-    $("#msg-history").hide("slow");
-});
-
-//好友列表分组
-//同学
-$("#tongxue").click(function () {
-    $('li:contains("1")').show("slow");
-    $('li:contains("2")').hide("slow");
-    $('li:contains("3")').hide("slow");
-    $('li:contains("4")').hide("slow");
-})
-$("#tomhxue").dblclick(function () {
+    //好友列表分组
+    //同学
+    $("#tongxue").click(function () {
+        $('li:contains("1")').show("slow");
+        $('li:contains("2")').hide("slow");
+        $('li:contains("3")').hide("slow");
+        $('li:contains("4")').hide("slow");
+    })
+    $("#tomhxue").dblclick(function () {
         $('li:contains("1")').hide("slow");
     })
     //朋友
-$("#pengyou").click(function () {
-    $('li:contains("1")').hide("slow");
-    $('li:contains("2")').show("slow");
-    $('li:contains("3")').hide("slow");
-    $('li:contains("4")').hide("slow");
-})
-$("#pengyou").dblclick(function () {
-    $('li:contains("2")').hide("slow");
-})
+    $("#pengyou").click(function () {
+        $('li:contains("1")').hide("slow");
+        $('li:contains("2")').show("slow");
+        $('li:contains("3")').hide("slow");
+        $('li:contains("4")').hide("slow");
+    })
+    $("#pengyou").dblclick(function () {
+        $('li:contains("2")').hide("slow");
+    })
     //同事
-$("#tongshi").click(function () {
-    $('li:contains("1")').hide("slow");
-    $('li:contains("2")').hide("slow");
-    $('li:contains("3")').show("slow");
-    $('li:contains("4")').hide("slow");
-})
-$("#tomhxue").dblclick(function () {
-    $('li:contains("3")').hide("slow");
-})
+    $("#tongshi").click(function () {
+        $('li:contains("1")').hide("slow");
+        $('li:contains("2")').hide("slow");
+        $('li:contains("3")').show("slow");
+        $('li:contains("4")').hide("slow");
+    })
+    $("#tomhxue").dblclick(function () {
+        $('li:contains("3")').hide("slow");
+    })
     //闺蜜
-$("#guimi").click(function () {
-    $('li:contains("1")').hide("slow");
-    $('li:contains("2")').hide("slow");
-    $('li:contains("3")').hide("slow");
-    $('li:contains("4")').show("slow");
-})
-$("#guimi").dblclick(function () {
-    $('li:contains("4")').hide("slow");
-})
+    $("#guimi").click(function () {
+        $('li:contains("1")').hide("slow");
+        $('li:contains("2")').hide("slow");
+        $('li:contains("3")').hide("slow");
+        $('li:contains("4")').show("slow");
+    })
+    $("#guimi").dblclick(function () {
+        $('li:contains("4")').hide("slow");
+    })
+
+
+//添加好友弹窗
+    function tan() {
+        var btn = document.getElementById('topen_btn');
+        var div = document.getElementById('tan_background');
+        var close = document.getElementById('tclose-button');
+
+        btn.onclick = function show() {
+            div.style.display = "block";
+        }
+
+        close.onclick = function close() {
+            div.style.display = "none";
+        }
+
+        window.onclick = function close(e) {
+            if (e.target == div) {
+                div.style.display = "none";
+            }
+        }
+    }
 
 </script>
 </body>

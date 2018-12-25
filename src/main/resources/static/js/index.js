@@ -173,30 +173,33 @@ function refuseReq(reId) {
 //好友管理界面  好友列表
 //初始化第二页好友列表
 function friend_initFriend() {
-
     var friend_userId = document.getElementById("friend_userIf").alt;
-
+    var friendIds = "";
+    // var userId=$("img#userIf").attr("alt");
     xmlHttp.open("POST", "/friend/getAll", true);
     xmlHttp.onreadystatechange = function () {
         if (xmlHttp.readyState == 4) {
             if (xmlHttp.status == 200) {
-
                 var data = xmlHttp.responseText;
                 var obj = JSON.parse(data);
+                var groupFriend = '';
                 var listFriend = '';
+                var li_id = friendId+"li";
+                var tip_id = friendId +"tip";
+                var status_id = friendId +"status";
                 for (var i in obj) {
                     var friendId = obj[i].friendId;
+                    friendIds += friendId +" ";
                     var groupId = obj[i].groupId;
                     var image = obj[i].image;
                     var friendName = obj[i].friendName;
-                    listFriend += '<li style="display: none" class="friend_person"  data-chat="' + friendId + '" id="'+friendId+'">' +
+                    listFriend += '<li style="display: none" class="friend_person"  data-chat="' + friendId + '"alt="'+friendId+'">' +
                         '<img id="friend_hook"  src="' + image + '" alt="' + friendId + '" />' +
-                        '<span class="friend_name">' + friendName + '</span>' +
-                        '<p style="display: none">'+groupId+'</p>' +
+                        '<span class="friend_name">' + friendName + '</span><span class="status" id="'+status_id+'">' +
+                        '<p style="display: none">'+groupId+'</p>'+
                         '</li>';
                 }
                 document.getElementById("friend_people").innerHTML += listFriend;
-                // boolOnline(friendIds +" " + userId);
             }
         }
         $(".friend_person").bind("mousedown",showFriendMsgBox);
