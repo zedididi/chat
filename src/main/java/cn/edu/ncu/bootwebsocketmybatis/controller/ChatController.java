@@ -253,4 +253,25 @@ public class ChatController {
 
     }
 
+    @GetMapping("/getNum")
+    public List<Integer> getNum(){
+
+        List<Integer> num=new ArrayList<>();
+
+        List<UserInfo> onlineUserList=new ArrayList<>();
+        for (Map.Entry<String,Session> entry : onlineUsers.entrySet() ){
+            onlineUserList.add(userInfoService.findByUserId(entry.getKey()));
+        }
+
+        List<UserInfo> allUserList =userInfoService.findAll();
+
+        num.add(allUserList.size());
+        num.add(onlineUserList.size());
+        num.add(allUserList.size()-onlineUserList.size());
+       // System.out.print("AllUser:"+allUserList.size());
+       // allUserList.removeAll(onlineUserList);
+       // System.out.println("onlineUser:"+onlineUserList+"\nofflineUser:"+allUserList);
+        return num;
+    }
+
 }
