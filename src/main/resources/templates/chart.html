@@ -1,46 +1,106 @@
-<!--数据统计-->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
     <script src="/js/echarts.js"></script>
+    <script src="/jquery-3.2.1.min.js"></script>
 </head>
 <body>
 <div id="main" style="width: 600px;height:400px;"></div>
 <!--事件函数可以该成动态读取部分的函数，现在是我静态图的函数-->
-<button onclick="sex()">刷新</button>
+<button onclick="sex()">点击</button>
 <hr>
 <div id="online" style="width: 600px;height: 400px"></div>
-<button onclick="line()">刷新</button>
+<button onclick="line()">点击</button>
 
 <script type="text/javascript">
 
+
+    var all;
+    var online;
+    var offline;
+    var man=0;
+    var weman=0;
+    var donotKonw=0;
+    var number2= new Array();
     /*待修改部分*/
     $.ajax({
-        type : 'post',
+        type : 'GET',
         async : false, //同步执行
-        url :'', //web.xml中注册的Servlet的url-pattern
-        data : {}, //无参数
+        url :'/chatRoom/getAll', //web.xml中注册的Servlet的url-pattern
+        // data : {}, //无参数
         dataType : 'json', //返回数据形式为json
-        success : function(number,number2) {
-            if (number) {
-                //把result(即Json数据)以参数形式放入Echarts代码中
-                sex(number);
-                line(number2);
+        success : function(data) {
+
+            var num=0;
+            all=data;
+            for (var i in data) {
+                if (data[i].sex == "男")
+                    man++;
+                if (data[i].sex == "女")
+                    weman++;
+                if (data[i].sex == "不详")
+                    donotKonw++;
+                num++;
             }
+            number2.push(num);
         },
         error : function(errorMsg) {
             alert("加载数据失败");
         }
     }); //ajax
-</script>
 
-<script type="text/javascript">
+    $.ajax({
+        type : 'GET',
+        async : false, //同步执行
+        url :'/chatRoom/getOnline', //web.xml中注册的Servlet的url-pattern
+        // data : {}, //无参数
+        dataType : 'json', //返回数据形式为json
+        success : function(data) {
+
+            online=data;
+            var num=0;
+            for (var i in data) {
+                num++;
+            }
+            number2.push(num);
+
+        },
+        error : function(errorMsg) {
+            alert("加载数据失败");
+        }
+    }); //ajax
+
+    $.ajax({
+        type : 'GET',
+        async : false, //同步执行
+        url :'/chatRoom/getOffline', //web.xml中注册的Servlet的url-pattern
+        // data : {}, //无参数
+        dataType : 'json', //返回数据形式为json
+        success : function(data) {
+
+            offline=data;
+            var num=0;
+            for (var i in data) {
+                num++;
+            }
+            number2.push(num);
+
+        },
+        error : function(errorMsg) {
+            alert("加载数据失败");
+        }
+    }); //ajax
+
+
+    console.info(number2);
+
    /* 读入男女人数和不详的人数，存储为数组*/
-    var number=[200,310,250];/* 随便写的数据用来看效果的*/
+   // var number=[200,310,250];/* 随便写的数据用来看效果的*/
  /*   在线情况*/
-    var number2=[100,200];
+    var number=[man,weman,donotKonw];
+    console.info("性别:"+number);
     function sex() {
     var myChart = echarts.init(document.getElementById('main'));
     option = {
@@ -111,7 +171,7 @@ function line() {
        legend: {
            orient : 'vertical',
            x : 'left',
-           data:['在线','下线']
+           data:['下线','在线','总数']
        },
        toolbox: {
            show : true,
@@ -142,8 +202,9 @@ function line() {
                radius : '55%',
                center: ['50%', '60%'],
                data:[
-                   {value:number2[0], name:'在线'},
-                   {value:number2[1], name:'下线'},
+                   {value:number2[0], name:'下线'},
+                   {value:number2[1], name:'在线'},
+                   {value:number2[2], name:'总数'},
                ]
            }
        ]
