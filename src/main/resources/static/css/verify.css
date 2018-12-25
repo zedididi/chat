@@ -115,7 +115,7 @@
     padding: 10px 5px 8px 9px;
 }
 
-.tip {
+/*.tip {
     min-width: 30px;
     height: 18px;
     background: red;
@@ -127,4 +127,4 @@
     padding: 0 5px;
     border-radius: 10px;
     display: inline-block;//肯定是inline-block，因为行内元素宽度auto呀
-}
+}*/
