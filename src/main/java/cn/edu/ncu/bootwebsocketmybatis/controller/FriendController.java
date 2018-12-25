@@ -42,6 +42,12 @@ public class FriendController {
         return friendsAndUser;
     }
 
+    @GetMapping("/get")
+    public Friend getFriendB(String userId,String friendId){
+        Friend friend=new Friend(userId,friendId);
+        return friendService.findByUserId(friend);
+    }
+
     /**
      * 获取发送添加请求的好友
      * @param userId

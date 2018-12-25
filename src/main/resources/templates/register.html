@@ -46,17 +46,18 @@
                                 <div id="msg"></div>
                             </div>
                         </div>
-                        <div class="group">
+                        <!--<div class="group">
                             <input id="check" type="checkbox" class="check" checked>
                             <label for="check"><span class="icon"></span> 保持登录</label>
-                        </div>
+                        </div>-->
                         <div class="group">
                             <input type="button" class="button" value="登录" onClick="login()">
+                           <!-- <button  class="button">登录</button>-->
                         </div>
-                        <div class="hr"></div>
+                       <!-- <div class="hr"></div>
                         <div class="foot-lnk">
                             <a href="#forgot">忘记密码?</a>
-                        </div>
+                        </div>-->
                     </div>
                 </form>
                 <form onsubmit="register()">
@@ -135,7 +136,9 @@
     }
     jigsaw.init(document.getElementById('captcha'), function () {
         flag=true;
-        document.getElementById('msg').innerHTML = '登录成功！';
+        //document.getElementById('msg').innerHTML = '登录成功！';
+        document.getElementById('msg').innerHTML="<font color='black'>验证成功！</font>"
+
     });
 
 
