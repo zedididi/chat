@@ -2,16 +2,15 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
-
-    <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8">
     <title>Direct Messaging</title>
-
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600" rel="stylesheet">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="/css/reset.min.css">
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/panel.css">
-    <link rel="stylesheet" href="/css/dialog.css">
+    <script src="/js/mDialogMin.js"></script>
+    <link href="/css/dialog.css" rel="stylesheet">
     <!--好友添加-->
     <link rel="stylesheet" href="/css/tan.css">
  <!--   <script  src="/js/jquery-2.2.4.js"></script>-->
@@ -34,7 +33,7 @@
         .message td span{margin-left: 10px;font-size: 19px}
 
     </style>
-
+    <script src="/js/tan.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/vue"></script>
     <script src="/js/verify.js"></script>
     <script src="/js/index.js"></script>
@@ -42,8 +41,8 @@
     <script src="/js/commons.js"></script>
     <script src="/jquery-3.2.1.min.js"></script>
     <script src="/js/mDialogMin.js"></script>
+    <script src="/js/tan.js"></script>
     <script src="/js/image-file.js"></script>
-
 </head>
 
 <body onload="initAJAX();initFriend();initAddFriend();initExpressionGif();initExpressionPackage();">
@@ -63,9 +62,10 @@
         </div>
         <div class="msg-history-body" style="width: 100%;height: 84%;overflow-y: auto;overflow-x: hidden">
         <table id="historyTable">
+            <!--
             <tr class="NYR"><td><span>1111-11-11</span></td></tr>
             <tr class="name_time"><td><span>11-11-11</span></td></tr>
-            <tr class="message"><td><span>11111111</span></td></tr>
+            <tr class="message"><td><span>11111111</span></td></tr>-->
         </table>
         </div>
         <div class="msg-history-bottom" style="width: 100%;height: 6%;text-align: center">
@@ -107,7 +107,7 @@
                 <a href="javascript:void(0)" id="chat-biaoqing" class="write-link smiley">
                     <i class="iconfont icon-biaoqing"></i></a>
                 <a href="javascript:void(0)"><img id="chat-picture" src="/img/picture.png" width="23px" height="19px" style="position: absolute;left: 415px;top: 12px;"></a>
-                <a href="javascript:setDIV()" id="chat-fasong" class="write-link send" style="position: absolute;left: 440px"></a>
+                <a href="javascript:void(0)" id="chat-fasong" class="write-link send" style="position: absolute;left: 440px"></a>
                 <div id="expression" class="picture">
                   <p style="font-size: 12px;font-weight: bolder" >经典表情</p>
                 </div>
@@ -115,13 +115,14 @@
                     <p style="font-size: 12px;font-weight: bolder">表情包</p>
                 </div>
             </div>
+                <input type="button" value="聊天记录" id="history" style="position: relative;top: 8%;float: right">
         </div>
         </div>
     <!--好友界面-->
     <div class="container_friend" style="position: absolute;top: 50%;left: 100%;width: 80%;height: 75%;/*background-color: white;*/-webkit-transform: translate(-50%, -50%);transform: translate(-50%, -50%);display: none">
         <div class="container_friend_left" style="float: left;width: 30%;height: 100%;border: 1px solid var(--light);background-color: var(--white)">
             <div class="container_friend_left_top" style="text-align: center;position: relative;width: 100%;height: 15%;padding: 10px">
-                <a id="friend_hook" th:alt="${user.getId()}"><img id="friend_userIf" width="60px" height="60px" style="border-radius: 50%;" th:alt="${user.getId()}" th:src="${user.getImage()}"></a>
+                <a id="container_friend_left_top_head" th:alt="${user.getId()}"><img id="friend_userIf" width="60px" height="60px" style="border-radius: 50%;" th:alt="${user.getId()}" th:src="${user.getImage()}"></a>
             </div>
             <div class="container_friend_left_body" style="height: 85%;overflow-x: hidden;overflow-y: auto">
                 <ul class="friend_people" id="friend_people">
@@ -175,16 +176,13 @@
                 <hr>
                 <div style="overflow: auto;">
                     <h4>已发的验证</h4>
-                    <ul id="sendValidate" class="people">
-
-                    <!--已发的验证-->
-
-                    </ul>
+                    <ul id="sendValidate" class="people"></ul>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
 <script type="text/javascript">
 
 
@@ -215,10 +213,10 @@ $(document).ready(function () {
     $(".chat").scrollTop( $(".chat")[0].scrollHeight );
 })
 
+document.body.parentNode.style.overflow = "hidden";//隐藏且禁用横向纵向两个滚动条
 /*好友添加弹窗部分*/
 $("#div_4").hide();
 $("#div_3").hide();
-
 $("#addFriend").click (function () {
     $("#div_4").show(500);
     $("#div_3").hide();
