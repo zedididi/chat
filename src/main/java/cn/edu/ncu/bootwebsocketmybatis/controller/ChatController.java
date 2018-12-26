@@ -34,6 +34,16 @@ import java.util.regex.Pattern;
 @RequestMapping("/chatRoom")
 public class ChatController {
 
+
+    private String agreeTAG="LCcIX/nI6sUfwWSy同意";
+    //请求特殊标识
+    private  String requestTAG="HupsfSX79aIMZ73nn请求";
+    //拒绝特殊标识
+    private String  refuseTAG="AAoHAR1TIiIkUFU拒绝";
+    //删除特殊标识
+    private String deleteTAG="QgVyInVSVQJVFRUS删除";
+
+
     /**
      * 使用一个同步Map存储在线的用户
      * 键为userID,值为Session，存储在线用户
@@ -306,9 +316,6 @@ public class ChatController {
         num.add(allUserList.size());
         num.add(onlineUserList.size());
         num.add(allUserList.size()-onlineUserList.size());
-       // System.out.print("AllUser:"+allUserList.size());
-       // allUserList.removeAll(onlineUserList);
-       // System.out.println("onlineUser:"+onlineUserList+"\nofflineUser:"+allUserList);
         return num;
     }
 
