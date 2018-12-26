@@ -48,13 +48,17 @@
 <body onload="initAJAX();initFriend();initAddFriend();initExpressionGif();initExpressionPackage();">
 <audio src="/img/sound/message.wav" id="sound"></audio>
 <audio src="" id="msgAudio"></audio>
+
 <!--个人资料卡区域-->
+
 <div id="msg-box">
 
 </div>
 
 <div class="wrapper">
+
     <!--聊天记录div-->
+
     <div id="msg-history" style="display: none;position: absolute;left: 90%;top: 100px;width: 400px;height: 600px;border: 1px solid var(--light);background-color: white">
         <div class="msg-history-top" style="width: 100%;height: 10%;text-align: center">
             <input value="关闭" type="button" id="msg-history-close" style="float: right;clear: both;">
@@ -62,10 +66,8 @@
         </div>
         <div class="msg-history-body" style="width: 100%;height: 84%;overflow-y: auto;overflow-x: hidden">
         <table id="historyTable">
-            <!--
-            <tr class="NYR"><td><span>1111-11-11</span></td></tr>
-            <tr class="name_time"><td><span>11-11-11</span></td></tr>
-            <tr class="message"><td><span>11111111</span></td></tr>-->
+
+
         </table>
         </div>
         <div class="msg-history-bottom" style="width: 100%;height: 6%;text-align: center">
@@ -74,17 +76,23 @@
     </div>
     <input type="button" class="change_chat" value="聊天"  style="border-radius: 21px;width: 80px;height: 50px;position:absolute;top: 5%;left: 45%">
     <input type="button" class="change_friend" value="好友" style="border-radius: 21px;width: 80px;height: 50px;position:absolute;top: 5%;left: 55%">
+
         <!--聊天界面 container -->
+
         <div class="container">
             <div class="left">
             <div class="top">
+
                 <!--个人资料卡区域-->
+
                 <div id="hook" th:alt="${user.getId()}" class="show-info"><img width="40px" height="40px" style="float: left;border-radius: 50%;" id="userIf" th:alt="${user.getId()}" th:src="${user.getImage()}"></div>
                 <input type="text" placeholder="Search" />
                 <a href="javascript:;" class="search"></a>
                 <a href="javascript:;" class="add" id="topen_btn" onmouseup="tan()"></a>
             </div>
+
                 <!--聊天界面左边好友的列表 -->
+
             <div class="left_body" style="height: 85%;overflow-y: auto;overflow-x: hidden">
 
             <ul class="people" id="people">
@@ -117,7 +125,9 @@
                 <input type="button" value="聊天记录" id="history" style="position: relative;top: 8%;float: right">
         </div>
         </div>
+
     <!--好友界面-->
+
     <div class="container_friend" style="position: absolute;top: 50%;left: 100%;width: 80%;height: 75%;/*background-color: white;*/-webkit-transform: translate(-50%, -50%);transform: translate(-50%, -50%);display: none">
         <div class="container_friend_left" style="float: left;width: 30%;height: 100%;border: 1px solid var(--light);background-color: var(--white)">
             <div class="container_friend_left_top" style="text-align: center;position: relative;width: 100%;height: 15%;padding: 10px">
@@ -187,9 +197,6 @@
 
 <script type="text/javascript">
 
-
-
-
     //隐藏且禁用横向纵向两个滚动条
    document.body.parentNode.style.overflow = "hidden";
 
@@ -211,9 +218,9 @@
 
 $(document).ready(function () {
     $(".chat").scrollTop( $(".chat")[0].scrollHeight );
-})
+});
 
-document.body.parentNode.style.overflow = "hidden";//隐藏且禁用横向纵向两个滚动条
+
 /*好友添加弹窗部分*/
 $("#div_4").hide();
 $("#div_3").hide();
@@ -225,8 +232,8 @@ $("#mes").click(function () {
     $("#div_4").hide();
     $("#div_3").show(500);
 });
-//转换时间格式
 
+//转换时间格式
 function timestampToTime(timestamp) {
     var date = new Date(timestamp); //时间戳为10位需*1000，时间戳为13位的话不需乘1000
     var Y = date.getFullYear() + '-';
@@ -237,14 +244,12 @@ function timestampToTime(timestamp) {
     var s = date.getSeconds();*/
      return Y+M+D;
 }
-
+    //转换时间格式
 function stringToDate(string) {
 
     var dateS=string.split("-");
-    console.info("split::"+dateS);
     var date= new Date(dateS[0],dateS[1]-1,dateS[2]);
-    console.info("date::"+date);
-    console.info("Time::"+date.getTime()/*format("yyyy-MM-dd hh:mm:ss")*/);
+
     return date.getTime();
 }
 
@@ -335,6 +340,7 @@ function accept( needId) {
         }
     });
 }
+
 //删除好友
 function deleteFriend(friendId) {
 
@@ -358,7 +364,6 @@ function deleteFriend(friendId) {
                 window.alert(data + JSON.stringify(content));
                 webSocket.send(JSON.stringify(content));         //请求转发给服务端
 
-              //  alert("被删除好友ID："+friendId);
                 $("#people li[id="+friendId+"li]").remove();
                 $("#friend_people li[id="+friendId+"]").remove();
                 $(".chat,#"+friendId).remove();
@@ -367,7 +372,6 @@ function deleteFriend(friendId) {
                 alert(data);
         }
     });
-
 }
 
 //用户修改个人资料（未实现修改头像）和 好友重新分组
@@ -387,16 +391,6 @@ function setGroup(friendId) {
         var city=$("#city").val();
         var phone=$("#ph").val();
         var userName=$("#name").val();
-
-
-        window.console.info(birthday);
-        window.console.info(sex);
-        window.console.info(userName);
-        window.console.info(email);
-        window.console.info(country);
-        window.console.info(phone);
-        window.console.info(city);
-
 
         stringToDate(birthday);
 
@@ -523,7 +517,6 @@ function initAddFriend(){
         }
     });
 
-
     $.ajax({              //获取接受添加请求的好友信息
         type: 'GET',
         url: '/friend/getReceiveReq',
@@ -553,14 +546,12 @@ function initAddFriend(){
     });
 }
 
-
     //资料卡悬浮框 功能绑定
 
     $("#hook").bind("mouseover",showMsgBox);
     $(".container").mousedown(function () {
         $("#msg-box").hide();
     });
-
 
     $("#container_friend_left_top_head").bind("mousedown",showFriendMsgBox);
 
@@ -657,7 +648,6 @@ function initAddFriend(){
         $("#msg-box").show("slow")
     }
 
-
     //好友管理界面 显示个人资料卡
     function showFriendMsgBox() {
 
@@ -712,7 +702,7 @@ function initAddFriend(){
                         group4 = '<input id="sex" style="height: 16px;font-size: 15px" class="info-more" size="2" type="text" value='+data.sex+'>\n';
                         group5 = '<input id="em" style="height: 16px;" class="info-more" size="10" type="text" value='+email+'>\n';
                         group6 = '<input id="country" style="height: 16px;" class="info-more" size="10" type="text" value='+country1+'>\n';
-                        group8 = '<input id="city" style="height: 16px;" class="info-more" size="10" type="text" value='+city1+'>\\n';
+                        group8 = '<input id="city" style="height: 16px;" class="info-more" size="10" type="text" value='+city1+'>\n';
                         group7 = '<input id="ph" style="height: 16px;" class="info-more" size="11" type="text" value='+phone+'>\n';
                         deleteFriend = '<input id="change_head" type="file" value="更换头像" style="width: 70px;height: 30px">\n'
                     }
@@ -794,30 +784,6 @@ function initAddFriend(){
         addEvaluation();
         $("#container_friend_info").show("slow")
     }
-
-    function gi(id) {
-        var p=$("#change_head").val();
-        $("#url").html(p);
-        var URL=$("#url").text();
-        var birthday=$("#bday").val();
-        var sex=$("#sex").val();
-        var groupName=$("#select  option:selected").text();
-        var email=$("#em").val();
-        var country=$("#place").val();
-        var phone=$("#ph").val();
-        window.console.info(birthday);
-        window.console.info(sex);
-        window.console.info(groupName);
-        window.console.info(email);
-        window.console.info(country);
-        window.console.info(phone);
-        window.console.info(id);
-        window.console.info(URL);
-
-
-
-    }
-
 
 $(function () {
     $("#chat-biaoqing").click(function () {
