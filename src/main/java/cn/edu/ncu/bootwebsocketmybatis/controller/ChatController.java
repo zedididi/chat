@@ -118,6 +118,17 @@ public class ChatController {
         String message = content.getContent();
         Timestamp createTime = new Timestamp(new Date().getTime());
         content.setCreateTime(createTime.toString());
+        if (!friends.containsKey(from)) friends.put(from,new HashSet<>());
+        if (!friends.containsKey(to)) friends.put(to,new HashSet<>());
+        if (content.getContent().equals(agreeTAG)){
+            logger.info("有用户同意了好友请求");
+            friends.get(from).add(to);
+            friends.get(to).add(from);
+        }
+        if (content.getContent().equals(deleteTAG)){
+            friends.remove(from,friends.get(from).remove(to));
+            friends.remove(to,friends.get(to).remove(from));
+        }
         if (onlineUsers.containsKey(to)) {
             logger.info("接收到客户端发来的信息："+content.getContent());
             Session session_receive = onlineUsers.get(to);
@@ -146,6 +157,7 @@ public class ChatController {
      */
     @PostMapping(value = "/send")
     public String send(@RequestBody String json){
+        logger.info(json);
         Content content = JSON.parseObject(json,Content.class);
         content.setCreateTime(new Timestamp(new Date().getTime()).toString());
         contentService.insertContentRecord(content);

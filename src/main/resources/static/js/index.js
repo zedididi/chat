@@ -87,7 +87,6 @@ function acceptReq(reId) {
                 "content": agreeTAG
             };
 
-            window.alert(data + JSON.stringify(content));
             webSocket.send(JSON.stringify(content));
             $("#reValidte li[id="+reId+"]").remove();
 
@@ -158,7 +157,6 @@ function refuseReq(reId) {
                 "receiveId": reId,
                 "content": refuseTAG
             };
-            window.alert(data + JSON.stringify(content));
             webSocket.send(JSON.stringify(content));
             window.console.info("拒绝发送内容：" + content.content);
             $("#reValidte li[id="+reId+"]").remove();
