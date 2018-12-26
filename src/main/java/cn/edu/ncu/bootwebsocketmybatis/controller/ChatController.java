@@ -35,6 +35,7 @@ import java.util.regex.Pattern;
 public class ChatController {
 
 
+    //同意特殊标识
     private String agreeTAG="LCcIX/nI6sUfwWSy同意";
     //请求特殊标识
     private  String requestTAG="HupsfSX79aIMZ73nn请求";
@@ -237,6 +238,7 @@ public class ChatController {
         return "/audio/"+sendId +"/"+audioId ;
     }
 
+
     @PostMapping("/upload/record")
     public String getUploadRecordPath(String sendId,String receiveId)throws IOException{
         List<Content> list = contentService.getContentRecords(sendId,receiveId);
@@ -292,7 +294,6 @@ public class ChatController {
         for (Map.Entry<String,Session> entry : onlineUsers.entrySet() ){
             users.add(userInfoService.findByUserId(entry.getKey()));
         }
-
         System.out.println(users);
         return users;
     }
@@ -307,6 +308,10 @@ public class ChatController {
         return userInfoService.findAll();
     }
 
+    /**
+     * 获取所有下线用户数据
+     * @return
+     */
     @GetMapping("/getOffline")
     public List<UserInfo> getOffline(){
 
@@ -324,16 +329,18 @@ public class ChatController {
 
     }
 
+    /**
+     * 获取上线，下线，总共用户数量
+     * @return
+     */
     @GetMapping("/getNum")
     public List<Integer> getNum(){
 
         List<Integer> num=new ArrayList<>();
-
         List<UserInfo> onlineUserList=new ArrayList<>();
         for (Map.Entry<String,Session> entry : onlineUsers.entrySet() ){
             onlineUserList.add(userInfoService.findByUserId(entry.getKey()));
         }
-
         List<UserInfo> allUserList =userInfoService.findAll();
 
         num.add(allUserList.size());
