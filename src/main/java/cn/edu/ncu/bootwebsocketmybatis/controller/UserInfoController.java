@@ -1,15 +1,16 @@
 package cn.edu.ncu.bootwebsocketmybatis.controller;
 
 import cn.edu.ncu.bootwebsocketmybatis.entity.Friend;
+import cn.edu.ncu.bootwebsocketmybatis.entity.User;
 import cn.edu.ncu.bootwebsocketmybatis.entity.UserInfo;
-import cn.edu.ncu.bootwebsocketmybatis.service.EvaluateServiceImpl;
-import cn.edu.ncu.bootwebsocketmybatis.service.FriendServiceImpl;
-import cn.edu.ncu.bootwebsocketmybatis.service.GroupServiceImpl;
-import cn.edu.ncu.bootwebsocketmybatis.service.UserInfoServiceImpl;
+import cn.edu.ncu.bootwebsocketmybatis.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.sql.Date;
+import java.sql.Timestamp;
 
 /**
  * @auther: Liu Zedi.
@@ -26,6 +27,9 @@ public class UserInfoController {
 
     @Autowired
     private FriendServiceImpl friendService;
+
+    @Autowired
+    private UserServiceImpl userService;
 
     @Autowired
     EvaluateServiceImpl evaluateService;
@@ -45,5 +49,29 @@ public class UserInfoController {
 
         userInfo.setEvaluates(evaluateService.findAllByUserId(friendId));
        return userInfo;
+    }
+
+    /**
+     * 更新用户信息
+     * @param userId
+     * @param sex
+     * @param birthday
+     * @param phone
+     * @param email
+     * @param country
+     * @param city
+     * @param userName
+     * @return
+     */
+    @PostMapping("/update")
+    public String update(String userId, String sex, Long birthday,String phone,String email,String country,String city,String userName){
+
+        Date date=new Date(birthday);
+        Timestamp timestamp=new Timestamp(birthday);
+        UserInfo userInfo=new UserInfo(userId,"",sex,timestamp,phone,email,country,city,userName);
+        User user=new User(userId,userName,"");
+        if (userInfoService.updateUserInfoNoImage(userInfo)&&userService.updateUserName(user))
+            return "成功";
+        return "失败";
     }
 }

@@ -16,4 +16,5 @@ public interface UserInfoService {
     UserInfo findByUserId(String id);
     boolean addUserInfo(UserInfo userInfo);
     boolean updateUserInfo(UserInfo userInfo);
+    boolean updateUserInfoNoImage(UserInfo userInfo);
 }

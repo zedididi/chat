@@ -21,4 +21,6 @@ public interface UserDao {
      User findById(String id);
      int addUser(User user);
      int updateUser(User user);
+     int updateUserName(User user);
+     int updatePassword(User user);
 }

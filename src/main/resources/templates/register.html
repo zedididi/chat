@@ -90,6 +90,9 @@
 </div>
 <script src="js/verify.js"></script>
 <script>
+    //隐藏且禁用横向纵向两个滚动条
+    document.body.parentNode.style.overflow = "hidden";
+
     $(".login-html").hide();
     $(document).ready(function() {
         $("p").click(function () {

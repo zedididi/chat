@@ -32,12 +32,18 @@
    <!-- <insert id="addUserInfo" keyProperty="id" useGeneratedKeys="true" parameterType="cn.edu.ncu.bootwebsocketmybatis.entity.UserInfo">
         insert into userinfo(userid,image,sex,birthday,phone,email,country,city) values (#{userId,jdbcType=VARCHAR},#{image,jdbcType=VARCHAR},#{sex,jdbcType=VARCHAR},#{birthday,jdbcType=TIMESTAMP},#{phone,jdbcType=VARCHAR},#{email,jdbcType=VARCHAR},#{country,jdbcType=VARCHAR},#{city,jdbcType=VARCHAR});
     </insert>-->
-    <insert id="addUserInfo" keyProperty="id" useGeneratedKeys="true" parameterType="cn.edu.ncu.bootwebsocketmybatis.entity.UserInfo">
+
+    <insert id="addUserInfo" keyProperty="id" useGeneratedKeys="true" parameterType="UserInfo">
         insert into userinfo(userid) values (#{userId,jdbcType=VARCHAR});
     </insert>
 
-    <update id="updateUserInfo"  parameterType="cn.edu.ncu.bootwebsocketmybatis.entity.UserInfo">
+    <update id="updateUserInfo"  parameterType="UserInfo">
         update userinfo set image=#{image,jdbcType=VARCHAR},sex=#{sex,jdbcType=VARCHAR},birthday=#{birthday,jdbcType=TIMESTAMP},phone=#{phone,jdbcType=VARCHAR},email=#{email,jdbcType=VARCHAR},country=#{country,jdbcType=VARCHAR},city=#{city,jdbcType=VARCHAR}
+        where userid=#{userId,jdbcType=VARCHAR}
+    </update>
+
+    <update id="updateUserInfoNoImage"  parameterType="UserInfo">
+        update userinfo set sex=#{sex,jdbcType=VARCHAR},birthday=#{birthday,jdbcType=TIMESTAMP},phone=#{phone,jdbcType=VARCHAR},email=#{email,jdbcType=VARCHAR},country=#{country,jdbcType=VARCHAR},city=#{city,jdbcType=VARCHAR}
         where userid=#{userId,jdbcType=VARCHAR}
     </update>
 </mapper>

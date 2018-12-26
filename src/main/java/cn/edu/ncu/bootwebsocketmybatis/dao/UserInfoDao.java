@@ -18,4 +18,5 @@ public interface UserInfoDao {
     UserInfo findByUserId(String id);
     int addUserInfo(UserInfo userInfo);
     int updateUserInfo(UserInfo userInfo);
+    int updateUserInfoNoImage(UserInfo userInfo);
 }

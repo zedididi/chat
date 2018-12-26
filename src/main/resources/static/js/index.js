@@ -1,12 +1,10 @@
-
 var friends,chat,sendId,receiveId;
-
 
 function initFriendAndChat() {
     friends = {
         list: document.querySelector('ul.people'),//获取好友列表
         all: document.querySelectorAll('.left .person'),//获取所有好友
-        name: '' },
+        name: '' };
 
         chat = {
             container: document.querySelector('.container .right'),//获取聊天栏
@@ -23,7 +21,6 @@ function initFriendAndChat() {
 }
 
 
-//初始化好友列表
 function initFriend() {
     var userId = document.getElementById("userIf").alt;
     var friendIds = "";
@@ -44,9 +41,9 @@ function initFriend() {
                     var li_id = friendId+"li";
                     var tip_id = friendId +"tip";
                     var status_id = friendId +"status";
-                    listFriend += '<li  class="person" id="'+li_id+'" data-chat="' + friendId + '">' +
+                    listFriend += '<li class="person" id="'+li_id+'" data-chat="' + friendId + '">' +
                         '<img id="hook"  src="' + image + '" alt="' + friendId + '" />' +
-                        '<span class="name" style="margin-right: 8px">' + friendName + '</span> <span class="status" id="'+status_id+'">' +
+                        '<span class="name" style="margin-right: 10px">' + friendName + '</span><span class="status" id="'+status_id+'">' +
                         '</span><span class="tip" id="'+tip_id+'"></span>'+
                         '</li>';
                     chatWindowDivs = '<div style="" class="chat" id="' +friendId +'" data-chat="' +friendId +'"></div>';
@@ -55,11 +52,12 @@ function initFriend() {
                 document.getElementById("people").innerHTML += listFriend;
                 boolOnline(friendIds +" " + userId);
                 init();
-                friend_initFriend()
+                friend_initFriend();
+                initFriendAndChat();
             }
         }
 
-        $("#hook").bind("mouseover",showMsgBox);
+        $("#hook,#msg-box").bind("mouseover",showMsgBox);
 
     };
     xmlHttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
@@ -119,7 +117,7 @@ function acceptReq(reId) {
                         '</span><span class="tip" id="'+tip_id+'"></span>'+
                         '</li>';
 
-                    listFriend += '<li style="display: none" class="friend_person"  data-chat="' + friendId + '" id="'+friendId+'">' +
+                    listFriend += '<li style="display: none" class="friend_person"  data-chat="' + friendId + '" id="'+friendId+'" alt="'+friendId+'">' +
                         '<img id="friend_hook"  src="' + image + '" alt="' + friendId + '" />' +
                         '<span class="friend_name">' + friendName + '</span>' +
                         '<p style="display: none">'+groupId+'</p>' +
@@ -128,11 +126,11 @@ function acceptReq(reId) {
                     var chatWindowDivs = '<div style="" class="chat" id="' +friendId +'" data-chat="' +friendId +'"></div>';
                     $("#write").before(chatWindowDivs);
 
-                    document.getElementById("people").innerHTML +=info;
+                    document.getElementById("people").innerHTML += info;
                     document.getElementById("friend_people").innerHTML += listFriend;
                     $(".friend_person").bind("mousedown",showFriendMsgBox);
-                    initFriendAndChat()
-                    alert("执行了")
+                    $("#hook,#msg-box").bind("mouseover",showMsgBox);
+                    initFriendAndChat();
                 }
             });
         }
@@ -170,43 +168,6 @@ function refuseReq(reId) {
 }
 
 
-//好友管理界面  好友列表
-//初始化第二页好友列表
-function friend_initFriend() {
-    var friend_userId = document.getElementById("friend_userIf").alt;
-    var friendIds = "";
-    // var userId=$("img#userIf").attr("alt");
-    xmlHttp.open("POST", "/friend/getAll", true);
-    xmlHttp.onreadystatechange = function () {
-        if (xmlHttp.readyState == 4) {
-            if (xmlHttp.status == 200) {
-                var data = xmlHttp.responseText;
-                var obj = JSON.parse(data);
-                var groupFriend = '';
-                var listFriend = '';
-                var li_id = friendId+"li";
-                var tip_id = friendId +"tip";
-                var status_id = friendId +"status";
-                for (var i in obj) {
-                    var friendId = obj[i].friendId;
-                    friendIds += friendId +" ";
-                    var groupId = obj[i].groupId;
-                    var image = obj[i].image;
-                    var friendName = obj[i].friendName;
-                    listFriend += '<li style="display: none" class="friend_person"  data-chat="' + friendId + '"alt="'+friendId+'">' +
-                        '<img id="friend_hook"  src="' + image + '" alt="' + friendId + '" />' +
-                        '<span class="friend_name">' + friendName + '</span><span class="status" id="'+status_id+'">' +
-                        '<p style="display: none">'+groupId+'</p>'+
-                        '</li>';
-                }
-                document.getElementById("friend_people").innerHTML += listFriend;
-            }
-        }
-        $(".friend_person").bind("mousedown",showFriendMsgBox);
-    };
-    xmlHttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-    xmlHttp.send("userId=" + friend_userId);
-}
 
 //返回webSocket对象
 function getWebSocket() {
@@ -309,7 +270,7 @@ function getWebSocket() {
                                 '</span><span class="tip" id="'+tip_id+'"></span>'+
                                 '</li>';
 
-                            listFriend += '<li style="display: none" class="friend_person"  data-chat="' + friendId + '" id="' + friendId + '">' +
+                            listFriend += '<li style="display: none" class="friend_person"  data-chat="' + friendId + '" id="' + friendId + '" alt="'+friendId+'">' +
                                 '<img id="friend_hook"  src="' + image + '" alt="' + friendId + '" />' +
                                 '<span class="friend_name">' + friendName + '</span>' +
                                 '<p style="display: none">' + groupId + '</p>' +
@@ -322,6 +283,7 @@ function getWebSocket() {
                             document.getElementById("people").innerHTML += info;
                             document.getElementById("friend_people").innerHTML += listFriend;
                             $(".friend_person").bind("mousedown", showFriendMsgBox);
+                            $("#hook,#msg-box").bind("mouseover",showMsgBox);
                             initFriendAndChat()
                         }
                     });
@@ -334,8 +296,10 @@ function getWebSocket() {
 
                 if (msg1 == deleteTAG) {   //接收好友删除消息
                     window.console.info(sendId1 + "已删除你的");
+                   // alert("被删除好友的Id:"+sendId1);
                     $("#people li[id=" + sendId1 + "li]").remove();
-                    $("friend_people li[id=" + sendId1 + "]").remove();
+                    $("#friend_people li[id=" + sendId1 + "]").remove();
+                    $(".chat,#"+sendId1).remove();
                     initFriendAndChat()
                 }
             }
@@ -400,54 +364,13 @@ function getWebSocket() {
         f.querySelector(".tip").innerText ="";
     }
 
-//初始化好友列表
-function initFriend() {
-    var userId = document.getElementById("userIf").alt;
-    var friendIds = "";
-    xmlHttp.open("POST", "/friend/getAll", true);
-    xmlHttp.onreadystatechange = function () {
-        if (xmlHttp.readyState == 4) {
-            if (xmlHttp.status == 200) {
-                var data = xmlHttp.responseText;
-                var obj = JSON.parse(data);
-                var listFriend = '';
-                var chatWindowDivs = "";
-                for (var i in obj) {
-                    var friendId = obj[i].friendId;
-                    friendIds += friendId +" ";
-                    var userId = obj[i].userId;
-                    var image = obj[i].image;
-                    var friendName = obj[i].friendName;
-                    var li_id = friendId+"li";
-                    var tip_id = friendId +"tip";
-                    var status_id = friendId +"status";
-                    listFriend += '<li class="person"id="'+li_id+'" data-chat="' + friendId + '">' +
-                        '<img id="hook"  src="' + image + '" alt="' + friendId + '" />' +
-                        '<span class="name" style="margin-right: 10px">' + friendName + '</span><span class="status" id="'+status_id+'">' +
-                        '</span><span class="tip" id="'+tip_id+'"></span>'+
-                        '</li>';
-                    chatWindowDivs = '<div style="" class="chat" id="' +friendId +'" data-chat="' +friendId +'"></div>';
-                    $("#write").before(chatWindowDivs);
-                }
-                document.getElementById("people").innerHTML += listFriend;
-                boolOnline(friendIds +" " + userId);
-                init();
-                friend_initFriend()
-                initFriendAndChat();
-            }
-        }
 
-        $("#hook,#msg-box").bind("mouseover",showMsgBox);
-    };
-    xmlHttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-    xmlHttp.send("userId=" + userId);
-}
-
-//好友列表好友
+//好友管理界面  好友列表
+//初始化第二页好友列表
 function friend_initFriend() {
+
     var friend_userId = document.getElementById("friend_userIf").alt;
     var friendIds = "";
-    // var userId=$("img#userIf").attr("alt");
     xmlHttp.open("POST", "/friend/getAll", true);
     xmlHttp.onreadystatechange = function () {
         if (xmlHttp.readyState == 4) {
@@ -455,24 +378,23 @@ function friend_initFriend() {
                 var data = xmlHttp.responseText;
                 var obj = JSON.parse(data);
                 var listFriend = '';
-                var li_id = friendId+"li";
-                var tip_id = friendId +"tip";
                 var status_id = friendId +"status";
                 for (var i in obj) {
                     var friendId = obj[i].friendId;
                     friendIds += friendId +" ";
+                    var groupId = obj[i].groupId;
                     var image = obj[i].image;
                     var friendName = obj[i].friendName;
-                    listFriend += '<li class="friend_person" id="'+li_id+'" data-chat="' + friendId + '">' +
+                    listFriend += '<li style="display: none" class="friend_person"  data-chat="' + friendId + '" id="'+friendId+'" alt="' + friendId + '"  >' +
                         '<img id="friend_hook"  src="' + image + '" alt="' + friendId + '" />' +
                         '<span class="friend_name">' + friendName + '</span><span class="status" id="'+status_id+'">' +
+                        '<p style="display: none">'+groupId+'</p>'+
                         '</li>';
                 }
                 document.getElementById("friend_people").innerHTML += listFriend;
-                boolOnline(friendIds +" " + userId);
             }
         }
-        $("#friend_hook").bind("mousedown",showFriendMsgBox);
+        $(".friend_person").bind("mousedown",showFriendMsgBox);
     };
     xmlHttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
     xmlHttp.send("userId=" + friend_userId);
@@ -480,12 +402,10 @@ function friend_initFriend() {
 
 //进行相关信息的初始化,并连接服务器
 function init() {
-    if (document.querySelector('.person') != null)
-        document.querySelector('.person').classList.add('active');//使person处于选中状态
-    if (document.querySelector('.chat')!=null)
-        document.querySelector('.chat').classList.add('active-chat');//选择person处于正在聊天状态
+    document.querySelector('.person').classList.add('active');//使person处于选中状态
+    document.querySelector('.chat').classList.add('active-chat');//选择person处于正在聊天状态
     $(".right .top .name").text($(".active .name").text());
-    $(".right .top .status").text($(".active .status").text().substring(1,3))
+    $(".right .top .status").text($(".active .status").text().substring(1,3));
 
     sendId = $("#userIf").attr("alt"); //获取当前登录用户的userID
     receiveId = $(".active").attr("data-chat"); //获取接收者的ID
@@ -497,7 +417,7 @@ function init() {
     $(".chat").click(function () {
         $("#expression").css("visibility","hidden");
         $("#expressionPackage").css("visibility","hidden");
-    })
+    });
 
 
     //显示聊天记录
@@ -514,7 +434,7 @@ function init() {
                 var userName = ev.split(" ")[0];
                 var receiveName = $(".active .name").text();
                 var path = "http://localhost:8080"+ev.split(" ")[1];
-                var obj = jQuery.parseJSON(ev.substring(25,ev.length))
+                var obj = jQuery.parseJSON(ev.substring(24,ev.length));
                 var year_month_day;
                 for (var i in obj){
                     var send = obj[i].sendId;
@@ -527,19 +447,20 @@ function init() {
                     }
                     if (send == sendId) //该条信息是我发给好友的
                         document.getElementById("historyTable").innerHTML += '<tr class="name_time"><td><span style="color:deepskyblue ">'+userName+'&nbsp;&nbsp;&nbsp;'+time+'</span></td></tr>';
-                     else //这条信息是好友发给我的
+                    else //这条信息是好友发给我的
                         document.getElementById("historyTable").innerHTML += '<tr class="name_time"><td><span style="color: green">'+receiveName+'&nbsp;&nbsp;&nbsp;'+time+'</span></td></tr>';
                     document.getElementById("historyTable").innerHTML += '<tr class="message"><td><span>'+content+'</span></td></tr>';
                 }
-                console.log("http://localhost:8080"+path);
-                console.log(ev.split(" ")[1])
+                alert("http://localhost:8080"+path);
+                alert(ev.split(" ")[1])
                 $("#download").attr({
                     "href":path,
-                    "download":"聊天记录"
+                    "download":ev.split(" ")[1]
                 })
+
             }
         })
-    })
+    });
 
 
     //用户与服务器进行连接
@@ -564,7 +485,7 @@ function init() {
                 $("#chat-fasong").click();
             }
         })
-    });
+    })
 
 
     //发送功能
@@ -594,7 +515,7 @@ function init() {
                             $(".active-chat").append('<div class=\"conversation-start\"><span>'+currentTime.split(" ")[1]+'</span></div>');
                         }
                         else $(".active-chat").append('<div class=\"conversation-start\"><span>'+currentTime+'</span></div>');
-                    $(".active-chat").append("<div class='bubble me'>"+msg+"</div>");
+                    $(".active-chat").append("<div class='bubble me'>"+msg+"</div>")
                     //发送后清空输入框
                     $(".div-textarea").html("");
                 }
@@ -659,7 +580,7 @@ function init() {
                                 $(".div-textarea").html('<img class="soundImg" onclick="sound(this)" src="img/soundMsg.png" alt="'+ev+'">'+'<span style="margin-left: 10px">'+second+"</span>");
                                 $("#chat-fasong").click();
                             }
-                        });
+                        })
                         chunks = [];
                     }
                 }
@@ -775,7 +696,7 @@ function boolOnline(friend_id) {
         }
     })
 }
-
+/**
 function downloadRecord() {
     var sendId = $("#userIf").attr("alt");
     var receiveId = $(".active").attr("data-chat");
@@ -791,9 +712,8 @@ function downloadRecord() {
                 "download":ev
             })
             $("#download").click();
-
             console.log("http://localhost:8080"+ev);
         }
 
     })
-}
+}**/

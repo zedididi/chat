@@ -91,6 +91,30 @@ public class UserServiceImpl implements UserService {
     }
 
     /**
+     * 修改用户信息 用户名
+     * @param user
+     * @return
+     */
+    @Override
+    public boolean updateUserName(User user) {
+        if (userDao.updateUserName(user)>0)
+            return true;
+        return false;
+    }
+
+    /**
+     * 修改用户信息  密码
+     * @param user
+     * @return
+     */
+    @Override
+    public boolean updatePassword(User user) {
+        if ((userDao.updatePassword(user)>0))
+            return true;
+        return false;
+    }
+
+    /**
      * 生成id位数为6,开头为1 le： 1~~~~~
      * @return
      */

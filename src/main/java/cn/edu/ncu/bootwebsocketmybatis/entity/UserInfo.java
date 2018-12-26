@@ -27,15 +27,20 @@ public class UserInfo {
 
     private List<Evaluate> evaluates;   //对应evaluate表内容，用于显示评价
 
-    /*public UserInfo() {
-        this.image="";
-        this.sex="man";
-        this.birthday=new Timestamp(0);
-        this.phone="";
-        this.email="";
-        this.country="";
-        this.city="";
-    }*/
+    public UserInfo() {
+    }
+
+    public UserInfo(String userId, String image, String sex, Timestamp birthday, String phone, String email, String country, String city, String userName) {
+        this.userId = userId;
+        this.image = image;
+        this.sex = sex;
+        this.birthday = birthday;
+        this.phone = phone;
+        this.email = email;
+        this.country = country;
+        this.city = city;
+        this.userName = userName;
+    }
 
     public String getUserId() {
         return userId;

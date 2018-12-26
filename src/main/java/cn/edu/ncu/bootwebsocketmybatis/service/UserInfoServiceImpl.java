@@ -64,4 +64,17 @@ public class UserInfoServiceImpl implements UserInfoService {
         return false;
     }
 
+    /**
+     * 更新用户信息  不更新头像
+     * @param userInfo
+     * @return
+     */
+    @Override
+    public boolean updateUserInfoNoImage(UserInfo userInfo) {
+
+        if (userInfoDao.updateUserInfoNoImage(userInfo)>0)
+            return true;
+        return false;
+    }
+
 }

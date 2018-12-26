@@ -22,9 +22,11 @@ import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
 import java.io.File;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.Timestamp;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.regex.Pattern;
 
 @RestController
 @ServerEndpoint("/chatRoom/{sendId}")
@@ -201,6 +203,38 @@ public class ChatController {
         }
         return "/audio/"+sendId +"/"+audioId ;
     }
+
+    @PostMapping("/upload/record")
+    public String getUploadRecordPath(String sendId,String receiveId)throws IOException{
+        List<Content> list = contentService.getContentRecords(sendId,receiveId);
+        String recordPath = generateFileId()+".txt";
+        File file = new File(uploadPath+"/record/" + recordPath);
+        Pattern pattern = Pattern.compile("^<img?");
+        java.io.PrintWriter out = new PrintWriter(file);
+        String sendName = userService.findById(sendId).getUserName();
+        String receiveName = userService.findById(receiveId).getUserName();
+        String year_month_day="";
+        for (Content content:list){
+            if (!pattern.matcher(content.getContent()).find()){
+                if (!year_month_day.equals(content.getCreateTime().split(" ")[0])){
+                    out.println(content.getCreateTime().split(" ")[0]);
+                    out.println("--------------------------------------------------------------");
+                    year_month_day = content.getCreateTime().split(" ")[0];
+                }
+                logger.info(content.getSendId() +" " + sendId);
+                if (content.getSendId().equals(sendId))
+                    out.println(sendName +"  " + content.getCreateTime().split(" ")[1]);
+                else
+                    out.println(receiveName +"  " + content.getCreateTime().split(" ")[1]);
+                out.println(content.getContent());
+            }
+        }
+        out.close();
+        String jsonStr = JSON.toJSONString(list);
+        logger.info(sendName+" "+"/record/"+recordPath+" "+jsonStr);
+        return sendName +" "+"/record/" +recordPath+" "+jsonStr;
+    }
+
 
     /**
      * 生成一个8位数字的文件名

@@ -1,3 +1,5 @@
+
+
 function tan() {
     var btn = document.getElementById('topen_btn');
     var div = document.getElementById('tan_background');
