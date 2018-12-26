@@ -116,10 +116,21 @@ public class ChatController {
         String from = content.getSendId();
         String to = content.getReceiveId();
         String message = content.getContent();
+        if (!friends.containsKey(from)) friends.put(from,new HashSet<>());
+        if (!friends.containsKey(to)) friends.put(to,new HashSet<>());
+        if (content.equals(agreeTAG)){
+            friends.get(from).add(to);
+            friends.get(to).add(from);
+        }
+        if (content.equals(deleteTAG)){
+            friends.remove(from,friends.get(from).remove(to));
+            friends.remove(to,friends.get(to).remove(from));
+        }
+        logger.info(friends.get(from).size()+"");
+        logger.info(friends.get(to).size() +"");
         Timestamp createTime = new Timestamp(new Date().getTime());
         content.setCreateTime(createTime.toString());
         if (onlineUsers.containsKey(to)) {
-            logger.info("接收到客户端发来的信息："+content.getContent());
             Session session_receive = onlineUsers.get(to);
             session_receive.getAsyncRemote().sendText(Content.jsonStr(sendId,to,message,createTime.toString()));
         }
