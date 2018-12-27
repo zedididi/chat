@@ -138,10 +138,10 @@
 
                 </ul>
                 <div class="container_friend_left_body_bottom" style="height: 15%;width: 100%">
-                    <input type="button" id="tongxue" style="width: 50%;height: 50%;border-radius: 25%;float: left;clear: both" value="同学">
-                    <input type="button" id="pengyou" style="width: 50%;height: 50%;border-radius: 25%;float: left" value="朋友">
-                    <input type="button" id="tongshi" style="width: 50%;height: 50%;border-radius: 25%;float: left" value="同事">
-                    <input type="button" id="guimi" style="width: 50%;height: 50%;border-radius: 25%;float: left" value="闺蜜">
+                    <input type="button" id="tongxue" style="border:5px outset;width: 50%;height: 50%;font-size: 17px;cursor: pointer;float: left;clear: both" value="同学">
+                    <input type="button" id="pengyou" style="border:5px outset;width: 50%;height: 50%;font-size: 17px;cursor: pointer;float: left" value="朋友">
+                    <input type="button" id="tongshi" style="border:5px outset;width: 50%;height: 50%;font-size: 17px;cursor: pointer;float: left" value="同事">
+                    <input type="button" id="guimi" style="border:5px outset;width: 50%;height: 50%;font-size: 17px;cursor: pointer;float: left" value="闺蜜">
                 </div>
             </div>
         </div>
@@ -599,8 +599,8 @@ function initAddFriend(){
                     }
                     else {
                         group1 = '<p class="info">分组&nbsp;</p>\n';
-                        group2 = '<p class="info-more">' + data.groupName + '</p>\n';
-                        input = '<input class="input-txt" type="text" maxlength="4" id="input-txt" /></br><input type="button" alt="'+friendId+'" value="评价" id="input-btn" />';
+                        group2 = '<p class="info-more" style="width: 120px">' + data.groupName + '</p>\n';
+                        input = '<input class="input-txt"  style="position: relative;top: -33px;left:20px" type="text" maxlength="4" id="input-txt" /></br><input style="position: relative;top: -33px;left: 20px" type="button" alt="'+friendId+'" value="评价" id="input-btn" />';
                     }
 
 
@@ -621,17 +621,17 @@ function initAddFriend(){
                         '            <p class="info">联系电话&nbsp;</p>\n' +
                         '        </div>\n' +
                         '        <div class="user-info-more">\n' +
-                        '            <p class="info-more">' + data.userId + '</p>\n' +
-                        '            <p class="info-more">' + birthday + '</p>\n' +
-                        '            <p class="info-more">' + data.sex + '</p>\n' +
+                        '            <p class="info-more" style="width: 120px">' + data.userId + '</p>\n' +
+                        '            <p class="info-more" style="width: 120px">' + birthday + '</p>\n' +
+                        '            <p class="info-more" style="width: 120px">' + data.sex + '</p>\n' +
                         group2 +
-                        '            <p class="info-more">' + email + '</p>\n' +
-                        '            <p class="info-more">' + country + '</p>\n' +
-                        '            <p class="info-more">' + phone + '</p>\n' +
+                        '            <p class="info-more" style="width: 120px">' + email + '</p>\n' +
+                        '            <p class="info-more"  style="width: 120px">' + country + '</p>\n' +
+                        '            <p class="info-more" style="width: 120px">' + phone + '</p>\n' +
                         '        </div>\n' +
-                        '        <hr style=" float: bottom;width:80%;margin:0 auto;border: 0;height: 1px;background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));">\n' +
-                        '        <div class="msg-box-bottom">\n' +
-                        '            <div class="impression">\n' +
+                        '        <hr style=" float: bottom;width:80%;margin:0 auto;border: 0;height: 1px;background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));position: relative;top:20px;">\n' +
+                        '        <div class="msg-box-bottom" style="overflow: hidden;width: 340px">\n' +
+                        '            <div class="impression" style="overflow-y: scroll;width: 345px;">\n' +
                         evaS +
                         '            </div>\n' +
                         '            <div class="comment">\n' +
@@ -694,17 +694,17 @@ function initAddFriend(){
                         cityOut = '<p class="info">城市&nbsp;</p>\n';
                         countryOut = '<p class="info">国家&nbsp;</p>\n';
                         nameInfo = '<p class="info">用户名&nbsp;</p>\n';
-                        nameOut  = '<input id="name" style="height: 16px;" class="info-more" size="10" type="text" value='+data.userName+'>\n';
+                        nameOut  = '<input id="name" class="info-more" size="11" type="text" value='+data.userName+'>\n';
                         group0 = '<center><div id="image-wrap"><img src="'+ data.image +'"></div></center>\n';
                         group1 = "";
                         group2= "";
-                        group3 = '<input id="bday" style="height: 16px;font-size: 15px" class="info-more" size="10" type="text" value='+birthday+'>\n';
-                        group4 = '<input id="sex" style="height: 16px;font-size: 15px" class="info-more" size="2" type="text" value='+data.sex+'>\n';
-                        group5 = '<input id="em" style="height: 16px;" class="info-more" size="10" type="text" value='+email+'>\n';
-                        group6 = '<input id="country" style="height: 16px;" class="info-more" size="10" type="text" value='+country1+'>\n';
-                        group8 = '<input id="city" style="height: 16px;" class="info-more" size="10" type="text" value='+city1+'>\n';
-                        group7 = '<input id="ph" style="height: 16px;" class="info-more" size="11" type="text" value='+phone+'>\n';
-                        deleteFriend = '<input id="change_head" type="file" value="更换头像" style="width: 70px;height: 30px">\n'
+                        group3 = '<input id="bday" class="info-more" size="11" type="text" value='+birthday+' >\n';
+                        group4 = '<input id="sex" class="info-more" size="11" type="text" value='+data.sex+' >\n';
+                        group5 = '<input id="em" class="info-more" size="11" type="text" value='+email+'>\n';
+                        group6 = '<input id="country" class="info-more" size="11" type="text" value='+country1+'>\n';
+                        group8 = '<input id="city" class="info-more" size="11" type="text" value='+city1+'>\n';
+                        group7 = '<input id="ph" class="info-more" size="11" type="text" value='+phone+'>\n';
+                        deleteFriend = '<input id="change_head" type="file" value="更换头像" >\n'
                     }
                     else {
                         birday = '<p class="info">出生日期&nbsp;</p>\n';
@@ -712,17 +712,17 @@ function initAddFriend(){
                         countryOut = '<p class="info">所在地&nbsp;</p>';
                         group0 = '<center><div id="image-wrap"><img src="' + data.image + '"></div></center>\n';
                         group1 = '<p class="info">分组&nbsp;</p>\n';
-                        group2 = '<select id="select" class="info-more">\n'+
-                            '<option value="同学" id="tongxue">同学</option> \n'+
+                        group2 = '<select id="select" class="info-more" style="width: 120px;">\n'+
+                            '<option value="同学" id="tongxue" >同学</option> \n'+
                             '<option value="朋友" id="pengyou">朋友</option> \n'+
                             '<option value="同事" id="tongshi">同事</option> \n'+
                             '<option value="闺蜜" id="guimi">闺蜜</option> \n'+
                             '</select>\n';
-                        group3 =  '<p class="info-more">' + birthday + '</p>\n';
-                        group4 = '<p class="info-more">' + data.sex + '</p>\n';
-                        group5 =  '<p class="info-more">' + email + '</p>\n';
-                        group6 = '<p class="info-more">' + country + '</p>\n';
-                        group7 =  '<p class="info-more">' + phone + '</p>\n';
+                        group3 =  '<p class="info-more" style="width: 120px;">' + birthday + '</p>\n';
+                        group4 = '<p class="info-more" style="width: 120px;">' + data.sex + '</p>\n';
+                        group5 =  '<p class="info-more" style="width: 120px;">' + email + '</p>\n';
+                        group6 = '<p class="info-more" style="width: 120px;">' + country + '</p>\n';
+                        group7 =  '<p class="info-more" style="width: 120px;">' + phone + '</p>\n';
 
                         deleteFriend = '<input id="delete" type="button" value="删除" style="width: 50px;height: 30px" onclick="deleteFriend('+friend_friendId+')">\n'
                     }
@@ -755,7 +755,7 @@ function initAddFriend(){
                         '        </div>\n' +
                         '        <div class="user-info-more">\n' +
                          nameOut+
-                        '            <p class="info-more">' + data.userId + '</p>\n' +
+                        '            <p class="info-more" style="width: 120px">' + data.userId + '</p>\n' +
                         group3 +
                         group4 +
                         group2 +
@@ -770,7 +770,7 @@ function initAddFriend(){
                         evaS +
                         '            </div>\n' +
                         '<div class="change_friendInfo" style="text-align: center;float: bottom">\n'+
-                        '<input id="confirm" type="button" value="确认" onclick="setGroup('+data.userId+')" style="width: 50px;height: 50px;border-radius: 20%">\n'+
+                        '<input id="confirm" type="button" value="确认" onclick="setGroup('+data.userId+')" style="width: 50px;height: 35px;border-radius: 20%">\n'+
                         '</div>\n'+
                         '            </div>\n' +
                         '        </div>\n' +
