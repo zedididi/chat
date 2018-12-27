@@ -158,7 +158,7 @@ function refuseReq(reId) {
                 "content": refuseTAG
             };
             webSocket.send(JSON.stringify(content));
-            window.console.info("拒绝发送内容：" + content.content);
+          //  window.console.info("拒绝发送内容：" + content.content);
             $("#reValidte li[id="+reId+"]").remove();
 
         }
@@ -225,7 +225,7 @@ function getWebSocket() {
                             var image = data.image;
                             var userName = data.userName;
                             reValidte += '<li class="person" id="' + id + '">\n' +
-                                '<img src="' + image + '" alt="' + id + '" style="width: 45px;height: 45px"/>\n' +
+                                '<img src="' + image + '" alt="' + id + '" style="width: 45px;height: 45px;border-radius: 100%;overflow: hidden"/>\n' +
                                 '<span class="name">帐号：' + id + ' 用户名：' + userName + '</span>\n' +
                                 '<span style="color: green"  onclick="acceptReq(' + id + ')">√</span>\n' +
                                 '<span style="color: red" onclick="refuseReq(' + id + ')">×</span>\n' +

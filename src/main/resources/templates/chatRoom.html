@@ -119,7 +119,7 @@
                   <p style="font-size: 12px;font-weight: bolder" >经典表情</p>
                 </div>
                 <div id="expressionPackage" class="picture" style="width: 360px;height:250px;top: -250px;">
-                    <p style="font-size: 12px;font-weight: bolder">表情包</p>
+                    <p style=" font-size: 12px;font-weight: bolder">表情包</p>
                 </div>
             </div>
                 <input type="button" value="聊天记录" id="history" style="position: relative;top: 8%;float: right">
@@ -277,7 +277,7 @@ function sear() {
                     var image = obj[i].image;
                     var userName = obj[i].userName;
                     s += '<li class="person" data-chat="'+id+'">' +
-                        '<img id="needUser" src="'+image+'" alt="'+id+'" style="width: 45px;height: 45px"/>' +
+                        '<img id="needUser" src="'+image+'" alt="'+id+'" style="width: 45px;height: 45px;border-radius: 100%;overflow: hidden"/>' +
                         '<span class="name">帐号：'+id+' 用户名：'+userName+'</span>' +
                         '<span style="color: green"  onclick="accept('+id+')">√</span>' +
                         '<span style="color: red" onclick="can()">×</span>'+
@@ -311,7 +311,7 @@ function accept( needId) {
                     "receiveId": needId,
                     "content": requestTAG
                 };
-                window.alert(data + JSON.stringify(content));
+              //  window.alert(data + JSON.stringify(content));
                 webSocket.send(JSON.stringify(content));         //请求转发给服务端
 
                 $.ajax({              //获取已发送请求的好友信息
@@ -328,7 +328,7 @@ function accept( needId) {
                             var image = data.image;
                             var userName = data.userName;
                             sendValidate+='<li class="person" id="'+id+'">\n' +
-                                '<img src="'+image+'" alt="'+id+'" style="width: 45px;height: 45px"/>\n' +
+                                '<img src="'+image+'" alt="'+id+'" style="width: 45px;height: 45px;border-radius: 100%;overflow: hidden"/>\n' +
                                 '<span class="name">帐号：'+id+' 用户名：'+userName+'</span>\n' +
                                 '</li>';
                         document.getElementById("sendValidate").innerHTML+=sendValidate;
@@ -361,7 +361,7 @@ function deleteFriend(friendId) {
                     "receiveId": friendId,
                     "content": deleteTAG
                 };
-                window.alert(data + JSON.stringify(content));
+              //  window.alert(data + JSON.stringify(content));
                 webSocket.send(JSON.stringify(content));         //请求转发给服务端
 
                 $("#people li[id="+friendId+"li]").remove();
@@ -409,7 +409,7 @@ function setGroup(friendId) {
                 'userName': userName
             },
             success: function (data) {
-                alert("修改"+data);
+            //    alert("修改"+data);
             }
         });
     }
@@ -509,7 +509,7 @@ function initAddFriend(){
                 var image = obj[i].image;
                 var userName = obj[i].friendName;
                 sendValidate+='<li class="person" id="'+id+'">\n' +
-                    '<img src="'+image+'" alt="'+id+'" style="width: 45px;height: 45px"/>\n' +
+                    '<img src="'+image+'" alt="'+id+'" style="width: 45px;height: 45px;border-radius: 100%;overflow: hidden"/>\n' +
                     '<span class="name">帐号：'+id+' 用户名：'+userName+'</span>\n' +
                     '</li>';
             }
@@ -535,7 +535,7 @@ function initAddFriend(){
                 var image = obj[i].image;
                 var userName = obj[i].friendName;
                 reValidte += '<li class="person" id="' + id + '">\n' +
-                    '<img src="' + image + '" alt="' + id + '" style="width: 45px;height: 45px"/>\n' +
+                    '<img src="' + image + '" alt="' + id + '" style="width: 45px;height: 45px;border-radius: 100%;overflow: hidden"/>\n' +
                     '<span class="name">帐号：' + id + ' 用户名：' + userName + '</span>\n' +
                     '<span style="color: green"  onclick="acceptReq('+id+')">√</span>\n' +
                     '<span style="color: red" onclick="refuseReq('+id+')">×</span>\n'+

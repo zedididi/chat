@@ -35,7 +35,8 @@ import java.util.regex.Pattern;
 public class ChatController {
 
 
-    //同意特殊标识
+
+    // 同意特殊标识
     private String agreeTAG="LCcIX/nI6sUfwWSy同意";
     //请求特殊标识
     private  String requestTAG="HupsfSX79aIMZ73nn请求";
